@@ -4,7 +4,6 @@
  */
 package com.wedusc.ui;
 
-import java.awt.event.KeyEvent;
 import javax.swing.text.html.HTMLDocument;
 
 /**
@@ -13,23 +12,23 @@ import javax.swing.text.html.HTMLDocument;
  */
 public class EasyEditorPane extends javax.swing.JEditorPane {
 
-    public boolean embolden() {
+    public boolean toggleBoldAtSelection() {
         return simpleEdit("b", "");
     }
 
-    public boolean italicize() {
+    public boolean toggleItalicAtSelection() {
         return simpleEdit("i", "");
     }
 
-    public boolean underline() {
+    public boolean toggleUnderlineAtSelection() {
         return simpleEdit("u", "");
     }
 
-    public boolean centerText() {
+    public boolean toggleCenterAtSelection() {
         return simpleEdit("center", "");
     }
 
-    public boolean setFontAttributes(String color, String face, int size) {
+    public boolean toggleFontAttributesAtSelection(String color, String face, int size) {
         return simpleEdit("font", String.format(" color=\"%s\" face=\"%s\" size=\"%d\"", color, face, size));
     }
 
