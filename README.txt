@@ -4,8 +4,9 @@ Contact: sean.mcbeth@gmail.com
 
 This is "Just Write, Dammit!" As in, that's all you can do when you use 
 it. As in, put Twitter/Facebook/G+/Farmville/etc. down and just write, 
-dammit. It blocks out all of the background noise of your computer so 
-you can focus on one thing: writing.
+dammit. To quote my father during bouts of homework, "put the pencil ON
+the paper and MOVE YOUR HAND!" It blocks out all of the background noise
+of your computer so you can focus on one thing: writing.
 
 It runs on any operating system that supports Java 6. It runs in 
 complete full screen mode. The text is large to encourage flow. The 
@@ -18,6 +19,6 @@ writing, dammit.
 
 Standard keyboard shortcuts manage the Open/Save/Close operations. There
 are no mouse interactions, because your hands should remain on the 
-keyboard where they belong, writing, dammit!
+keyboard where they belong--writing--dammit!
 
 So what the hell are you doing? Get to work!
