@@ -72,7 +72,6 @@ var show = setStyle.bind(window, "display", "block");
 var px = fmt.bind(this, "$1px");
 
 function move(elem, left, top, width, height){
-
     setStyle("left", px(left), elem);
     setStyle("top", px(top), elem);
     if(width != undefined){
