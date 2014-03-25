@@ -78,14 +78,17 @@
 
     // Pack up the workflow in a single, easy to use function.
     Element.prototype.edit = function(thunk){
-        var initial = this.innerHTML.length, final, delta;
+        var initial = this.innerHTML, final, delta;
         var sel = this.getSelection();
         thunk.call(this);
-        final = this.innerHTML.length;
-        delta = final - initial;
-        sel[0] += delta;
-        if(delta != 0)
-            sel[1] = sel[0];
-        this.setSelection(sel);
+        final = this.innerHTML;
+        if(final != initial){
+            delta = final.length - initial.length;
+            if(delta != 0){
+                sel[0] += delta;
+                sel[1] = sel[0];
+                this.setSelection(sel);
+            }
+        }
     };
 })();

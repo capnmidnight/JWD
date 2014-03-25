@@ -98,6 +98,10 @@ function runCommands(evt){
         else if(evt.keyCode == 78){
             addNewFile();
         }
+        // D
+        else if(evt.keyCode == 68){
+            window.localStorage.removeItem("files");
+        }
         evt.preventDefault();
     }
 }
@@ -109,7 +113,7 @@ function showFile(){
 }
 
 function addNewFile(){
-    files.push({doc:"", name:"(new file)"});
+    files.push({doc:"<p>&nbsp;</p>", name:"(new file)"});
     currentFile = files.length - 1;
     showFile();
 }
