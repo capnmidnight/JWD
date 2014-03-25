@@ -4,15 +4,25 @@ var newDOM = function(tagName, attr){
     var tag = document.createElement(tagName);
 
     if(attr){
-        for(var key in attr)
-            tag[key] = attr[key];
+        function setATTR(t, vs){
+            for(var key in vs){
+                if(key.indexOf("on") == 0)
+                    t.addEventListener(
+                        key.substring(2),
+                        attr[key], false);
+                else if(vs[key] instanceof Object)
+                    setATTR(t[key], vs[key]);
+                else
+                    t[key] = vs[key];
+            }
+        }
+        setATTR(tag, attr);
     }
 
     children.forEach(function(c){
-        if (c instanceof HTMLElement)
-            tag.appendChild(c);
-        else
-            tag.innerHTML += c;
+        if (typeof(c) == "string" || c instanceof String)
+            c = new Text(c);
+        tag.appendChild(c);
     });
 
     return tag;
@@ -39,17 +49,21 @@ function fmt(template){
     var args = Array.prototype.slice.call(arguments, 1);
     var regex = /\$(0*)(\d+)(\.(0+))?/g;
     return template.replace(regex, function(m, pad, index, _, precision){
-        var val = args[parseInt(index, 10) - 1].toString();
-        var regex2;
-        if(precision && precision.length > 0){
-            val = sigfig(parseFloat(val, 10), precision.length);
+        var val = args[parseInt(index, 10) - 1];
+        if(val != undefined){
+            val = val.toString();
+            var regex2;
+            if(precision && precision.length > 0){
+                val = sigfig(parseFloat(val, 10), precision.length);
+            }
+            if(pad && pad.length > 0){
+                regex2 = new RegExp("^\\d{" + (pad.length + 1) + "}(\\.\\d+)?");
+                while(!val.match(regex2))
+                    val = "0" + val;
+            }
+            return val;
         }
-        if(pad && pad.length > 0){
-            regex2 = new RegExp("^\\d{" + (pad.length + 1) + "}(\\.\\d+)?");
-            while(!val.match(regex2))
-                val = "0" + val;
-        }
-        return val;
+        return "undefined";
     });
 }
 
@@ -65,7 +79,9 @@ function setStyle(prop, val, box){
 var hide = setStyle.bind(window, "display", "none");
 var show = setStyle.bind(window, "display", "block");
 
-["a", "aside", "span"].forEach(function(tag){
+// hand-scraped from https://developer.mozilla.org/en-US/docs/Web/HTML/Element
+// document.getElementsByClassName("index widgeted")[0].textContent.match(/<\w+>/g).map(function(m){return "\""+m.substring(1, m.length - 1)+"\"";}).join(",")
+["a","abbr","acronym","address","applet","area","article","aside","audio","b","base","basefont","bdi","bdo","bgsound","big","blink","blockquote","body","br","button","canvas","caption","center","cite","code","col","colgroup","content","data","datalist","dd","decorator","del","details","dfn","dir","div","dl","dt","element","em","embed","fieldset","figcaption","figure","font","footer","form","frame","frameset","h1","h2","h3","h4","h5","h6","head","header","hgroup","hr","html","i","iframe","img","input","ins","isindex","kbd","keygen","label","legend","li","link","listing","main","map","mark","marquee","menu","menuitem","meta","meter","nav","nobr","noframes","noscript","object","ol","optgroup","option","output","p","param","plaintext","pre","progress","q","rp","rt","ruby","s","samp","script","section","select","shadow","small","source","spacer","span","strike","strong","style","sub","summary","sup","table","tbody","td","template","textarea","tfoot","th","thead","time","title","tr","track","tt","u","ul","var","video","wbr","xmp"].forEach(function(tag){
     window[tag] = newDOM.bind(window, tag);
 });
 

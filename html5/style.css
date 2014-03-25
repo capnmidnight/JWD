@@ -24,6 +24,10 @@ aside{
     background-color:#99a;
 }
 
+aside>button{
+    margin-right:1em;
+}
+
 #editor{
     font-size: 24pt;
     padding-right:1em;

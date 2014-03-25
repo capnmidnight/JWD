@@ -6,8 +6,15 @@ var editor = null,
 function msg(id, msg, showms, lenms){
     var box = aside(
         {id:id},
-        a({href:"javascript:hide(\"" + id + "\")"}, "[X]"),
+        button({
+            id:id + "-dismiss-button",
+            type: "button",
+            onclick: function(){
+                hide(id);
+            },
+        }, "dismiss"),
         msg);
+
     setTimeout(document.body.appendChild.bind(document.body), showms, box);
     setTimeout(document.body.removeChild.bind(document.body), showms + lenms, box);
 }
@@ -31,11 +38,39 @@ function resize(){
 }
 
 function countWords(){
-    var count = editor.textContent.match(/\w+/g).length;
+    var words = editor.textContent
+        .match(/[\w']+/g),
+        count = 0, counts = [];
+
+    if(words != null){
+        words = words.map(function(word){
+            return word.toLowerCase();
+        });
+
+        count = words.length;
+
+        words.sort();
+        words.forEach(function(word){
+            if(counts.length == 0
+            || counts[counts.length - 1][0] != word)
+                counts.push([word, 0]);
+            ++counts[counts.length - 1][1];
+        });
+
+        counts.sort(function(a, b){
+            return b[1] - a[1]; // most to least
+        });
+    }
+
     if(!this.count)
         this.count = count;
+
     var msg = fmt("TOTAL WORDS: $1, ADD'L WORDS: $2", count, count - this.count);
     wordCount.textContent = msg;
+
+    notes.textContent = counts.map(function(word){
+        return fmt("$1: $2", word[0], word[1]);
+    }).join("\n");
 }
 
 function clockTick(){
@@ -51,6 +86,19 @@ function clockTick(){
     clock.textContent = fmt("ELAPSED: $01:$02:$03", hours, minutes, seconds);
 }
 
+var files = [""];
+var currentFile = 0;
+function runCommands(evt){
+    if(evt.ctrlKey){
+        // S
+        if(evt.keyCode == 83){
+
+            evt.preventDefault();
+        }
+        print(evt.keyCode);
+    }
+}
+
 function pageLoad(){
     editor = getDOM("editor");
     notes = getDOM("notes");
@@ -59,6 +107,7 @@ function pageLoad(){
 
     editor.addEventListener("keyup", interrobang, false);
     editor.addEventListener("keyup", countWords, false);
+    editor.addEventListener("keyup", runCommands, false);
     window.addEventListener("resize", resize, false);
     setInterval(clockTick, 500);
 

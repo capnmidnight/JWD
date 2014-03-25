@@ -84,7 +84,8 @@
         final = this.innerHTML.length;
         delta = final - initial;
         sel[0] += delta;
-        sel[1] = sel[0];
+        if(delta != 0)
+            sel[1] = sel[0];
         this.setSelection(sel);
     };
 })();
