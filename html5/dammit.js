@@ -32,7 +32,9 @@ function resize(){
 
 function countWords(){
     var count = editor.textContent.match(/\w+/g).length;
-    var msg = fmt("TOTAL WORDS: $1, ADD'L WORDS: $1", count);
+    if(!this.count)
+        this.count = count;
+    var msg = fmt("TOTAL WORDS: $1, ADD'L WORDS: $2", count, count - this.count);
     wordCount.textContent = msg;
 }
 
