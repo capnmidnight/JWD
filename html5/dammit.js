@@ -55,8 +55,7 @@ function pageLoad(){
     wordCount = getDOM("word-count");
     clock = getDOM("clock");
 
-    interrobang(editor);
-
+    editor.addEventListener("keyup", interrobang, false);
     editor.addEventListener("keyup", countWords, false);
     window.addEventListener("resize", resize, false);
     setInterval(clockTick, 500);

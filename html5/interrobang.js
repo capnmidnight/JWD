@@ -63,79 +63,77 @@ var interrobang = (function(){
         }],
         [/<p>!!(.+?)<\/p>/gm, function(res, cap1){
             return "<h6>" + cap1 + "</h6>";
-        }]
+        }],
+        [/!!/g, "!"],
+        [/\?\?/g, "?"]
     ];
 
-    var makeAThing = function(domObject){
+    function saveSelection(parent){
+        var queue = [parent],
+            range = window.getSelection().getRangeAt(0),
+            start = null,
+            end = null,
+            index = 0;
+        while(queue.length > 0){
+            var current = queue.shift();
+            if(range.startContainer == current)
+                start = index + range.startOffset;
+            if(range.endContainer == current)
+                end = index + range.endOffset;
+            index += current.length || 0;
 
-        function saveSelection(parent){
+            if(start != null && end != null)
+                break;
+            if(current.nodeType != 3) // 3 - text node
+                for(var i = current.childNodes.length - 1; i >= 0; --i)
+                    queue.unshift(current.childNodes[i]);
+        }
+
+        return [start, end];
+    }
+
+    function restoreSelection(parent, sel){
+        if(sel != null){
             var queue = [parent],
                 range = window.getSelection().getRangeAt(0),
-                start = null,
-                end = null,
+                start = sel[0],
+                end = sel[1],
                 index = 0;
             while(queue.length > 0){
                 var current = queue.shift();
-                if(range.startContainer == current)
-                    start = index + range.startOffset;
-                if(range.endContainer == current)
-                    end = index + range.endOffset;
+                if(index <= start && start <= index + current.length){
+                    range.setStart(current, start - index);
+                    start = null;
+                }
+                if(index <= end && end <= index + current.length){
+                    range.setEnd(current, end - index);
+                    end = null;
+                }
                 index += current.length || 0;
 
-                if(start != null && end != null)
+                if(start == null && end == null)
                     break;
                 if(current.nodeType != 3) // 3 - text node
                     for(var i = current.childNodes.length - 1; i >= 0; --i)
                         queue.unshift(current.childNodes[i]);
             }
-
-            return [start, end];
         }
+    }
 
-        function restoreSelection(parent, sel){
-            if(sel != null){
-                var queue = [parent],
-                    range = window.getSelection().getRangeAt(0),
-                    start = sel[0],
-                    end = sel[1],
-                    index = 0;
-                while(queue.length > 0){
-                    var current = queue.shift();
-                    if(index <= start && start <= index + current.length){
-                        range.setStart(current, start - index);
-                        start = null;
-                    }
-                    if(index <= end && end <= index + current.length){
-                        range.setEnd(current, end - index);
-                        end = null;
-                    }
-                    index += current.length || 0;
-
-                    if(start == null && end == null)
-                        break;
-                    if(current.nodeType != 3) // 3 - text node
-                        for(var i = current.childNodes.length - 1; i >= 0; --i)
-                            queue.unshift(current.childNodes[i]);
-                }
-            }
+    return function(evt){
+        var s = this.innerHTML, i, rule, res, e, o, d;
+        o = s;
+        for(i = 0; i < patterns.length; ++i){
+            rule = patterns[i];
+            while(s.match(rule[0]))
+                s = s.replace(rule[0], rule[1]);
         }
-
-        domObject.addEventListener("keyup", function(evt){
-            var s = domObject.innerHTML, i, rule, res, e, o, d;
-            o = s;
-            for(i = 0; i < patterns.length; ++i){
-                rule = patterns[i];
-                while(s.match(rule[0]))
-                    s = s.replace(rule[0], rule[1]);
-            }
-            if(s != o){
-                var sel = saveSelection(domObject);
-                domObject.innerHTML = s;
-                sel[0] += s.length - o.length;
-                sel[1] = sel[0];
-                restoreSelection(domObject, sel);
-            }
-        }, false);
-    };
-    return makeAThing;
+        if(s != o){
+            var sel = saveSelection(this);
+            this.innerHTML = s;
+            sel[0] += s.length - o.length;
+            sel[1] = sel[0];
+            restoreSelection(this, sel);
+        }
+    }
 })();
