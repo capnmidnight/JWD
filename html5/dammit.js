@@ -1,23 +1,10 @@
 var editor = null,
     notes = null,
     wordCount = null,
-    clock = null;
-
-function msg(id, msg, showms, lenms){
-    var box = aside(
-        {id:id},
-        button({
-            id:id + "-dismiss-button",
-            type: "button",
-            onclick: function(){
-                hide(id);
-            },
-        }, "dismiss"),
-        msg);
-
-    setTimeout(document.body.appendChild.bind(document.body), showms, box);
-    setTimeout(document.body.removeChild.bind(document.body), showms + lenms, box);
-}
+    clock = null,
+    files = null,
+    currentFile = null,
+    filename = null;
 
 function resize(){
     if(window.fullScreen)
@@ -35,6 +22,7 @@ function resize(){
     move(notes, l2, t, w2, h);
     move(wordCount, l1, t + h);
     move(clock, l1, t + h + 24);
+    move(filename, l1, t - 24);
 }
 
 function countWords(){
@@ -62,10 +50,10 @@ function countWords(){
         });
     }
 
-    if(!this.count)
-        this.count = count;
+    if(!files[currentFile].count)
+        files[currentFile].count = count;
 
-    var msg = fmt("TOTAL WORDS: $1, ADD'L WORDS: $2", count, count - this.count);
+    var msg = fmt("TOTAL WORDS: $1, ADD'L WORDS: $2", count, count - files[currentFile].count);
     wordCount.textContent = msg;
 
     notes.textContent = counts.map(function(word){
@@ -86,17 +74,44 @@ function clockTick(){
     clock.textContent = fmt("ELAPSED: $01:$02:$03", hours, minutes, seconds);
 }
 
-var files = [""];
-var currentFile = 0;
 function runCommands(evt){
+    print(evt.keyCode);
     if(evt.ctrlKey){
         // S
+        files[currentFile].doc = editor.innerHTML;
+        files[currentFile].name = filename.textContent;
         if(evt.keyCode == 83){
-
-            evt.preventDefault();
+            window.localStorage.setItem("files", JSON.stringify(files));
+            msg("save-note", fmt("File \"$1\" saved.", files[currentFile].name), 0, 3000);
         }
-        print(evt.keyCode);
+        // [
+        else if(evt.keyCode == 219){
+            currentFile = (currentFile - 1) % files.length;
+            showFile();
+        }
+        // ]
+        else if(evt.keyCode == 221){
+            currentFile = (currentFile + 1) % files.length;
+            showFile();
+        }
+        // N
+        else if(evt.keyCode == 78){
+            addNewFile();
+        }
+        evt.preventDefault();
     }
+}
+
+function showFile(){
+    editor.innerHTML = files[currentFile].doc;
+    filename.textContent = files[currentFile].name;
+    countWords();
+}
+
+function addNewFile(){
+    files.push({doc:"", name:"(new file)"});
+    currentFile = files.length - 1;
+    showFile();
 }
 
 function pageLoad(){
@@ -104,10 +119,26 @@ function pageLoad(){
     notes = getDOM("notes");
     wordCount = getDOM("word-count");
     clock = getDOM("clock");
+    filename = getDOM("filename");
+    var filesData = window.localStorage.getItem("files");
+    if(filesData){
+        files = JSON.parse(filesData);
+        // delete the word counts, so the word counter can pick up later.
+        files.forEach(function(file){
+            if("count" in file)
+                delete file["count"];
+        });
+        currentFile = 0;
+        showFile();
+    }
+    else{
+        files = [];
+        addNewFile();
+    }
 
     editor.addEventListener("keyup", interrobang, false);
     editor.addEventListener("keyup", countWords, false);
-    editor.addEventListener("keyup", runCommands, false);
+    window.addEventListener("keyup", runCommands, false);
     window.addEventListener("resize", resize, false);
     setInterval(clockTick, 500);
 
