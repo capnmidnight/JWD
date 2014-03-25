@@ -1,0 +1,77 @@
+*, *:before, *:after {
+  -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+
+body{
+    background-color: #778;
+    color: #aab;
+    font-size: 36pt;
+    padding:0;
+    margin:0;
+}
+
+a{
+    color: #dd0;
+}
+
+aside{
+    font-size:12pt;
+    font-weight: bold;
+    color:white;
+    padding:0.5em;
+    padding-left:1em;
+    border:solid 1px #667;
+    background-color:#99a;
+}
+
+#editor{
+    font-size: 24pt;
+    padding-right:1em;
+}
+
+#notes{
+    background-color: #778;
+    color: #aab;
+    border: 0;
+}
+
+.info-box{
+    font-size:12pt;
+}
+
+body, #notes{
+    font-family: Tahoma, sans-serif, 'DejaVu Sans Mono', Consolas, 'Lucida Console', monospace;
+}
+
+#editor, #notes{
+    overflow-y: scroll;
+    word-wrap: break-word;
+    padding-right:1em;
+}
+
+#editor, #notes, .info-box{
+    position:absolute;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-button:start:decrement,
+::-webkit-scrollbar-button:end:increment  {
+    height: 30px;
+    display: block;
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-track-piece  {
+    background-color: #3b3b3b;
+    -webkit-border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:vertical {
+    height: 50px;
+    background-color: #666;
+    -webkit-border-radius: 6px;
+}
