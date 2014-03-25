@@ -84,11 +84,10 @@
         final = this.innerHTML;
         if(final != initial){
             delta = final.length - initial.length;
-            if(delta != 0){
-                sel[0] += delta;
+            sel[0] += delta;
+            if(delta != 0)
                 sel[1] = sel[0];
-                this.setSelection(sel);
-            }
+            this.setSelection(sel);
         }
     };
 })();

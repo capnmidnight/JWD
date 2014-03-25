@@ -86,7 +86,6 @@ var interrobang = (function(){
             // difficult to get the selections right, so let's just not
             // screw with it very often.
             if(s != o){
-                print("changed");
                 this.innerHTML = s;
             }
         });
