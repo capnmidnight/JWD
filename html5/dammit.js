@@ -4,7 +4,8 @@ var editor = null,
     clock = null,
     files = null,
     currentFile = null,
-    filename = null;
+    filename = null,
+    scrollbar = null;
 
 function resize(){
     if(window.fullScreen)
@@ -12,17 +13,19 @@ function resize(){
     var w1 = window.innerWidth;
     var h = window.innerHeight;
     var l1 = w1 * 0.05;
-    w1 -= l1 * 2;
-    var w2 = 200;
-    w1 -= w2;
-    var l2 = l1 + w1;
+    var w2 = 100;
+    var w3 = 200;
+    w1 -= l1 * 2 + w2 + w3;
+    var l2 = l1 + w1 + 35;
+    var l3 = l2 + w2 + 5;
     var t = h * 0.15;
     h -= t * 2;
-    move(editor, l1, t, w1, h);
-    move(notes, l2, t, w2, h);
+    move(editor,    l1, t, w1, h);
+    move(scrollbar, l2, t, w2, h);
+    move(notes,     l3, t, w3, h);
     move(wordCount, l1, t + h);
-    move(clock, l1, t + h + 24);
-    move(filename, l1, t - 24);
+    move(clock,     l1, t + h + 24);
+    move(filename,  l1, t - 24);
     editor.style.fontSize = px(Math.floor(h / 15));
 }
 
@@ -30,6 +33,7 @@ function countWords(){
     var words = editor.innerHTML
         .replace(/<\/?(br|p)>/g, "\n")
         .replace(/<[^>]+>/g, "")
+        .replace(/&nbsp;/g, " ")
         .match(/[\w']+/g),
         count = 0, counts = [];
 
@@ -59,9 +63,9 @@ function countWords(){
     var msg = fmt("TOTAL WORDS: $1, ADD'L WORDS: $2", count, count - files[currentFile].count);
     wordCount.textContent = msg;
 
-    notes.textContent = counts.map(function(word){
+    notes.innerHTML = counts.map(function(word){
         return fmt("$1: $2", word[0], word[1]);
-    }).join("\n");
+    }).join("\n<br>");
 }
 
 function clockTick(){
@@ -78,7 +82,7 @@ function clockTick(){
 }
 
 function runCommands(evt){
-    print(evt.keyCode);
+    // print(evt.keyCode);
     if(evt.ctrlKey){
         // S
         files[currentFile].doc = editor.innerHTML;
@@ -113,6 +117,16 @@ function showFile(){
     editor.innerHTML = files[currentFile].doc;
     filename.textContent = files[currentFile].name;
     countWords();
+    showScroll();
+}
+
+function showScroll(){
+    scrollbar.innerHTML = editor.innerHTML;
+}
+
+function moveScroll(evt){
+    var sel = scrollbar.getSelection();
+    editor.setSelection(sel);
 }
 
 function addNewFile(){
@@ -127,6 +141,8 @@ function pageLoad(){
     wordCount = getDOM("word-count");
     clock = getDOM("clock");
     filename = getDOM("filename");
+    scrollbar = getDOM("scrollbar");
+
     var filesData = window.localStorage.getItem("files");
     if(filesData){
         files = JSON.parse(filesData);
@@ -145,6 +161,8 @@ function pageLoad(){
 
     editor.addEventListener("keyup", interrobang, false);
     editor.addEventListener("keyup", countWords, false);
+    editor.addEventListener("keyup", showScroll, false);
+    scrollbar.addEventListener("mouseup", moveScroll, false);
     window.addEventListener("keyup", runCommands, false);
     window.addEventListener("resize", resize, false);
     setInterval(clockTick, 500);
@@ -152,9 +170,10 @@ function pageLoad(){
     resize();
     countWords();
     clockTick();
-
+    /*
     note("welcome-note", "Welcome to Just Write, Dammit! The Zen-writing program.");
     if(!window.fullScreen)
         note("fullscreen-note", "Consider running in full-screen by hitting F11 on your keyboard.", 1000);
     msg("help-note-1", "You can save your writing with CTRL+ALT+S.<br>The \"(new file)\" text is editable. Use it to set a name for your document.<br>Create new documents with CTRL+ALT+N.<br>Change between documents with CTRL+[ and CTRL+].<br>Delete all of your saved files with CTRL+ALT+D. Press CTRL+ALT+S before reloading the page to undo delete.", 2000, forever);
+    */
 }

@@ -1,12 +1,12 @@
-*, *:before, *:after {
+*, *: before, *: after {
   -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
 }
 
 body{
     background-color: #778;
     color: #aab;
-    padding:0;
-    margin:0;
+    padding: 0;
+    margin: 0;
 }
 
 a{
@@ -14,22 +14,22 @@ a{
 }
 
 aside{
-    font-size:12pt;
+    font-size: 12pt;
     font-weight: bold;
-    color:white;
-    padding:0.5em;
-    padding-left:1em;
-    border:solid 1px #667;
-    background-color:#99a;
+    color: white;
+    padding: 0.5em;
+    padding-left: 1em;
+    border: solid 1px #667;
+    background-color: #99a;
 }
 
 aside>button{
-    margin-right:1em;
+    margin-right: 1em;
 }
 
 #editor{
     font-size: 24pt;
-    padding-right:1em;
+    padding-right: 1em;
 }
 
 #notes{
@@ -38,42 +38,48 @@ aside>button{
     border: 0;
 }
 
+#scrollbar{
+    font-size: 2px;
+    overflow: hidden;
+    color: #fff;
+}
+
 .info-box{
-    font-size:12pt;
+    font-size: 12pt;
 }
 
 body, #notes{
-    font-family: Tahoma, sans-serif, 'DejaVu Sans Mono', Consolas, 'Lucida Console', monospace;
+    font-family: Georgia, Tahoma, sans-serif, 'DejaVu Sans Mono', Consolas, 'Lucida Console', monospace;
 }
 
 #editor, #notes{
     overflow-y: scroll;
     word-wrap: break-word;
-    padding-right:1em;
+    padding-right: 1em;
 }
 
-#editor, #notes, .info-box{
-    position:absolute;
+#editor, #notes, #scrollbar, .info-box{
+    position: absolute;
 }
 
-::-webkit-scrollbar {
+: :-webkit-scrollbar {
     width: 10px;
     height: 10px;
 }
 
-::-webkit-scrollbar-button:start:decrement,
-::-webkit-scrollbar-button:end:increment  {
+: :-webkit-scrollbar-button: start: decrement,
+: :-webkit-scrollbar-button: end: increment  {
     height: 30px;
     display: block;
     background-color: transparent;
 }
 
-::-webkit-scrollbar-track-piece  {
+: :-webkit-scrollbar-track-piece  {
     background-color: #3b3b3b;
     -webkit-border-radius: 6px;
 }
 
-::-webkit-scrollbar-thumb:vertical {
+: :-webkit-scrollbar-thumb: vertical {
     height: 50px;
     background-color: #666;
     -webkit-border-radius: 6px;

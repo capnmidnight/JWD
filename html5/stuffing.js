@@ -1,11 +1,29 @@
 var forever = "forever";
 
-function msg(id, msg, showms, lenms){
-    if(lenms == undefined){
-        lenms = 5000;
-        if(showms == undefined)
-            showms = 0;
+function note(id, msgTxt, delay){
+    if(delay == undefined)
+        delay = 0;
+
+    if("Notification" in window
+        && Notification.permission == "default")
+        Notification.requestPermission();
+
+    if(!("Notification" in window)
+        || Notification.permission != "granted")
+        msg(id, msgTxt, delay);
+    else
+        setTimeout(function(){
+            new Notification("Just Write, Dammit!", {body: msgTxt, tag: id});
+        }, delay);
+}
+
+function msg(id, msgTxt, delay, length){
+    if(length == undefined){
+        length = 5000;
+        if(delay == undefined)
+            delay = 0;
     }
+
     var box = aside(
         {id:id},
         button({
@@ -15,9 +33,9 @@ function msg(id, msg, showms, lenms){
                 hide(id);
             },
         }, "dismiss"),
-        msg);
+        msgTxt);
 
-    setTimeout(document.body.appendChild.bind(document.body), showms, box);
-    if(lenms != forever)
-        setTimeout(document.body.removeChild.bind(document.body), showms + lenms, box);
+    setTimeout(document.body.appendChild.bind(document.body), delay, box);
+    if(length != forever)
+        setTimeout(document.body.removeChild.bind(document.body), delay + length, box);
 }

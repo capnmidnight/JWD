@@ -12,9 +12,10 @@
 </head>
 <body onload="pageLoad()">
 <form name="form">
-    <span class="info-box" id="filename" contenteditable="true"></span>
+    <span class="info-box" id="filename" contenteditable="true" spellcheck="false"></span>
     <article id="editor" contenteditable="true" spellcheck="false"></article>
-    <pre id="notes" contenteditable="true"> </pre>
+    <div id="scrollbar"></div>
+    <div id="notes" contenteditable="true" spellcheck="false"></div>
     <span class="info-box" id="word-count"></span>
     <span class="info-box" id="clock"></span>
 </form>

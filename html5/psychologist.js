@@ -20,9 +20,14 @@ var newDOM = function(tagName, attr){
     }
 
     children.forEach(function(c){
-        if (typeof(c) == "string" || c instanceof String)
-            c = new Text(c);
-        tag.appendChild(c);
+        var cs = [c];
+        if (typeof(c) == "string" || c instanceof String){
+            var temp = document.createElement("div");
+            temp.innerHTML = c;
+            cs = Array.prototype.slice.call(temp.childNodes);
+        }
+        while(cs.length > 0)
+            tag.appendChild(cs.shift());
     });
 
     return tag;
