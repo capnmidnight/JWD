@@ -62,9 +62,9 @@ function countWords(){
     var msg = fmt("TOTAL WORDS: $1, ADD'L WORDS: $2", count, count - files[currentFile].count);
     wordCount.textContent = msg;
 
-    notes.textContent = counts.map(function(word){
+    notes.innerHTML = counts.map(function(word){
         return fmt("$1: $2", word[0], word[1]);
-    }).join("\n");
+    }).join("\n<br>");
 }
 
 function clockTick(){
