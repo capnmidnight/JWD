@@ -5,8 +5,11 @@ function note(id, msgTxt, delay){
         delay = 0;
 
     if("Notification" in window
-        && Notification.permission == "default")
+        && Notification.permission == "default"
+        && !this.once){
         Notification.requestPermission();
+        this.once = true;
+    }
 
     if(!("Notification" in window)
         || Notification.permission != "granted")
