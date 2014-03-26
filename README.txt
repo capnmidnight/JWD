@@ -1,6 +1,4 @@
-Website: http://www.wedusc.com/jwd/
-Project Tasks: https://www.pivotaltracker.com/projects/697249/
-Contact: sean.mcbeth@gmail.com
+Website: http://www.seanmcbeth.com/jwd/
 
 This is "Just Write, Dammit!" As in, that's all you can do when you use 
 it. As in, put Twitter/Facebook/G+/Farmville/etc. down and just write, 

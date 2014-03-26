@@ -81,6 +81,17 @@ function clockTick(){
     clock.textContent = fmt("ELAPSED: $01:$02:$03", hours, minutes, seconds);
 }
 
+var helpMessage = "<h3>Just Write, Dammit!</h3>"
++"<p>This is \"Just Write, Dammit!\" As in, that's all you can do when you use it. As in, put Twitter/Facebook/G+/Farmville/etc. down and just write, dammit. It blocks out all of the background noise of your computer so you can focus on one thing: writing.</p>"
++"<p>It runs in the browser so it goes where you go. It runs in complete full screen mode (hit F11 on your keyboard). The text is large to encourage flow. The colors are cool to avoid eye strain. A small timer tells you how long you have been writing, and a counter tells you how many words you've written so far. It saves to plain text files and offers very few formatting options. Because you shouldn't be spending time on making words emboldened or italicized or picking a font. You should just be writing, dammit.</p>"
++"<p>You are reading in the writing area right now.</p>"
++"<p>Above the writing area is the title. It reads as \"(new file)\" right now. It is editable. Use it to set a name for your document.</p>"
++"<p>Create new documents with CTRL+ALT+N.</p>"
++"<p>Change between documents with CTRL+[ and CTRL+].</p>"
++"<p>Delete all of your saved files with CTRL+ALT+D.</p>"
++"<p>Save your files with CTRL+ALT+S. Do it after deleting and before reloading to avoid permanent delete.</p>"
++"<p>So what the hell are you doing? Get to work!";
+
 var commands = {
     68: function(){
         window.localStorage.removeItem("files");
@@ -95,7 +106,7 @@ var commands = {
         note("save-note", fmt("File \"$1\" saved.", files[currentFile].name));
     },
     191: function(){
-        msg("help-note-1", "<h2>Help</h2>You can save your writing with CTRL+ALT+S.<br>The \"(new file)\" text is editable. Use it to set a name for your document.<br>Create new documents with CTRL+ALT+N.<br>Change between documents with CTRL+[ and CTRL+].<br>Delete all of your saved files with CTRL+ALT+D. Press CTRL+ALT+S before reloading the page to undo delete.", 0, forever);
+        msg("help-note-1", helpMessage, 0, forever);
     },
     219: function(){
         currentFile = (currentFile + files.length - 1) % files.length;
@@ -137,8 +148,10 @@ function moveScroll(evt){
     editor.setSelection(sel);
 }
 
-function addNewFile(){
-    files.push({doc:"<p>&nbsp;</p>", name:"(new file)"});
+function addNewFile(txt){
+    if(txt == undefined)
+        txt = "<p>(type text here)<br></p>";
+    files.push({doc:txt, name:"(new file)"});
     currentFile = files.length - 1;
     showFile();
 }
@@ -164,7 +177,7 @@ function pageLoad(){
     }
     else{
         files = [];
-        addNewFile();
+        addNewFile(helpMessage);
     }
 
     editor.addEventListener("keyup", interrobang, false);
@@ -178,10 +191,8 @@ function pageLoad(){
     resize();
     countWords();
     clockTick();
-    /*
     note("welcome-note", "Welcome to Just Write, Dammit! The Zen-writing program.");
     if(!window.fullScreen)
         note("fullscreen-note", "Consider running in full-screen by hitting F11 on your keyboard.", 1000);
-
-    */
+    note("welcome-note-2", "Use CTRL+? to view some help information.", 2000);
 }
