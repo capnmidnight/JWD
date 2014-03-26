@@ -81,7 +81,7 @@ function clockTick(){
 }
 
 function runCommands(evt){
-    print(evt.keyCode);
+    // print(evt.keyCode);
     if(evt.ctrlKey){
         // S
         files[currentFile].doc = editor.innerHTML;
