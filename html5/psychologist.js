@@ -101,3 +101,18 @@ function move(elem, left, top, width, height){
             setStyle("height", px(height), elem);
     }
 }
+
+Array.prototype.group = function(getKey, getValue){
+    var groups = {};
+    this.forEach(function(obj){
+        var key = getKey ? getKey(obj) : obj;
+        var val = getValue ? getValue(obj): obj;
+        if(!(key in groups))
+            groups[key] = [];
+        groups[key].push(val);
+    });
+    var output = [];
+    for(var key in groups)
+        output.push([key, groups[key]]);
+    return output;
+};

@@ -44,16 +44,17 @@ function countWords(){
 
         count = words.length;
 
-        words.sort();
-        words.forEach(function(word){
-            if(counts.length == 0
-            || counts[counts.length - 1][0] != word)
-                counts.push([word, 0]);
-            ++counts[counts.length - 1][1];
-        });
+        counts = words
+            .group()
+            .map(function(word){ return [word[0], word[1].length]; })
+            .group(function(word){ return word[1]; }, function(word){ return word[0]; })
+            .map(function(count){
+                count[1].sort();
+                return [count[0], count[1].join(",")];
+            });
 
         counts.sort(function(a, b){
-            return b[1] - a[1]; // most to least
+            return b[0] - a[0];
         });
     }
 
