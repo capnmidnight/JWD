@@ -26,7 +26,9 @@ function resize(){
 }
 
 function countWords(){
-    var words = editor.textContent
+    var words = editor.innerHTML
+        .replace(/<\/?(br|p)>/g, "\n")
+        .replace(/<[^>]+>/g, "")
         .match(/[\w']+/g),
         count = 0, counts = [];
 
@@ -82,11 +84,11 @@ function runCommands(evt){
         files[currentFile].name = filename.textContent;
         if(evt.keyCode == 83){
             window.localStorage.setItem("files", JSON.stringify(files));
-            msg("save-note", fmt("File \"$1\" saved.", files[currentFile].name), 0, 3000);
+            msg("save-note", fmt("File \"$1\" saved.", files[currentFile].name));
         }
         // [
         else if(evt.keyCode == 219){
-            currentFile = (currentFile - 1) % files.length;
+            currentFile = (currentFile + (files.length - 1)) % files.length;
             showFile();
         }
         // ]
@@ -150,7 +152,12 @@ function pageLoad(){
     countWords();
     clockTick();
 
-    msg("welcome-note", "Welcome to Just Write, Dammit! The Zen-writing program.", 1000, 3000);
+    msg("welcome-note", "Welcome to Just Write, Dammit! The Zen-writing program.");
     if(!window.fullScreen)
-        msg("fullscreen-note", "Consider running in full-screen by hitting F11 on your keyboard.", 2000, 3000);
+        msg("fullscreen-note", "Consider running in full-screen by hitting F11 on your keyboard.", 1000);
+    msg("help-note-1", "You can save your writing with CTRL+ALT+S.", 2000, forever);
+    msg("help-note-2", "The \"(new file)\" text is editable. Use it to set a name for your document.", 3000, forever);
+    msg("help-note-3", "Create new documents with CTRL+ALT+N.", 4000, forever);
+    msg("help-note-4", "Change between documents with CTRL+[ and CTRL+].", 5000, forever);
+    msg("help-note-5", "Delete all of your saved files with CTRL+ALT+D. Press CTRL+ALT+S before reloading the page to undo delete.", 6000, forever);
 }
