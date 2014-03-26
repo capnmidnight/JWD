@@ -13,18 +13,18 @@ function resize(){
     var w1 = window.innerWidth;
     var h = window.innerHeight;
     var l1 = w1 * 0.05;
-    var w2 = 100;
-    var w3 = 200;
+    var w2 = 50;
+    var w3 = 150;
     w1 -= l1 * 2 + w2 + w3;
-    var l2 = l1 + w1 + 35;
-    var l3 = l2 + w2 + 5;
+    var l2 = l1 + w1;
+    var l3 = l2 + w2;
     var t = h * 0.15;
     h -= t * 2;
     move(editor,    l1, t, w1, h);
     move(scrollbar, l2, t, w2, h);
     move(notes,     l3, t, w3, h);
-    move(wordCount, l1, t + h);
-    move(clock,     l1, t + h + 24);
+    move(wordCount, l2 - 100, t - 24);
+    move(clock,     l2 - 100, t - 48);
     move(filename,  l1, t - 24);
     editor.style.fontSize = px(Math.floor(h / 15));
 }
@@ -81,35 +81,43 @@ function clockTick(){
     clock.textContent = fmt("ELAPSED: $01:$02:$03", hours, minutes, seconds);
 }
 
+var commands = {
+    68: function(){
+        window.localStorage.removeItem("files");
+        note("delete-note", "Local storage deleted. Save before reloading page to avoid losing files.");
+    },
+    78: function(){
+        addNewFile();
+        note("new-file-note", "New file created.");
+    },
+    83: function(){
+        window.localStorage.setItem("files", JSON.stringify(files));
+        note("save-note", fmt("File \"$1\" saved.", files[currentFile].name));
+    },
+    191: function(){
+        msg("help-note-1", "<h2>Help</h2>You can save your writing with CTRL+ALT+S.<br>The \"(new file)\" text is editable. Use it to set a name for your document.<br>Create new documents with CTRL+ALT+N.<br>Change between documents with CTRL+[ and CTRL+].<br>Delete all of your saved files with CTRL+ALT+D. Press CTRL+ALT+S before reloading the page to undo delete.", 0, forever);
+    },
+    219: function(){
+        currentFile = (currentFile + files.length - 1) % files.length;
+        showFile();
+        note("view-file-note", fmt("Now viewing file \"$1\".", files[currentFile].name));
+    },
+    221: function(){
+        currentFile = (currentFile + 1) % files.length;
+        showFile();
+        note("view-file-note", fmt("Now viewing file \"$1\".", files[currentFile].name));
+    },
+};
+
 function runCommands(evt){
-    // print(evt.keyCode);
+    print(evt.keyCode);
     if(evt.ctrlKey){
-        // S
         files[currentFile].doc = editor.innerHTML;
         files[currentFile].name = filename.textContent;
-        if(evt.keyCode == 83){
-            window.localStorage.setItem("files", JSON.stringify(files));
-            msg("save-note", fmt("File \"$1\" saved.", files[currentFile].name));
+        if(evt.keyCode in commands){
+            commands[evt.keyCode]();
+            evt.preventDefault();
         }
-        // [
-        else if(evt.keyCode == 219){
-            currentFile = (currentFile + (files.length - 1)) % files.length;
-            showFile();
-        }
-        // ]
-        else if(evt.keyCode == 221){
-            currentFile = (currentFile + 1) % files.length;
-            showFile();
-        }
-        // N
-        else if(evt.keyCode == 78){
-            addNewFile();
-        }
-        // D
-        else if(evt.keyCode == 68){
-            window.localStorage.removeItem("files");
-        }
-        evt.preventDefault();
     }
 }
 
@@ -174,6 +182,6 @@ function pageLoad(){
     note("welcome-note", "Welcome to Just Write, Dammit! The Zen-writing program.");
     if(!window.fullScreen)
         note("fullscreen-note", "Consider running in full-screen by hitting F11 on your keyboard.", 1000);
-    msg("help-note-1", "You can save your writing with CTRL+ALT+S.<br>The \"(new file)\" text is editable. Use it to set a name for your document.<br>Create new documents with CTRL+ALT+N.<br>Change between documents with CTRL+[ and CTRL+].<br>Delete all of your saved files with CTRL+ALT+D. Press CTRL+ALT+S before reloading the page to undo delete.", 2000, forever);
+
     */
 }
