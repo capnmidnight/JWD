@@ -1,1 +1,1 @@
-ftp -i -s:commands.txt seanmcbeth.com
+ftp -i -n -s:commands.txt seanmcbeth.com
