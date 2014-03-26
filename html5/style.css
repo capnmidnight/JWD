@@ -1,4 +1,4 @@
-*, *: before, *: after {
+*, *:before, *:after {
   -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
 }
 
@@ -21,10 +21,14 @@ aside{
     padding-left: 1em;
     border: solid 1px #667;
     background-color: #99a;
+    z-index:1;
 }
 
 aside>button{
     margin-right: 1em;
+    border:solid 2px #667;
+    padding:0.5em;
+    background-color:#aab;
 }
 
 #editor{
@@ -48,7 +52,7 @@ aside>button{
     font-size: 12pt;
 }
 
-body, #notes{
+body, #notes, button, input, textarea{
     font-family: Georgia, Tahoma, sans-serif, 'DejaVu Sans Mono', Consolas, 'Lucida Console', monospace;
 }
 
@@ -60,27 +64,14 @@ body, #notes{
 
 #editor, #notes, #scrollbar, .info-box{
     position: absolute;
+    z-index:2;
 }
 
-: :-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+::-webkit-scrollbar {
+    width: 5px;
+    background-color: #778;
 }
 
-: :-webkit-scrollbar-button: start: decrement,
-: :-webkit-scrollbar-button: end: increment  {
-    height: 30px;
-    display: block;
-    background-color: transparent;
-}
-
-: :-webkit-scrollbar-track-piece  {
-    background-color: #3b3b3b;
-    -webkit-border-radius: 6px;
-}
-
-: :-webkit-scrollbar-thumb: vertical {
-    height: 50px;
-    background-color: #666;
-    -webkit-border-radius: 6px;
+::-webkit-scrollbar-thumb:vertical {
+    background-color: #667;
 }
