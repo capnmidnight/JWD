@@ -58,6 +58,7 @@
         this.breadthFirst(function(current){
             if(index <= start && start <= index + current.length){
                 range.setStart(current, start - index);
+                current.parentElement.scrollIntoView();
                 start = null;
             }
             if(index <= end && end <= index + current.length){

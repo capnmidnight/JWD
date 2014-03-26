@@ -64,7 +64,10 @@ var interrobang = (function(){
         [/<p>!!(.+?)<\/p>/g, function(res, cap1){
             return "<h6>" + cap1 + "</h6>";
         }],
-        [/(!|\?|\u203D)\1+/g, "$1"]
+        [/(!|\?|\u203D)\1+/g, "$1"],
+        [/&lt;(\/?(p|h\d))&gt;/g, "<$1>"],
+        [/>([^<]+?)(<br>)+/g, "><p>$1</p>"],
+        [/<p><\/p>/g, ""]
     ];
 
     return function(evt){
