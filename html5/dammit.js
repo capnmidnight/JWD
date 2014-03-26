@@ -23,6 +23,7 @@ function resize(){
     move(wordCount, l1, t + h);
     move(clock, l1, t + h + 24);
     move(filename, l1, t - 24);
+    editor.style.fontSize = px(Math.floor(h / 15));
 }
 
 function countWords(){
@@ -152,12 +153,8 @@ function pageLoad(){
     countWords();
     clockTick();
 
-    msg("welcome-note", "Welcome to Just Write, Dammit! The Zen-writing program.");
+    note("welcome-note", "Welcome to Just Write, Dammit! The Zen-writing program.");
     if(!window.fullScreen)
-        msg("fullscreen-note", "Consider running in full-screen by hitting F11 on your keyboard.", 1000);
-    msg("help-note-1", "You can save your writing with CTRL+ALT+S.", 2000, forever);
-    msg("help-note-2", "The \"(new file)\" text is editable. Use it to set a name for your document.", 3000, forever);
-    msg("help-note-3", "Create new documents with CTRL+ALT+N.", 4000, forever);
-    msg("help-note-4", "Change between documents with CTRL+[ and CTRL+].", 5000, forever);
-    msg("help-note-5", "Delete all of your saved files with CTRL+ALT+D. Press CTRL+ALT+S before reloading the page to undo delete.", 6000, forever);
+        note("fullscreen-note", "Consider running in full-screen by hitting F11 on your keyboard.", 1000);
+    msg("help-note-1", "You can save your writing with CTRL+ALT+S.<br>The \"(new file)\" text is editable. Use it to set a name for your document.<br>Create new documents with CTRL+ALT+N.<br>Change between documents with CTRL+[ and CTRL+].<br>Delete all of your saved files with CTRL+ALT+D. Press CTRL+ALT+S before reloading the page to undo delete.", 2000, forever);
 }
