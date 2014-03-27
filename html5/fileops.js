@@ -7,20 +7,34 @@ function addNewFile(txt){
     note(header, "new-file-note", "New file created.");
 }
 
+function showFile(){
+    editor.setValue(files[currentFile].doc);
+    filename.setValue(files[currentFile].name);
+    countWords();
+    showScroll();
+}
+
+function showScroll(){
+    scrollbar.setValue(editor.getValue());
+}
+
 function saveFile(){
     if(window.localStorage){
+        stowFile();
         window.localStorage.setItem("files", JSON.stringify(files));
         note(header, "save-note", fmt("File \"$1\" saved.", files[currentFile].name));
     }
 }
 
 function nextFile(){
+    stowFile();
     currentFile = (currentFile + 1) % files.length;
     showFile();
     note(header, "view-file-note", fmt("Now viewing file \"$1\".", files[currentFile].name));
 }
 
 function prevFile(){
+    stowFile();
     currentFile = (currentFile + files.length - 1) % files.length;
     showFile();
     note(header, "view-file-note", fmt("Now viewing file \"$1\".", files[currentFile].name));
@@ -33,6 +47,11 @@ function deleteFiles(){
     }
 }
 
+function stowFile(){
+    files[currentFile].doc = editor.getValue();
+    files[currentFile].name = filename.getValue();
+}
+
 var commands = {
     68: deleteFiles,
     78: addNewFile,
@@ -42,10 +61,7 @@ var commands = {
 };
 
 function runCommands(evt){
-    //print(evt.keyCode);
     if(evt.ctrlKey){
-        files[currentFile].doc = editor.innerHTML;
-        files[currentFile].name = filename.value;
         if(evt.keyCode in commands){
             commands[evt.keyCode]();
             evt.preventDefault();

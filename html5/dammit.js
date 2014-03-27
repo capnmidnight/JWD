@@ -47,7 +47,7 @@ function resize(){
 }
 
 function countWords(){
-    var words = editor.innerHTML
+    var words = editor.getValue()
         .replace(/<\/?(br|p)>/g, "\n")
         .replace(/<[^>]+>/g, "")
         .replace(/&nbsp;/g, " ")
@@ -78,12 +78,12 @@ function countWords(){
     if(!files[currentFile].count)
         files[currentFile].count = count;
 
-    totalWordCount.textContent = count;
-    addWordCount.textContent = count - files[currentFile].count;
+    totalWordCount.setValue(count);
+    addWordCount.setValue(count - files[currentFile].count);
 
-    notes.innerHTML = counts.map(function(word){
+    notes.setValue(counts.map(function(word){
         return fmt("$1: $2", word[0], word[1]);
-    }).join("\n<br>");
+    }).join("\n<br>"));
 }
 
 function clockTick(){
@@ -96,19 +96,8 @@ function clockTick(){
     hours = Math.floor(hours / 60);
     var minutes = hours % 60;
     hours = Math.floor(hours / 60);
-    clock.textContent = fmt("$01:$02:$03", hours, minutes, seconds);
+    clock.setValue(fmt("$01:$02:$03", hours, minutes, seconds));
     setTimeout(clockTick, 500);
-}
-
-function showFile(){
-    editor.innerHTML = files[currentFile].doc;
-    filename.value = files[currentFile].name;
-    countWords();
-    showScroll();
-}
-
-function showScroll(){
-    scrollbar.innerHTML = editor.innerHTML;
 }
 
 function moveScroll(evt){
@@ -120,10 +109,10 @@ function pageLoad(){
     getControls();
 
     menuItems.forEach(function(menuItem){
-        var id1 = menuItem.textContent;
+        var id1 = menuItem.getValue();
         menuItem.addEventListener("click", function(evt){
             menuItems.forEach(function(mnu){
-                var id2 = mnu.textContent;
+                var id2 = mnu.getValue();
                 var box = getDOM("#" + id2);
                 box.style.display = id1 == id2 ? "block" : "none";
                 mnu.className = id1 == id2 ? "selected" : "";

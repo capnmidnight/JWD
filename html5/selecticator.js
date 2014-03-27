@@ -79,6 +79,8 @@
 
     Element.prototype.getValue = function(){return this.innerHTML; }
     Element.prototype.setValue = function(val){ this.innerHTML = val; }
+    HTMLInputElement.prototype.getValue = function(){return this.value; }
+    HTMLInputElement.prototype.setValue = function(val){ this.value = val; }
     HTMLTextAreaElement.prototype.getValue = function(){return this.value; }
     HTMLTextAreaElement.prototype.setValue = function(val){ this.value = val; }
 
@@ -95,14 +97,12 @@
     Element.prototype.edit = function(thunk){
         var initial = this.getValue(), final, delta;
         var sel = this.getSelection();
-        print(sel[0], sel[1]);
         final = thunk.call(this, initial);
         if(final != initial){
             delta = final.length - initial.length;
             sel[0] += delta;
             if(delta != 0)
                 sel[1] = sel[0];
-            print(sel[0], sel[1]);
             this.setValue(final);
             this.setSelection(sel);
         }

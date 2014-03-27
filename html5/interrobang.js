@@ -69,12 +69,10 @@ var interrobang = (function(){
 
     return function(evt){
         this.edit(function(s){
-            print(s);
             patterns.forEach(function(rule){
                 while(s.match(rule[0]))
                     s = s.replace(rule[0], rule[1]);
             });
-            print(s);
             return s;
         });
     }
