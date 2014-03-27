@@ -75,19 +75,35 @@
             }
             return false;
         });
-    }
+    };
+
+    Element.prototype.getValue = function(){return this.innerHTML; }
+    Element.prototype.setValue = function(val){ this.innerHTML = val; }
+    HTMLTextAreaElement.prototype.getValue = function(){return this.value; }
+    HTMLTextAreaElement.prototype.setValue = function(val){ this.value = val; }
+
+    HTMLTextAreaElement.prototype.getSelection = function(){
+        return [this.selectionStart, this.selectionEnd];
+    };
+
+    HTMLTextAreaElement.prototype.setSelection = function(sel){
+        this.selectionStart = sel[0];
+        this.selectionEnd = sel[1];
+    };
 
     // Pack up the workflow in a single, easy to use function.
     Element.prototype.edit = function(thunk){
-        var initial = this.innerHTML, final, delta;
+        var initial = this.getValue(), final, delta;
         var sel = this.getSelection();
-        thunk.call(this);
-        final = this.innerHTML;
+        print(sel[0], sel[1]);
+        final = thunk.call(this, initial);
         if(final != initial){
             delta = final.length - initial.length;
             sel[0] += delta;
             if(delta != 0)
                 sel[1] = sel[0];
+            print(sel[0], sel[1]);
+            this.setValue(final);
             this.setSelection(sel);
         }
     };

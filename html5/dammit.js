@@ -130,7 +130,7 @@ var commands = {
 };
 
 function runCommands(evt){
-    print(evt.keyCode);
+    //print(evt.keyCode);
     if(evt.ctrlKey){
         files[currentFile].doc = editor.innerHTML;
         files[currentFile].name = filename.value;
@@ -159,7 +159,7 @@ function moveScroll(evt){
 
 function addNewFile(txt){
     if(txt == undefined)
-        txt = "<p>(type text here)<br></p>";
+        txt = "(type text here)";
     files.push({doc:txt, name:"(new file)"});
     currentFile = files.length - 1;
     showFile();

@@ -68,26 +68,14 @@ var interrobang = (function(){
     ];
 
     return function(evt){
-        this.edit(function(){
-            var s = this.innerHTML, o, d;
-            o = s;
-
+        this.edit(function(s){
+            print(s);
             patterns.forEach(function(rule){
                 while(s.match(rule[0]))
                     s = s.replace(rule[0], rule[1]);
             });
-
-            // setting innerHTML will cause the browser to generate
-            // completely new Text nodes, even if the text itself hasn't
-            // changed any. So, we make sure the before and after state
-            // of the HTML has actually, realistically changed before
-            // setting innerHTML, so we don't have to screw around with
-            // the selctions more often than we have to. It's extremely
-            // difficult to get the selections right, so let's just not
-            // screw with it very often.
-            if(s != o){
-                this.innerHTML = s;
-            }
+            print(s);
+            return s;
         });
     }
 })();
