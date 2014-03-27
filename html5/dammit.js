@@ -38,10 +38,10 @@ function resize(){
     main.style.height = px(
         window.innerHeight
         - header.clientHeight);
-
+    print(getDOM("#write"));
     editArea.style.height = px(
         main.clientHeight
-        - filename.clientHeight * 3);
+        - filename.clientHeight);
 
     editor.style.width = px(
         editArea.clientWidth

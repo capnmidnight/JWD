@@ -113,7 +113,8 @@ section>*{
         font-size:10pt;
     }
     #filename{
-        width:600px;
+        width:500px;
+        font-size:24pt;
     }
 }
 
@@ -123,6 +124,9 @@ section>*{
     }
     #scrollbar {
         width: 100px;
+    }
+    #filename{
+        font-size:30pt;
     }
 }
 
