@@ -100,47 +100,6 @@ function clockTick(){
     setTimeout(clockTick, 500);
 }
 
-var commands = {
-    68: function(){
-        if(window.localStorage){
-            window.localStorage.removeItem("files");
-            note(header, "delete-note", "Local storage deleted. Save before reloading page to avoid losing files.");
-        }
-    },
-    78: function(){
-        addNewFile();
-        note(header, "new-file-note", "New file created.");
-    },
-    83: function(){
-        if(window.localStorage){
-            window.localStorage.setItem("files", JSON.stringify(files));
-            note(header, "save-note", fmt("File \"$1\" saved.", files[currentFile].name));
-        }
-    },
-    219: function(){
-        currentFile = (currentFile + files.length - 1) % files.length;
-        showFile();
-        note(header, "view-file-note", fmt("Now viewing file \"$1\".", files[currentFile].name));
-    },
-    221: function(){
-        currentFile = (currentFile + 1) % files.length;
-        showFile();
-        note(header, "view-file-note", fmt("Now viewing file \"$1\".", files[currentFile].name));
-    },
-};
-
-function runCommands(evt){
-    //print(evt.keyCode);
-    if(evt.ctrlKey){
-        files[currentFile].doc = editor.innerHTML;
-        files[currentFile].name = filename.value;
-        if(evt.keyCode in commands){
-            commands[evt.keyCode]();
-            evt.preventDefault();
-        }
-    }
-}
-
 function showFile(){
     editor.innerHTML = files[currentFile].doc;
     filename.value = files[currentFile].name;
@@ -155,14 +114,6 @@ function showScroll(){
 function moveScroll(evt){
     var sel = scrollbar.getSelection();
     editor.setSelection(sel);
-}
-
-function addNewFile(txt){
-    if(txt == undefined)
-        txt = "(type text here)";
-    files.push({doc:txt, name:"(new file)"});
-    currentFile = files.length - 1;
-    showFile();
 }
 
 function pageLoad(){
@@ -184,7 +135,7 @@ function pageLoad(){
 
     var filesData = null;
     if(window.localStorage)
-        window.localStorage.getItem("files");
+        filesData = window.localStorage.getItem("files");
 
     if(filesData){
         files = JSON.parse(filesData);

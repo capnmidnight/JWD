@@ -79,6 +79,10 @@ section>*{
     width:100%;
 }
 
+#filename{
+    width:300px;
+}
+
 @media(min-width:320px){
     .textContent{
         font-size: 12pt;

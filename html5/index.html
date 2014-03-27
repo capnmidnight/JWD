@@ -3,11 +3,13 @@
     <head>
         <title>Just Write, Dammit!</title>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=1">
         <link type="text/css" rel="stylesheet" href="style.css">
         <script type="text/javascript" src="selecticator.js"></script>
         <script type="text/javascript" src="psychologist.js"></script>
         <script type="text/javascript" src="interrobang.js"></script>
         <script type="text/javascript" src="stuffing.js"></script>
+        <script type="text/javascript" src="fileops.js"></script>
         <script type="text/javascript" src="dammit.js"></script>
     </head>
     <body onload="pageLoad()">
@@ -24,7 +26,13 @@
         </header>
         <div id="main">
             <section id="write">
-                <input type="text" id="filename" spellcheck="false">
+                <div>
+                    <input type="text" id="filename" spellcheck="false">
+                    <button onclick="saveFile()">save</button>
+                    <button onclick="nextFile()"><--</button>
+                    <button onclick="prevFile()">--></button>
+                    <button onclick="addNewFile()">new</button>
+                </div>
                 <div id="editArea">
                     <article id="scrollbar"></article>
                     <textarea id="editor" class="textContent" spellcheck="false" cols="50" rows="50"></textarea>
