@@ -79,13 +79,13 @@ section>*{
     width:100%;
 }
 
-#filename{
-    width:300px;
-}
-
 @media(min-width:320px){
     .textContent{
         font-size: 12pt;
+    }
+
+    #filename{
+        width:100px;
     }
 }
 
@@ -93,11 +93,19 @@ section>*{
     .textContent{
         font-size: 18pt;
     }
+
+    #filename{
+        width:200px;
+    }
 }
 
 @media(min-width:1080px){
     .textContent{
         font-size: 24pt;
+    }
+
+    #filename{
+        width:300px;
     }
 }
 
