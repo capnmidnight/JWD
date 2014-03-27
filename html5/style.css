@@ -20,7 +20,7 @@ a:visited{
 }
 
 html, body, button, input, textarea{
-    font-family: Tahoma, sans-serif;
+    font-family: Georgia, Tahoma, sans-serif;
     background-color: #445;
     color: #aab;
     margin: 0;
@@ -91,9 +91,14 @@ section>*{
     .textContent{
         font-size: 12pt;
     }
-
+    #scrollbar {
+        width: 25px;
+    }
+    #infobar {
+        font-size:8pt;
+    }
     #filename{
-        width:100px;
+        width:180px;
     }
 }
 
@@ -101,9 +106,14 @@ section>*{
     .textContent{
         font-size: 18pt;
     }
-
+    #scrollbar {
+        width: 50px;
+    }
+    #infobar {
+        font-size:10pt;
+    }
     #filename{
-        width:200px;
+        width:600px;
     }
 }
 
@@ -111,9 +121,8 @@ section>*{
     .textContent{
         font-size: 24pt;
     }
-
-    #filename{
-        width:300px;
+    #scrollbar {
+        width: 100px;
     }
 }
 
@@ -121,7 +130,6 @@ section>*{
     font-size: 2px;
     overflow: hidden;
     color: #fff;
-    width:50px;
     background-color: #667;
 }
 

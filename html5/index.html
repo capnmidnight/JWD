@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=1">
         <link type="image/png" rel="icon" href="http://www.seanmcbeth.com/jwd/jwd32x32.png">
-        <link type="image/png" rel="apple-touch-icon" href="http://www.seanmcbeth.com/jwd/jwd.png">
+        <link rel="apple-touch-icon" href="http://www.seanmcbeth.com/jwd/jwd.png">
         <link type="text/css" rel="stylesheet" href="style.css">
         <script type="text/javascript" src="selecticator.js"></script>
         <script type="text/javascript" src="psychologist.js"></script>
@@ -25,16 +25,16 @@
                 <button type="button">configure</button>
                 <button type="button">help</button>
             </nav>
+            <div id="file-controls">
+                <input type="text" id="filename" spellcheck="false">
+                <button onclick="saveFile()">&nbsp;$&nbsp;</button>
+                <button onclick="nextFile()">←</button>
+                <button onclick="prevFile()">→</button>
+                <button onclick="addNewFile()">&nbsp;+&nbsp;</button>
+            </div>
         </header>
         <div id="main">
             <section id="write">
-                <div>
-                    <input type="text" id="filename" spellcheck="false">
-                    <button onclick="saveFile()">&nbsp;$&nbsp;</button>
-                    <button onclick="nextFile()">←</button>
-                    <button onclick="prevFile()">→</button>
-                    <button onclick="addNewFile()">&nbsp;+&nbsp;</button>
-                </div>
                 <div id="editArea">
                     <article id="scrollbar"></article>
                     <textarea id="editor" class="textContent" spellcheck="false" cols="50" rows="50"></textarea>

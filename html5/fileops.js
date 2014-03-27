@@ -15,7 +15,7 @@ function showFile(){
 }
 
 function showScroll(){
-    scrollbar.setValue(editor.getValue());
+    scrollbar.setValue("<p>" + editor.getValue().replace(/\n\n/g, "</p><p>") + "</p>");
 }
 
 function saveFile(){

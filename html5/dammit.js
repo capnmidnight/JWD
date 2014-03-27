@@ -1,6 +1,7 @@
 var header = null,
     menu = null,
     menuItems = null,
+    fileControls = null,
     main = null,
     filename = null,
     editArea = null,
@@ -18,6 +19,7 @@ function getControls(){
     header = getDOM("header");
     menu = getDOM("menu");
     menuItems = getDOMAll("nav>button");
+    fileControls = getDOM("#file-controls");
     main = getDOM("#main");
     filename = getDOM("#filename");
     editArea = getDOM("#editArea");
@@ -39,11 +41,12 @@ function resize(){
 
     editArea.style.height = px(
         main.clientHeight
-        - filename.clientHeight * 4);
+        - filename.clientHeight * 3);
 
     editor.style.width = px(
         editArea.clientWidth
-        - scrollbar.clientWidth);
+        - scrollbar.clientWidth
+        - 5);
 }
 
 function countWords(){
