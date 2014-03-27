@@ -1,6 +1,16 @@
-var getDOM = document.getElementById.bind(document);
+var getDOM = document.querySelector.bind(document);
+
+function arr(arg, a, b){
+    return Array.prototype.slice.call(arg, a, b);
+}
+
+function getDOMAll(sel){
+    var nodes = document.querySelectorAll(sel);
+    return arr(nodes);
+}
+
 var newDOM = function(tagName, attr){
-    var children = Array.prototype.slice.call(arguments, 2);
+    var children = arr(arguments, 2);
     var tag = document.createElement(tagName);
 
     if(attr){

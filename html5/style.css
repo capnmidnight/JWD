@@ -1,70 +1,97 @@
 *, *:before, *:after {
-  -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-body{
-    background-color: #778;
+html, body{
+    position:absolute;
+    width: 100%;
+    height: 100%;
+    -overflow:hidden;
+}
+
+html, body, button, input, textarea{
+    font-family: Georgia, Tahoma, sans-serif, 'DejaVu Sans Mono', Consolas, 'Lucida Console', monospace;
+    background-color: #445;
     color: #aab;
-    padding: 0;
     margin: 0;
+    padding:0;
+    border: 0;
 }
 
-a{
-    color: #dd0;
+#editArea{
+    width:100%;
 }
 
 aside{
+    position:absolute;
     font-size: 12pt;
     font-weight: bold;
     color: white;
     padding: 0.5em;
     padding-left: 1em;
     border: solid 1px #667;
-    background-color: #99a;
-    z-index:1;
+    background-color: #556;
+    top:2em;
 }
 
-aside>button{
+button{
     margin-right: 1em;
-    border:solid 2px #667;
-    padding:0.5em;
-    background-color:#aab;
+    border:solid 1px #667;
+    margin:0;
+    background-color:#556;
+    color:#aab;
 }
 
-#editor{
-    font-size: 24pt;
+button:active{
+    background-color:#667;
+}
+
+button.selected{
+    background-color:#778;
+    color:#ccd;
+}
+
+section{
+    display:none;
+    float:left;
+    clear:both;
+    width:100%;
+    height: 100%;
+}
+
+section>*{
+    float:left;
+    clear:left;
+}
+
+#editor, #scrollbar{
+    float:right;
+    height:100%;
+}
+
+.textContent{
+    overflow-y: scroll;
+    word-wrap: break-word;
     padding-right: 1em;
+    height: 100%;
+    width:100%;
+    font-size: 24pt;
 }
 
-#notes{
-    background-color: #778;
-    color: #aab;
-    border: 0;
+@media(min-width:320px){
+    .textContent{
+        font-size: 12pt;
+    }
 }
 
 #scrollbar{
     font-size: 2px;
     overflow: hidden;
     color: #fff;
-}
-
-.info-box{
-    font-size: 12pt;
-}
-
-body, #notes, button, input, textarea{
-    font-family: Georgia, Tahoma, sans-serif, 'DejaVu Sans Mono', Consolas, 'Lucida Console', monospace;
-}
-
-#editor, #notes{
-    overflow-y: scroll;
-    word-wrap: break-word;
-    padding-right: 1em;
-}
-
-#editor, #notes, #scrollbar, .info-box{
-    position: absolute;
-    z-index:2;
+    width:50px;
+    background-color: #667;
 }
 
 ::-webkit-scrollbar {

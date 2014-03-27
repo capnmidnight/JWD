@@ -1,26 +1,28 @@
 var forever = "forever";
-
-function note(id, msgTxt, delay){
+var useNote = false;
+function note(parent, id, msgTxt, delay){
     if(delay == undefined)
         delay = 0;
 
-    if("Notification" in window
+    if(useNote
+        && "Notification" in window
         && Notification.permission == "default"
         && !this.once){
         Notification.requestPermission();
         this.once = true;
     }
 
-    if(!("Notification" in window)
+    if(!useNote
+        || !("Notification" in window)
         || Notification.permission != "granted")
-        msg(id, msgTxt, delay);
+        msg(parent, id, msgTxt, delay);
     else
         setTimeout(function(){
-            new Notification("Just Write, Dammit!", {body: msgTxt, tag: id});
+            new Notification("Just Write, Dammit!", {body: msgTxt, tag: id, icon: "jwd.png"});
         }, delay);
 }
 
-function msg(id, msgTxt, delay, length){
+function msg(parent, id, msgTxt, delay, length){
     if(length == undefined){
         length = 5000;
         if(delay == undefined)
@@ -30,15 +32,16 @@ function msg(id, msgTxt, delay, length){
     var box = aside(
         {id:id},
         button({
-            id:id + "-dismiss-button",
+            id: id + "-dismiss-button",
             type: "button",
             onclick: function(){
-                hide(id);
-            },
+                setStyle("display", "none", box);
+            }
         }, "dismiss"),
         msgTxt);
 
-    setTimeout(document.body.appendChild.bind(document.body), delay, box);
+    setTimeout(parent.appendChild.bind(parent, box), delay);
+
     if(length != forever)
-        setTimeout(document.body.removeChild.bind(document.body), delay + length, box);
+        setTimeout(parent.removeChild.bind(parent, box), delay + length);
 }

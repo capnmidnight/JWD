@@ -51,14 +51,14 @@
     // looking selection as the one prior.
     Element.prototype.setSelection = function (sel){
         var selc = window.getSelection(),
-            range = new Range(),
+            range = document.createRange(),
             start = sel[0],
             end = sel[1],
             index = 0;
         this.breadthFirst(function(current){
             if(index <= start && start <= index + current.length){
                 range.setStart(current, start - index);
-                current.parentElement.scrollIntoView();
+                current.parentNode.scrollIntoView();
                 start = null;
             }
             if(index <= end && end <= index + current.length){
