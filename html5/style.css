@@ -11,8 +11,16 @@ html, body{
     -overflow:hidden;
 }
 
+a{
+    color: #eec;
+}
+
+a:visited{
+    color: #886;
+}
+
 html, body, button, input, textarea{
-    font-family: Georgia, Tahoma, sans-serif, 'DejaVu Sans Mono', Consolas, 'Lucida Console', monospace;
+    font-family: Tahoma, sans-serif;
     background-color: #445;
     color: #aab;
     margin: 0;

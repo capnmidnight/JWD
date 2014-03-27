@@ -4,6 +4,8 @@
         <title>Just Write, Dammit!</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=1">
+        <link type="image/png" rel="icon" href="http://www.seanmcbeth.com/jwd/jwd32x32.png">
+        <link type="image/png" rel="apple-touch-icon" href="http://www.seanmcbeth.com/jwd/jwd.png">
         <link type="text/css" rel="stylesheet" href="style.css">
         <script type="text/javascript" src="selecticator.js"></script>
         <script type="text/javascript" src="psychologist.js"></script>
@@ -28,10 +30,10 @@
             <section id="write">
                 <div>
                     <input type="text" id="filename" spellcheck="false">
-                    <button onclick="saveFile()">save</button>
-                    <button onclick="nextFile()"><--</button>
-                    <button onclick="prevFile()">--></button>
-                    <button onclick="addNewFile()">new</button>
+                    <button onclick="saveFile()">&nbsp;$&nbsp;</button>
+                    <button onclick="nextFile()">←</button>
+                    <button onclick="prevFile()">→</button>
+                    <button onclick="addNewFile()">&nbsp;+&nbsp;</button>
                 </div>
                 <div id="editArea">
                     <article id="scrollbar"></article>
@@ -61,6 +63,7 @@
             <section id="help">
                 <article class="textContent">
                     <h3>Just Write, Dammit!</h3>
+                    <img src="jwd.png" style="float:left;margin:0.5em">
                     <p>This is "Just Write, Dammit!" As in, that's all you can do when you use it. As in, put Twitter/Facebook/G+/Farmville/etc. down and just write, dammit. It blocks out all of the background noise of your computer so you can focus on one thing: writing.</p>
                     <p>It runs in the browser so it goes where you go. It runs in complete full screen mode (hit F11 on your keyboard). The text is large to encourage flow. The colors are cool to avoid eye strain. A small timer tells you how long you have been writing, and a counter tells you how many words you've written so far. It saves to plain text files and offers very few formatting options. Because you shouldn't be spending time on making words emboldened or italicized or picking a font. You should just be writing, dammit.</p>
                     <p>You are reading in the writing area right now.</p>
@@ -71,7 +74,7 @@
                     <p>Save your files with CTRL+ALT+S. Do it after deleting and before reloading to avoid permanent delete.</p>
                     <p>So what the hell are you doing? Get to work!</p>
                     <p></p>
-                    <p>"Just Write, Dammit!", a zen-writing program. Copyright Sean T. McBeth, 2014</p>
+                    <p>"Just Write, Dammit!" a writing-first program that is <a href="https://github.com/capnmidnight/jwd" target="_new">free, open-source software</a>. © <a href="mailto:sean.mcbeth+jwd@gmail.com">Sean T. McBeth, 2014</a></p>
                 </article>
             </section>
         </div>
