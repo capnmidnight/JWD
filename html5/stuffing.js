@@ -62,12 +62,10 @@ function spinner(parent, id, lbl, min, max){
             id: id,
             type: "text",
             size: Math.ceil(Math.log10(max)) + 1,
-            value: min,
-            style:{
-                "text-align": "right"
-            },
-            align: "right"
+            value: min
         });
+
+    setStyle("textAlign", "right", spin);
 
     parent.appendChild(span({ id: id + "-spinner-container" },
         label({"for": id}, lbl),

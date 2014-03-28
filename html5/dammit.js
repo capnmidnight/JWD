@@ -12,6 +12,7 @@ var header = null,
     addWordCount = null,
     clock = null,
     minFreqCount = null,
+    excludeWords = null,
     wordFrequency = null,
     word2Frequency = null,
     word3Frequency = null,
@@ -36,6 +37,7 @@ function getControls(){
     addWordCount = getDOM("#add-word-count");
     clock = getDOM("#clock");
     minFreqCount = spinner(getDOM("#minFreqHolder"), "min-frequency", "Minimum frequency:", 1, 1000);
+    excludeWords = getDOM("#exclude-words");
     wordFrequency = getDOM("#word-frequency");
     word2Frequency = getDOM("#word-2-frequency");
     word3Frequency = getDOM("#word-3-frequency");
@@ -98,6 +100,7 @@ function pageLoad(){
     editor.addEventListener("keyup", interrobang, false);
     menuItems[1].addEventListener("click", countWords, false);
     minFreqCount.addEventListener("change", countWords, false);
+    excludeWords.addEventListener("change", countWords, false);
     editor.addEventListener("keyup", showScroll, false);
     scrollbar.addEventListener("mouseup", moveScroll, false);
     window.addEventListener("keyup", runCommands, false);

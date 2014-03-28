@@ -29,6 +29,21 @@ function countWords(){
         min = parseInt(minFreqCount.getValue(), 10),
         count = 0, counts = "", counts2 = "", counts3 = "";
 
+    var exclude = excludeWords
+        .getValue()
+        .split(",")
+        .map(function(word){
+            return word.trim();
+        })
+        .filter(function(word){
+            return word.length > 0;
+        });
+
+    if(exclude.length > 0)
+        words = words.filter(function(word){
+            return exclude.indexOf(word) == -1;
+        });
+
     if(words != null){
         words = words.map(function(word){
             return word.toLowerCase();
