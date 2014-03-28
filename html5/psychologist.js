@@ -31,13 +31,18 @@ var newDOM = function(tagName, attr){
 
     children.forEach(function(c){
         var cs = [c];
-        if (typeof(c) == "string" || c instanceof String){
+        if (typeof(c) == "number"
+            || typeof(c) == "string"
+            || c instanceof String
+            || c instanceof Number){
             var temp = document.createElement("div");
             temp.innerHTML = c;
             cs = Array.prototype.slice.call(temp.childNodes);
         }
-        while(cs.length > 0)
-            tag.appendChild(cs.shift());
+        while(cs.length > 0){
+            c = cs.shift();
+            tag.appendChild(c);
+        }
     });
 
     return tag;
@@ -113,16 +118,51 @@ function move(elem, left, top, width, height){
 }
 
 Array.prototype.group = function(getKey, getValue){
-    var groups = {};
-    this.forEach(function(obj){
-        var key = getKey ? getKey(obj) : obj;
-        var val = getValue ? getValue(obj): obj;
-        if(!(key in groups))
-            groups[key] = [];
-        groups[key].push(val);
+    var groups = [];
+    var clone = this.concat();
+    clone.sort(function(a, b){
+        var ka = getKey ? getKey(a) : a;
+        var kb = getKey ? getKey(b) : b;
+        if(ka < kb)
+            return -1;
+        else if(ka > kb)
+            return 1;
+        return 0;
     });
-    var output = [];
-    for(var key in groups)
-        output.push([key, groups[key]]);
-    return output;
+    clone.forEach(function(obj){
+        var key = getKey ? getKey(obj) : obj;
+        var val = getValue ? getValue(obj) : obj;
+        if(groups.length == 0
+            || groups[groups.length - 1][0] != key)
+            groups.push([key, []]);
+        groups[groups.length - 1][1].push(val);
+    });
+    return groups;
 };
+
+
+String.prototype.sanitize = function(){
+    return this.replace(/(<|>|&| |\n)/g, function(match, capture){
+       switch(capture){
+           case "<": return "&lt;";
+           case ">": return "&gt;";
+           case "&": return "&amp;";
+           case " ": return "&nbsp;";
+           case "\n": return "<br>";
+       }
+   });
+}
+
+Element.prototype.fire = function(event){
+    if (document.createEventObject){
+        // dispatch for IE
+        var evt = document.createEventObject();
+        return this.fireEvent('on'+event,evt)
+    }
+    else{
+        // dispatch for firefox + others
+        var evt = document.createEvent("HTMLEvents");
+        evt.initEvent(event, true, true ); // event type,bubbling,cancelable
+        return !this.dispatchEvent(evt);
+    }
+}

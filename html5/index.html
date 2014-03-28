@@ -13,6 +13,7 @@
     <script type="text/javascript" src="stuffing.js"></script>
     <script type="text/javascript" src="ministry.js"></script>
     <script type="text/javascript" src="fileops.js"></script>
+    <script type="text/javascript" src="poindexter.js"></script>
     <script type="text/javascript" src="dammit.js"></script>
 </head>
 <body onload="pageLoad()">
@@ -30,10 +31,10 @@
             <div id="file-controls">
                 <span id="file-count"></span>
                 <input type="text" id="filename" spellcheck="false">
-                <button onclick="saveFile()">&nbsp;$&nbsp;</button>
-                <button onclick="nextFile()">←</button>
-                <button onclick="prevFile()">→</button>
-                <button onclick="addNewFile()">&nbsp;+&nbsp;</button>
+                <button type="button" onclick="saveFile()">&nbsp;$&nbsp;</button>
+                <button type="button" onclick="nextFile()">←</button>
+                <button type="button" onclick="prevFile()">→</button>
+                <button type="button" onclick="addNewFile()">&nbsp;+&nbsp;</button>
             </div>
         </header>
         <div id="main">
@@ -52,6 +53,7 @@
                 <article id="frequency" class="textContent">
                     <h1>Word frequency analysis</h1>
                     <p>This section provides insight into the frequency with which you use certain words and phrases. Single-occurence words and phrases are not included, for the sake of brevity.</p>
+                    <div id="minFreqHolder"></div>
                     <h2>Single-word frequency</h2>
                     <p id="word-frequency"></p>
                     <h2>Two-word phrase frequency</h2>
