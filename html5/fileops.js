@@ -10,12 +10,18 @@ function addNewFile(txt){
 function showFile(){
     editor.setValue(files[currentFile].doc);
     filename.setValue(files[currentFile].name);
+    fileCount.setValue(fmt("$1 of $2", currentFile + 1, files.length));
     countWords();
     showScroll();
 }
 
 function showScroll(){
     scrollbar.setValue("<p>" + editor.getValue().replace(/\n\n/g, "</p><p>") + "</p>");
+}
+
+function moveScroll(evt) {
+    var sel = scrollbar.getSelection();
+    editor.setSelection(sel);
 }
 
 function saveFile(){

@@ -1,5 +1,5 @@
 var forever = "forever";
-var useNote = true;
+var useNote = false;
 function note(parent, id, msgTxt, delay){
     if(delay == undefined)
         delay = 0;
@@ -24,7 +24,7 @@ function note(parent, id, msgTxt, delay){
 
 function msg(parent, id, msgTxt, delay, length){
     if(length == undefined){
-        length = 5000;
+        length = 4000;
         if(delay == undefined)
             delay = 0;
     }

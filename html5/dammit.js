@@ -2,6 +2,7 @@ var header = null,
     menu = null,
     menuItems = null,
     fileControls = null,
+    fileCount = null,
     main = null,
     filename = null,
     editArea = null,
@@ -11,6 +12,7 @@ var header = null,
     addWordCount = null,
     clock = null,
     notes = null,
+    browserInfo = null,
 
     files = null,
     currentFile = null;
@@ -20,6 +22,7 @@ function getControls(){
     menu = getDOM("menu");
     menuItems = getDOMAll("nav>button");
     fileControls = getDOM("#file-controls");
+    fileCount = getDOM("#file-count");
     main = getDOM("#main");
     filename = getDOM("#filename");
     editArea = getDOM("#editArea");
@@ -29,6 +32,20 @@ function getControls(){
     addWordCount = getDOM("#add-word-count");
     clock = getDOM("#clock");
     notes = getDOM("#notes");
+    browserInfo = getDOM("#browser-info");
+
+    menuItems.forEach(function (menuItem) {
+        var id1 = menuItem.getValue();
+        menuItem.addEventListener("click", function (evt) {
+            menuItems.forEach(function (mnu) {
+                var id2 = mnu.getValue();
+                var box = getDOM("#" + id2);
+                box.style.display = id1 == id2 ? "block" : "none";
+                mnu.className = id1 == id2 ? "selected" : "";
+            });
+            resize();
+        }, false);
+    });
 }
 
 function resize(){
@@ -38,7 +55,7 @@ function resize(){
     main.style.height = px(
         window.innerHeight
         - header.clientHeight);
-    print(getDOM("#write"));
+
     editArea.style.height = px(
         main.clientHeight
         - filename.clientHeight);
@@ -103,50 +120,13 @@ function clockTick(){
     setTimeout(clockTick, 500);
 }
 
-function moveScroll(evt){
-    var sel = scrollbar.getSelection();
-    editor.setSelection(sel);
-}
-
 function pageLoad(){
     getControls();
 
-    menuItems.forEach(function(menuItem){
-        var id1 = menuItem.getValue();
-        menuItem.addEventListener("click", function(evt){
-            menuItems.forEach(function(mnu){
-                var id2 = mnu.getValue();
-                var box = getDOM("#" + id2);
-                box.style.display = id1 == id2 ? "block" : "none";
-                mnu.className = id1 == id2 ? "selected" : "";
-            });
-            resize();
-        }, false);
-    });
+    var dataLoaded = loadData();
 
-
-    var filesData = null;
-    if(window.localStorage)
-        filesData = window.localStorage.getItem("files");
-
-    if(filesData){
-        files = JSON.parse(filesData);
-        // delete the word counts, so the word counter can pick up later.
-        files.forEach(function(file){
-            if("count" in file)
-                delete file["count"];
-        });
-        currentFile = 0;
-        showFile();
-        menuItems[0].click();
-    }
-    else{
-        files = [];
-        addNewFile();
-        menuItems[menuItems.length - 1].click();
-        if(!window.fullScreen)
-            note(header, "fullscreen-note", "Consider running in full-screen by hitting F11 on your keyboard.", 1000);
-    }
+    menuItems[dataLoaded ? 0 : menuItems.length - 1].click();
+    //menuItems[5].click();
 
     editor.addEventListener("keyup", interrobang, false);
     editor.addEventListener("keyup", countWords, false);
