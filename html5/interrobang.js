@@ -1,3 +1,14 @@
+// Interrobang is a text scrubber for replacing common
+// typing behaviors with more appropriate Unicode
+// characters. It is also somewhat opinionated about
+// how you should be writing. It enforces the Oxford
+// comma. It replaces combinations of exclamation
+// points and question marks with interrobangs. It
+// prevents repeated use of exclamation points,
+// question marks, and interrobangs. And it allows the
+// simplified entry of unicode characters by escape
+// sequence.
+
 var interrobang = (function(){
     // I have the unicode values broken out like this
     // because I find them easier to manipulate as a
@@ -46,25 +57,8 @@ var interrobang = (function(){
         [/\\u([0-9a-fA-F]{4})/g, function(match, cap1){
             return String.fromCharCode(parseInt(cap1, 16));
         }],
-        [/<h2[^>]*>!!(.+?)<\/h2>/g, function(res, cap1){
-            return "<h1>" + cap1 + "</h1>";
-        }],
-        [/<h3>!!(.+?)<\/h3>/g, function(res, cap1){
-            return "<h2>" + cap1 + "</h2>";
-        }],
-        [/<h4>!!(.+?)<\/h4>/g, function(res, cap1){
-            return "<h3>" + cap1 + "</h3>";
-        }],
-        [/<h5>!!(.+?)<\/h5>/g, function(res, cap1){
-            return "<h4>" + cap1 + "</h4>";
-        }],
-        [/<h6>!!(.+?)<\/h6>/g, function(res, cap1){
-            return "<h5>" + cap1 + "</h5>";
-        }],
-        [/<p>!!(.+?)<\/p>/g, function(res, cap1){
-            return "<h6>" + cap1 + "</h6>";
-        }],
         [/(!|\?|\u203D)\1+/g, "$1"],
+        [/(, \w+) (and \w+)/g, "$1, $2"]
     ];
 
     return function(evt){
