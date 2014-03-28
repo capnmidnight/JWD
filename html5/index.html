@@ -32,15 +32,15 @@
                 <span id="file-count"></span>
                 <input type="text" id="filename" spellcheck="false">
                 <button type="button" onclick="saveFile()">&nbsp;$&nbsp;</button>
-                <button type="button" onclick="nextFile()">←</button>
-                <button type="button" onclick="prevFile()">→</button>
+                <button type="button" onclick="prevFile()">←</button>
+                <button type="button" onclick="nextFile()">→</button>
                 <button type="button" onclick="addNewFile()">&nbsp;+&nbsp;</button>
             </div>
         </header>
         <div id="main">
             <section id="write">
                 <div id="editArea">
-                    <article id="scrollbar"></article>
+                    <article id="scrollbar" class="textContent"></article>
                     <textarea id="editor" class="textContent" spellcheck="false" cols="50" rows="50"></textarea>
                 </div>
                 <div id="infobar">

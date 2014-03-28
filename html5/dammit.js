@@ -73,7 +73,7 @@ function resize(){
     editor.style.width = px(
         editArea.clientWidth
         - scrollbar.clientWidth
-        - 5);
+        - 30);
 }
 
 function clockTick(){
