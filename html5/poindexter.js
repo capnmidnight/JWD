@@ -26,8 +26,26 @@ function countWords(){
         .replace(/<[^>]+>/g, "")
         .replace(/&nbsp;/g, " ")
         .match(/[\w'’]+/g),
+        count = 0;
+
+    if(words != null)
+        count = words.length;
+
+    if(!files[currentFile].count)
+        files[currentFile].count = count;
+
+    totalWordCount.setValue(count);
+    addWordCount.setValue(count - files[currentFile].count);
+}
+
+function frequencyAnalysis(){
+    var words = editor.getValue()
+        .replace(/<\/?(br|p)>/g, "\n")
+        .replace(/<[^>]+>/g, "")
+        .replace(/&nbsp;/g, " ")
+        .match(/[\w'’]+/g),
         min = parseInt(minFreqCount.getValue(), 10),
-        count = 0, counts = "", counts2 = "", counts3 = "";
+        counts1 = "", counts2 = "", counts3 = "";
 
     var exclude = excludeWords
         .getValue()
@@ -49,8 +67,7 @@ function countWords(){
             return word.toLowerCase();
         });
 
-        count = words.length;
-        counts = frequency(min, words);
+        counts1 = frequency(min, words);
         var words2 = [], words3 = [], words4 = [];
         for (var i = 0; i < words.length; ++i) {
             if (i > 0)
@@ -65,12 +82,7 @@ function countWords(){
         counts4 = frequency(min, words4);
     }
 
-    if(!files[currentFile].count)
-        files[currentFile].count = count;
-
-    totalWordCount.setValue(count);
-    addWordCount.setValue(count - files[currentFile].count);
-    wordFrequency.setValue(counts);
+    word1Frequency.setValue(counts1);
     word2Frequency.setValue(counts2);
     word3Frequency.setValue(counts3);
     word4Frequency.setValue(counts4);
