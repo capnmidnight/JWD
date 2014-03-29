@@ -21,13 +21,17 @@
     <form name="form">
         <header>
             <div id="file-controls">
-                <span id="file-count"></span>
-                <input type="text" id="filename" spellcheck="false" placeholder="(new file)">
-                <button type="button" onclick="showTab('menu');">↑</button>
-                <button type="button" onclick="saveFile()">$</button>
-                <button type="button" onclick="prevFile()">←</button>
-                <button type="button" onclick="nextFile()">→</button>
-                <button type="button" onclick="addNewFile()">+</button>
+                <div>
+                    <button type="button" onclick="showTab('menu');">↑</button>
+                    <button type="button" onclick="saveFile()">$</button>
+                    <button type="button" onclick="prevFile()">←</button>
+                    <button type="button" onclick="nextFile()">→</button>
+                    <button type="button" onclick="addNewFile()">+</button>
+                </div>
+                <div>
+                    <span id="file-count"></span>
+                    <input type="text" id="filename" spellcheck="false" placeholder="(new file)">
+                </div>
             </div>
         </header>
         <div id="main">

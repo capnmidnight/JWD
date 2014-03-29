@@ -57,7 +57,6 @@ function showTab(id1){
         var box = getDOM("#" + id2);
         box.style.display = "none";
         mnu.className = id1 == id2 ? "selected" : "";
-        print(id1, id2, box.style.display);
     });
     getDOM("#" + id1).style.display = "block";
     resize();
