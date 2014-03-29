@@ -47,8 +47,9 @@ function getControls(){
     browserInfo = getDOM("#browser-info");
 
     menuItems.forEach(function (mnu) {
-        var id1 = mnu.getValue();
-        mnu.addEventListener("click", showTab.bind(window, id1), false);
+        var id = mnu.getValue();
+        mnu.addEventListener("click", showTab.bind(window, id), false);
+        menuItems[id] = mnu;
     });
 }
 
@@ -99,7 +100,7 @@ function pageLoad(){
 
     editor.addEventListener("keyup", interrobang, false);
     editor.addEventListener("keyup", countWords, false);
-    menuItems[1].addEventListener("click", frequencyAnalysis, false);
+    menuItems["analyze"].addEventListener("click", frequencyAnalysis, false);
     minFreqCount.addEventListener("change", frequencyAnalysis, false);
     excludeWords.addEventListener("change", frequencyAnalysis, false);
     editor.addEventListener("keyup", showScroll, false);
