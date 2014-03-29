@@ -24,12 +24,47 @@ function moveScroll(evt) {
     editor.setSelection(sel);
 }
 
+function deleteFiles(){
+    if(window.localStorage){
+        window.localStorage.removeItem("files");
+        note(header, "delete-note", "Local storage deleted. Save before reloading page to avoid losing files.");
+    }
+}
+
 function saveFile(){
     if(window.localStorage){
         stowFile();
         window.localStorage.setItem("files", JSON.stringify(files));
         note(header, "save-note", fmt("File \"$1\" saved.", files[currentFile].name));
     }
+}
+
+function parseFileData(filesData){
+    if (filesData) {
+        files = JSON.parse(filesData);
+        // delete the word counts, so the word counter can pick up later.
+        files.forEach(function (file) {
+            if ("count" in file)
+                delete file["count"];
+        });
+        currentFile = 0;
+        showFile();
+    }
+    else {
+        files = [];
+        addNewFile();
+        if (!window.fullScreen)
+            note(header, "fullscreen-note", "Consider running in full-screen by hitting F11 on your keyboard.", 1000);
+    }
+}
+
+function loadData(postLoad) {
+    var filesData = null;
+    if (window.localStorage)
+        filesData = window.localStorage.getItem("files");
+
+    parseFileData(filesData);
+    postLoad();
 }
 
 function nextFile(){
@@ -44,16 +79,19 @@ function prevFile(){
     showFile();
 }
 
-function deleteFiles(){
-    if(window.localStorage){
-        window.localStorage.removeItem("files");
-        note(header, "delete-note", "Local storage deleted. Save before reloading page to avoid losing files.");
-    }
-}
-
 function stowFile(){
     files[currentFile].doc = editor.getValue();
     files[currentFile].name = filename.getValue();
+}
+
+function loadFile(){
+    Array.prototype.forEach.call(this.files, function(f){
+        var reader = new FileReader();
+        reader.addEventListener("load", function(evt){
+            print(JSON.parse(evt.target.result));
+        });
+        reader.readAsText(f);
+    });
 }
 
 var commands = {

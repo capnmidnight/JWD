@@ -92,107 +92,32 @@ function spinner(txt, lbl, min, max){
 }
 
 
-// hide a real input[type='file'] behind custom controls
-// that can be styled more appropriately -sean t. mcbeth
-/*
-function fileupload(id){
-        options: {
+function fileUpload(fup){
+    var browse = button({type:"button",
+            onclick: function(){
+                fup.click()
+            }
         },
+        "Browse for files");
 
-        // JQuery UI-required function for being able to change options on the fly
-        _setOption: function (key, value) {
-            this.options[key] = value;
-            this._refresh();
-        },
+    var container = span({}, browse);
+    fup.parentElement.replaceChild(container, fup);
+    container.appendChild(fup);
 
-        _refresh: function () {
-        },
+    setStyle("display", "none", fup);
 
-        _button: null,
-        _fileList: null,
-        _upload: null,
-
-        // JQuery UI-required function for initial setup.
-        _create: function () {
-
-            this._button = $("<button type='button'/>")
-                .text("Browse for files")
-                .css({ width: "100%" })
-                .button()
-                .click(function () {
-                    this.element.click();
-                }.bind(this))
-                .appendTo(this.element.parent());
-
-            this._fileList = $("<div id='file-list'/>")
-                .appendTo(this.element.parent());
-
-            var fs = this._fileList;
-
-            this._upload = $("<button type='button'/>")
-                .text("Upload")
-                .css({ width: "100%" })
-                .button()
-                .click(function () {
-                    showLoading("Uploading files", true);
-                    var formData = new FormData(document.forms[0]);
-                    var once = true;
-                    $.ajax({
-                        type: "POST",
-                        url: "UploadDataFile.aspx",
-                        error: failDetail,
-                        success: function (result) {
-                            if (once) {
-                                console.log(result);
-                                var ids = result.match(/\d+/g);
-                                console.log(ids);
-                                var check = function (uploadJobIDs) {
-                                    console.log(uploadJobIDs);
-                                    RiekerPortal.MapWebService.GetUploadProgress(uploadJobIDs,
-                                        function (percent) {
-                                            percent *= 100;
-                                            console.log("Completion: ", percent);
-                                            fs.html(sigfig(percent, 2) + "%");
-                                            if (percent > 99)
-                                                clearInterval(interval);
-                                        }.bind(this),
-                                        function (fail) {
-                                            clearInterval(interval);
-                                            failDetail(fail);
-                                        });
-                                }.bind(this);
-                                var interval = setInterval(check, 1000, ids);
-                                showLoading("Files uploaded", false);
-                                once = false;
-                            }
-                        }.bind(this),
-                        data: formData,
-                        processData: false,
-                        contentType: false
-                    });
-                })
-                .appendTo(this.element.parent());
-
-            this._upload.button("disable");
-
-            this.element
-                .css({ display: "none" })
-                .change(function () {
-                    this._fileList.html(Array.prototype
-                        .map.call(this.element.context.files, function (f) {
-                            return "<div>" + f.name + "</div>";
-                        })
-                        .reduce(function (a, b) { return a + b; }));
-                    this._upload.button("enable");
-                }.bind(this));;
-        },
-
-        // JQuery UI-required function for cleaning up after the control
-        destroy: function () {
-            this.element.text("");
-            $.Widget.prototype.destroy.call(this);
-        }
+    fup.addEventListener("change", function () {
+        browse.textContent = fup.files.length == 0
+            ? "Browse for files"
+            : Array.prototype.map
+                    .call(fup.files, function(f){
+                        return fmt("$1 ($2.00MB, $3)",
+                            f.name,
+                            f.size / (1024 * 1024),
+                            f.type || "application/unkown");
+                    })
+                    .join(", ");
     });
 
-})(jQuery);
-* */
+    return fup;
+}

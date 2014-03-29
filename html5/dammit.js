@@ -19,6 +19,7 @@ var header = null,
     word3Frequency = null,
     word4Frequency = null,
     browserInfo = null,
+    storageFile = null,
 
     files = null,
     currentFile = null;
@@ -45,12 +46,24 @@ function getControls(){
     word3Frequency = getDOM("#word-3-frequency");
     word4Frequency = getDOM("#word-4-frequency");
     browserInfo = getDOM("#browser-info");
+    storageFile = fileUpload(getDOM("#browse-storage-file"));
 
     menuItems.forEach(function (mnu) {
         var id = mnu.getValue();
         mnu.addEventListener("click", showTab.bind(window, id), false);
         menuItems[id] = mnu;
     });
+
+    editor.addEventListener("keyup", interrobang, false);
+    editor.addEventListener("keyup", countWords, false);
+    menuItems["analyze"].addEventListener("click", frequencyAnalysis, false);
+    minFreqCount.addEventListener("change", frequencyAnalysis, false);
+    excludeWords.addEventListener("change", frequencyAnalysis, false);
+    editor.addEventListener("keyup", showScroll, false);
+    scrollbar.addEventListener("mouseup", moveScroll, false);
+    window.addEventListener("keyup", runCommands, false);
+    window.addEventListener("resize", resize, false);
+    storageFile.addEventListener("change", loadFile, false);
 }
 
 function showTab(id){
@@ -70,14 +83,8 @@ function resize(){
     if(window.fullScreen)
         hide("fullscreen-note");
 
-    main.style.height = px(
-        window.innerHeight
-        - header.clientHeight);
-
-    editArea.style.height = px(
-        main.clientHeight
-        - filename.clientHeight);
-
+    main.style.height = px(window.innerHeight - header.clientHeight);
+    editArea.style.height = px(main.clientHeight - filename.clientHeight);
     editor.style.width = px(
         editArea.clientWidth
         - scrollbar.clientWidth
@@ -101,20 +108,12 @@ function clockTick(){
 function pageLoad(){
     getControls();
 
-    var dataLoaded = loadData();
-
-    editor.addEventListener("keyup", interrobang, false);
-    editor.addEventListener("keyup", countWords, false);
-    menuItems["analyze"].addEventListener("click", frequencyAnalysis, false);
-    minFreqCount.addEventListener("change", frequencyAnalysis, false);
-    excludeWords.addEventListener("change", frequencyAnalysis, false);
-    editor.addEventListener("keyup", showScroll, false);
-    scrollbar.addEventListener("mouseup", moveScroll, false);
-    window.addEventListener("keyup", runCommands, false);
-    window.addEventListener("resize", resize, false);
-
-    showTab("menu");
-    countWords();
+    browserInfo.setValue(window.navigator.userAgent);
     clockTick();
     resize();
+    showTab("menu");
+
+    loadData(function(){
+        countWords();
+    });
 }
