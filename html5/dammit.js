@@ -38,7 +38,7 @@ function getControls(){
     totalWordCount = getDOM("#total-word-count");
     addWordCount = getDOM("#add-word-count");
     clock = getDOM("#clock");
-    minFreqCount = spinner(getDOM("#minFreqHolder"), "min-frequency", "Minimum frequency:", 1, 1000);
+    minFreqCount = spinner(getDOM("#min-frequency"), "Minimum frequency:", 1, 1000);
     excludeWords = getDOM("#exclude-words");
     word1Frequency = getDOM("#word-1-frequency");
     word2Frequency = getDOM("#word-2-frequency");
