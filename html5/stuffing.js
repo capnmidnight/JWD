@@ -61,7 +61,7 @@ function spinner(parent, id, lbl, min, max){
     var spin = input({
             id: id,
             type: "text",
-            size: Math.ceil(Math.log10(max)) + 1,
+            size: Math.ceil(Math.log(max) / Math.log(10)) + 1,
             value: min
         });
 

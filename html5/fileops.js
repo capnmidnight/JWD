@@ -1,7 +1,7 @@
 function addNewFile(txt){
     if(txt == undefined)
-        txt = "(type text here)";
-    files.push({doc:txt, name:"(new file)"});
+        txt = "";
+    files.push({doc:txt, name:""});
     currentFile = files.length - 1;
     showFile();
     note(header, "new-file-note", "New file created.");
@@ -36,14 +36,12 @@ function nextFile(){
     stowFile();
     currentFile = (currentFile + 1) % files.length;
     showFile();
-    note(header, "view-file-note", fmt("Now viewing file \"$1\".", files[currentFile].name));
 }
 
 function prevFile(){
     stowFile();
     currentFile = (currentFile + files.length - 1) % files.length;
     showFile();
-    note(header, "view-file-note", fmt("Now viewing file \"$1\".", files[currentFile].name));
 }
 
 function deleteFiles(){

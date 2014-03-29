@@ -22,7 +22,7 @@
         <header>
             <div id="file-controls">
                 <span id="file-count"></span>
-                <input type="text" id="filename" spellcheck="false">
+                <input type="text" id="filename" spellcheck="false" placeholder="(new file)">
                 <button type="button" onclick="showTab('menu');">↑</button>
                 <button type="button" onclick="saveFile()">$</button>
                 <button type="button" onclick="prevFile()">←</button>
@@ -43,7 +43,7 @@
             <section id="write">
                 <div id="editArea">
                     <article id="scrollbar" class="textContent"></article>
-                    <textarea id="editor" class="textContent" spellcheck="false" cols="50" rows="50"></textarea>
+                    <textarea id="editor" class="textContent" spellcheck="false" cols="50" rows="50" placeholder="(type text here)"></textarea>
                 </div>
                 <div id="infobar">
                     <label for="total-word-count">Total words:</label> <span id="total-word-count"></span>
