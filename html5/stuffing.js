@@ -78,7 +78,7 @@ function spinner(parent, id, lbl, min, max){
                         spin.fire("change");
                     }
                 }
-            }, "&nbsp;-&nbsp;"),
+            }, "-"),
         button({type: "button",
                 onclick: function(){
                     var v = parseInt(spin.getValue(), 10);
@@ -87,7 +87,7 @@ function spinner(parent, id, lbl, min, max){
                         spin.fire("change");
                     }
                 }
-            }, "&nbsp;+&nbsp;")));
+            }, "+")));
 
     return spin;
 }

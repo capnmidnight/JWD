@@ -25,7 +25,7 @@ var header = null,
 function getControls(){
     header = getDOM("header");
     menu = getDOM("menu");
-    menuItems = getDOMAll("nav>button");
+    menuItems = getDOMAll("#menu>button");
     fileControls = getDOM("#file-controls");
     fileCount = getDOM("#file-count");
     main = getDOM("#main");
@@ -44,18 +44,23 @@ function getControls(){
     word4Frequency = getDOM("#word-4-frequency");
     browserInfo = getDOM("#browser-info");
 
-    menuItems.forEach(function (menuItem) {
-        var id1 = menuItem.getValue();
-        menuItem.addEventListener("click", function (evt) {
-            menuItems.forEach(function (mnu) {
-                var id2 = mnu.getValue();
-                var box = getDOM("#" + id2);
-                box.style.display = id1 == id2 ? "block" : "none";
-                mnu.className = id1 == id2 ? "selected" : "";
-            });
-            resize();
-        }, false);
+    menuItems.forEach(function (mnu) {
+        var id1 = mnu.getValue();
+        mnu.addEventListener("click", showTab.bind(window, id1), false);
     });
+}
+
+function showTab(id1){
+    getDOM("#menu").style.display = "none";
+    menuItems.forEach(function (mnu) {
+        var id2 = mnu.getValue();
+        var box = getDOM("#" + id2);
+        box.style.display = "none";
+        mnu.className = id1 == id2 ? "selected" : "";
+        print(id1, id2, box.style.display);
+    });
+    getDOM("#" + id1).style.display = "block";
+    resize();
 }
 
 function resize(){
@@ -94,8 +99,6 @@ function pageLoad(){
     getControls();
 
     var dataLoaded = loadData();
-
-    menuItems[dataLoaded ? 0 : menuItems.length - 1].click();
 
     editor.addEventListener("keyup", interrobang, false);
     editor.addEventListener("keyup", countWords, false);

@@ -44,7 +44,7 @@ html, body, button, input, textarea{
     border: 0;
 }
 
-#editArea{
+#editArea, #menu>button{
     width:100%;
 }
 
@@ -66,6 +66,9 @@ button{
     margin:0;
     background-color:#556;
     color:#aab;
+    padding:0.25em;
+    min-width:3em;
+    text-align:center;
 }
 
 button:active{

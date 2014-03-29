@@ -10,6 +10,7 @@
     <script type="text/javascript" src="selecticator.js"></script>
     <script type="text/javascript" src="psychologist.js"></script>
     <script type="text/javascript" src="interrobang.js"></script>
+    <script type="text/javascript" src="markdownsyndrome.js"></script>
     <script type="text/javascript" src="stuffing.js"></script>
     <script type="text/javascript" src="ministry.js"></script>
     <script type="text/javascript" src="fileops.js"></script>
@@ -19,25 +20,26 @@
 <body onload="pageLoad()">
     <form name="form">
         <header>
-            <nav>
+            <div id="file-controls">
+                <span id="file-count"></span>
+                <input type="text" id="filename" spellcheck="false">
+                <button type="button" onclick="showTab('menu');">↑</button>
+                <button type="button" onclick="saveFile()">$</button>
+                <button type="button" onclick="prevFile()">←</button>
+                <button type="button" onclick="nextFile()">→</button>
+                <button type="button" onclick="addNewFile()">+</button>
+            </div>
+        </header>
+        <div id="main">
+            <section id="menu" style="display:block">
                 <button type="button">write</button>
-                <button type="button">analyze</button>
                 <button type="button">edit</button>
+                <button type="button">analyze</button>
                 <button type="button">publish</button>
                 <button type="button">organize</button>
                 <button type="button">configure</button>
                 <button type="button">help</button>
-            </nav>
-            <div id="file-controls">
-                <span id="file-count"></span>
-                <input type="text" id="filename" spellcheck="false">
-                <button type="button" onclick="saveFile()">&nbsp;$&nbsp;</button>
-                <button type="button" onclick="prevFile()">←</button>
-                <button type="button" onclick="nextFile()">→</button>
-                <button type="button" onclick="addNewFile()">&nbsp;+&nbsp;</button>
-            </div>
-        </header>
-        <div id="main">
+            </section>
             <section id="write">
                 <div id="editArea">
                     <article id="scrollbar" class="textContent"></article>
@@ -48,6 +50,9 @@
                     <label for="add-word-count">Add'l words:</label> <span id="add-word-count"></span>
                     <label for="clock">Elapsed time:</label> <span id="clock"></span>
                 </div>
+            </section>
+            <section id="edit">
+                <article class="textContent"></article>
             </section>
             <section id="analyze">
                 <article id="frequency" class="textContent">
@@ -64,9 +69,6 @@
                     <h2>Four-word phrase frequency</h2>
                     <p id="word-4-frequency"></p>
                 </article>
-            </section>
-            <section id="edit">
-                <article class="textContent"></article>
             </section>
             <section id="publish">
                 <article class="textContent"></article>
@@ -85,10 +87,10 @@
                         Store the data in your current browser (<span id="browser-info"></span>). You will not be able to share data between browsers or computers. Data will always be immediately available for use.
                     </p>
                     <h2>
-                        <input type="radio" name="storageType" value="file" id="storage-file" /><label for="storage-file">Computer's file system</label>
+                        <input type="radio" name="storageType" value="file" id="storage-file" /><label for="storage-file">Computer's file system</label><em>(Disabled)</em>
                     </h2>
                     <p>
-                        Store the data on your computer's file system. You will be able to share data between browsers, but not between computers. Data will always be immediately available for use.
+                        (Eventually) Store the data on your computer's file system. You will be able to share data between browsers, but not between computers. Data will always be immediately available for use.
                         <label for="storageFile">Select file to load data: </label><input type="file" id="storageFile" />
                     </p>
                     <h2>
