@@ -57,6 +57,11 @@ function showTab(id){
     sections.forEach(function (sect) {
         sect.style.display = id == sect.id ? "block" : "none";
         sect.className = id == sect.id ? "selected" : "";
+        if(id == sect.id){
+            var ds = sect.dataset;
+            header.style.display = ds.hideMenu ? "none" : "";
+            fileControls.style.display = ds.showFileControls ? "" : "none";
+        }
     });
     resize();
 }
@@ -108,6 +113,7 @@ function pageLoad(){
     window.addEventListener("keyup", runCommands, false);
     window.addEventListener("resize", resize, false);
 
+    showTab("menu");
     countWords();
     clockTick();
     resize();
