@@ -1,6 +1,7 @@
 var header = null,
     menu = null,
     menuItems = null,
+    sections = null,
     fileControls = null,
     fileCount = null,
     main = null,
@@ -26,6 +27,7 @@ function getControls(){
     header = getDOM("header");
     menu = getDOM("menu");
     menuItems = getDOMAll("#menu>button");
+    sections = getDOMAll("#main>section");
     fileControls = getDOM("#file-controls");
     fileCount = getDOM("#file-count");
     main = getDOM("#main");
@@ -50,15 +52,11 @@ function getControls(){
     });
 }
 
-function showTab(id1){
-    getDOM("#menu").style.display = "none";
-    menuItems.forEach(function (mnu) {
-        var id2 = mnu.getValue();
-        var box = getDOM("#" + id2);
-        box.style.display = "none";
-        mnu.className = id1 == id2 ? "selected" : "";
+function showTab(id){
+    sections.forEach(function (sect) {
+        sect.style.display = id == sect.id ? "block" : "none";
+        sect.className = id == sect.id ? "selected" : "";
     });
-    getDOM("#" + id1).style.display = "block";
     resize();
 }
 
