@@ -19,6 +19,7 @@ var header = null,
     word3Frequency = null,
     word4Frequency = null,
     browserInfo = null,
+    storageType = null,
     storageFile = null,
 
     files = null,
@@ -46,10 +47,12 @@ function getControls(){
     word3Frequency = getDOM("#word-3-frequency");
     word4Frequency = getDOM("#word-4-frequency");
     browserInfo = getDOM("#browser-info");
+    storageType = getDOM("#storage-type");
     storageFile = fileUpload(getDOM("#browse-storage-file"));
 
     menuItems.forEach(function (mnu) {
         var id = mnu.getValue();
+        setSetting("lastView", id);
         mnu.addEventListener("click", showTab.bind(window, id), false);
         menuItems[id] = mnu;
     });
@@ -63,7 +66,13 @@ function getControls(){
     scrollbar.addEventListener("mouseup", moveScroll, false);
     window.addEventListener("keyup", runCommands, false);
     window.addEventListener("resize", resize, false);
-    storageFile.addEventListener("change", loadFile, false);
+    storageType.addEventListener("change", function(evt){
+        setSetting("storageType", storageType.getValue());
+    });
+    storageFile.addEventListener("change", loadFromFile, false);
+
+    storageType.setValue(getSetting("storageType", "local"));
+    showTab(getSetting("lastView", "menu"));
 }
 
 function showTab(id){
@@ -112,8 +121,5 @@ function pageLoad(){
     clockTick();
     resize();
     showTab("menu");
-
-    loadData(function(){
-        countWords();
-    });
+    loadData();
 }

@@ -79,7 +79,9 @@
 
     Element.prototype.getValue = function(){return this.innerHTML; }
     Element.prototype.setValue = function(val){ this.innerHTML = val; }
+    HTMLSelectElement.prototype.getValue =
     HTMLInputElement.prototype.getValue = function(){return this.value; }
+    HTMLSelectElement.prototype.setValue =
     HTMLInputElement.prototype.setValue = function(val){ this.value = val; }
     HTMLTextAreaElement.prototype.getValue = function(){return this.value; }
     HTMLTextAreaElement.prototype.setValue = function(val){ this.value = val; }
