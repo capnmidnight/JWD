@@ -1,11 +1,10 @@
 var header = null,
     menu = null,
     menuItems = null,
-    sections = null,
     fileControls = null,
     fileCount = null,
     main = null,
-    filename = null,
+    chaptername = null,
     editArea = null,
     editor = null,
     scrollbar = null,
@@ -26,61 +25,74 @@ var header = null,
     currentFile = null;
 
 function getControls(){
+    window.addEventListener("keyup", runCommands, false);
+    window.addEventListener("resize", resize, false);
+
     header = getDOM("header");
     menu = getDOM("menu");
-    menuItems = getDOMAll("#menu>button");
-    sections = getDOMAll("#main>section");
     fileControls = getDOM("#file-controls");
     fileCount = getDOM("#file-count");
     main = getDOM("#main");
-    filename = getDOM("#filename");
+    chaptername = getDOM("#chaptername");
     editArea = getDOM("#editArea");
-    editor = getDOM("#editor");
-    scrollbar = getDOM("#scrollbar");
     totalWordCount = getDOM("#total-word-count");
     addWordCount = getDOM("#add-word-count");
     clock = getDOM("#clock");
+
+    menuItems = getDOMAll("#menu>button");
+    menuItems.forEach(function (mnu) {
+        var id = mnu.getValue();
+        setSetting("lastView", id);
+        mnu.addEventListener("click", showTab.bind(window, "main", id), false);
+        menuItems[id] = mnu;
+    });
+    menuItems["analyze"].addEventListener("click", frequencyAnalysis, false);
+
+    editor = getDOM("#editor");
+    editor.addEventListener("keyup", interrobang, false);
+    editor.addEventListener("keyup", countWords, false);
+    editor.addEventListener("keyup", showScroll, false);
+
+    scrollbar = getDOM("#scrollbar");
+    scrollbar.addEventListener("mouseup", moveScroll, false);
+
     minFreqCount = spinner(getDOM("#min-frequency"), "Minimum frequency:", 1, 1000);
+    minFreqCount.addEventListener("change", frequencyAnalysis, false);
+
     excludeWords = getDOM("#exclude-words");
+    excludeWords.addEventListener("change", frequencyAnalysis, false);
+
     word1Frequency = getDOM("#word-1-frequency");
     word2Frequency = getDOM("#word-2-frequency");
     word3Frequency = getDOM("#word-3-frequency");
     word4Frequency = getDOM("#word-4-frequency");
+
     browserInfo = getDOM("#browser-info");
+    browserInfo.setValue(window.navigator.userAgent);
+
+    var storeType = getSetting("storageType", "local");
     storageType = getDOM("#storage-type");
-    storageFile = fileUpload(getDOM("#browse-storage-file"));
-
-    menuItems.forEach(function (mnu) {
-        var id = mnu.getValue();
-        setSetting("lastView", id);
-        mnu.addEventListener("click", showTab.bind(window, id), false);
-        menuItems[id] = mnu;
-    });
-
-    editor.addEventListener("keyup", interrobang, false);
-    editor.addEventListener("keyup", countWords, false);
-    menuItems["analyze"].addEventListener("click", frequencyAnalysis, false);
-    minFreqCount.addEventListener("change", frequencyAnalysis, false);
-    excludeWords.addEventListener("change", frequencyAnalysis, false);
-    editor.addEventListener("keyup", showScroll, false);
-    scrollbar.addEventListener("mouseup", moveScroll, false);
-    window.addEventListener("keyup", runCommands, false);
-    window.addEventListener("resize", resize, false);
+    storageType.setValue(storeType);
     storageType.addEventListener("change", function(evt){
-        setSetting("storageType", storageType.getValue());
+        var type = storageType.getValue();
+        setSetting("storageType", type);
+        showTab("storage-details", "storage-" + type);
     });
+    showTab("storage-details", "storage-" + storeType);
+
+    storageFile = fileUpload(getDOM("#browse-storage-file"));
     storageFile.addEventListener("change", loadFromFile, false);
 
-    storageType.setValue(getSetting("storageType", "local"));
-    showTab(getSetting("lastView", "menu"));
+    showTab("main", getSetting("lastView", "menu"));
 }
 
-function showTab(id){
-    sections.forEach(function (sect) {
-        sect.style.display = id == sect.id ? "block" : "none";
-        sect.className = id == sect.id ? "selected" : "";
-        if(id == sect.id){
-            var ds = sect.dataset;
+function showTab(parentID, id){
+    var boxes = getDOMAll(fmt("#$1>*", parentID));
+    boxes.forEach(function (box) {
+        box.style.display = id == box.id ? "block" : "none";
+        box.className = id == box.id ? "selected" : "";
+        if(parentID == "main" && id == box.id){
+            var ds = box.dataset;
             header.style.display = ds.hideMenu ? "none" : "";
             fileControls.style.display = ds.showFileControls ? "" : "none";
         }
@@ -93,7 +105,7 @@ function resize(){
         hide("fullscreen-note");
 
     main.style.height = px(window.innerHeight - header.clientHeight);
-    editArea.style.height = px(main.clientHeight - filename.clientHeight);
+    editArea.style.height = px(main.clientHeight - chaptername.clientHeight);
     editor.style.width = px(
         editArea.clientWidth
         - scrollbar.clientWidth
@@ -116,10 +128,8 @@ function clockTick(){
 
 function pageLoad(){
     getControls();
-
-    browserInfo.setValue(window.navigator.userAgent);
     clockTick();
     resize();
-    showTab("menu");
+    showTab("main", "menu");
     loadData();
 }

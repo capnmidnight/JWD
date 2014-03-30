@@ -19,7 +19,7 @@
 <body onload="pageLoad()">
     <form name="form">
         <header>
-            <button type="button" onclick="showTab('menu');">menu</button>
+            <button type="button" onclick="showTab('main', 'menu');">menu</button>
             <button type="button" onclick="saveFile()">save</button>
             <span id="file-controls">
                 <button type="button" onclick="prevFile()">prev</button>
@@ -27,7 +27,7 @@
                 <button type="button" onclick="addNewFile()">new</button>
                 <div>
                     <span id="file-count"></span>
-                    <input type="text" id="filename" spellcheck="false" placeholder="(new file)">
+                    <input type="text" id="chaptername" spellcheck="false" placeholder="(new chapter)">
                 </div>
             </span>
         </header>
@@ -84,6 +84,7 @@
 
                     <h2>Storage</h2>
                     <p>Select the system you would like to use to store your writing data. The storage configuration setting must be set separately for all browsers and computers. All other configuration settings are stored in the selected storage system.</p>
+                    <label for="storage-type">Storage type:</label>
                     <select id="storage-type">
                         <option value="local">Web browser's local storage</option>
                         <option value="file">Computer's file system</option>
@@ -97,7 +98,7 @@
                         </p>
                         <div id="storage-file">
                             <p>
-                                (Eventually) Store the data on your computer's file system. You will be able to share data between browsers, but not between computers. Data will always be immediately available for use.
+                                Store the data on your computer's file system. You will be able to share data between browsers, but not between computers. Data will always be immediately available for use.
                             </p>
                             <p>
                                 <label for="browse-storage-file">Select file to load data: </label><input type="file" id="browse-storage-file" />
