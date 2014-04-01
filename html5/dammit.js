@@ -21,8 +21,8 @@ var header = null,
     storageType = null,
     storageFile = null,
 
-    files = null,
-    currentFile = null;
+    chapters = null,
+    currentChapter = null;
 
 function getControls(){
     window.addEventListener("keyup", runCommands, false);

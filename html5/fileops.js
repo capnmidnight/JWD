@@ -10,16 +10,16 @@ function setSetting(name, value){
 function addNewFile(txt){
     if(txt == undefined)
         txt = "";
-    files.push({doc:txt, name:""});
-    currentFile = files.length - 1;
+    chapters.push({doc:txt, name:""});
+    currentChapter = chapters.length - 1;
     showFile();
     note(header, "new-file-note", "New file created.");
 }
 
 function showFile(){
-    editor.setValue(files[currentFile].doc);
-    filename.setValue(files[currentFile].name);
-    fileCount.setValue(fmt("$1 of $2", currentFile + 1, files.length));
+    editor.setValue(chapters[currentChapter].doc);
+    filename.setValue(chapters[currentChapter].name);
+    fileCount.setValue(fmt("$1 of $2", currentChapter + 1, chapters.length));
     countWords();
     showScroll();
 }
@@ -69,54 +69,85 @@ function saveDesktopFile(doc){
     }
 }
 
+var fileSavers = {
+    local: window.localStorage.setItem.bind(window.localStorage, "chapters"),
+    file: saveDesktop,
+    dropbox: saveDropbox,
+};
+
+function saveDropbox(doc){
+    var dbClient = new Dropbox.Client({key: "g2rnjvo102estt0"});
+
+    dbClient.authenticate({interactive: false}, function (error) {
+        if (error)
+            alert('Authentication error: ' + error);
+    });
+
+    if (dbClient.isAuthenticated()) {
+        var datastoreManager = client.getDatastoreManager();
+        datastoreManager.openDefaultDatastore(function (error, datastore) {
+            if (error)
+                alert('Error opening default datastore: ' + error);
+
+            var booksTable = datastore.getTable("books");
+            var books = booksTable.query({
+                name: "Just Wirte, Dammit",
+            });
+            if(books.length > 0)
+                books[0].set("text", doc);
+            else
+                booksTable.insert({
+                    name: "Just Wirte, Dammit",
+                    created: new Date(),
+                    text: document
+                });
+        });
+    }
+}
+
 function saveFile(){
     stowFile();
-    var doc = JSON.stringify(files);
-    switch(storageType.getValue()){
-        case "local":
-            window.localStorage.setItem("files", doc);
-        break;
-        case "file":
-            saveDesktopFile(doc);
-        break;
-        default:
-            doc = null;
+    var doc = JSON.stringify(chapters);
+    var type = storageType.getValue();
+    if(type in fileSavers){
+        fileSavers[type](doc);
+        note(header, "save-note", fmt("File \"$1\" saved.", chapters[currentChapter].name));
     }
-    if(doc)
-        note(header, "save-note", fmt("File \"$1\" saved.", files[currentFile].name));
 }
 
 function utf8_to_b64( str ) {
   return window.btoa(unescape(encodeURIComponent( str )));
 }
 
+var fileLoaders = {
+    local: function(){
+        parseFileData(window.localStorage.getItem("files")
+        || window.localStorage.getItem("chapters"));
+    },
+    file: storageFile.click.bind(storageFile),
+};
+
 function loadData() {
     var type = storageType.getValue();
-    switch(type){
-        case "local":
-            parseFileData(window.localStorage.getItem("files"));
-        break;
-        case "file":
-            storageFile.click();
-        break;
-        default:
-            note(header, "load-failed-msg", fmt("Storage type \"$1\" is not yet supported", type));
-    }
+    if(type in fileLoaders)
+        fileLoaders[type]();
+    else
+        note(header, "load-failed-msg", fmt("Storage type \"$1\" is not yet supported", type));
 }
 
 function parseFileData(fileData){
     if (fileData) {
-        files = JSON.parse(fileData);
+        chapters = JSON.parse(fileData);
         // delete the word counts, so the word counter can pick up later.
-        files.forEach(function (file) {
+        chapters.forEach(function (file) {
             if ("count" in file)
                 delete file["count"];
         });
-        currentFile = 0;
+        currentChapter = 0;
         showFile();
     }
     else {
-        files = [];
+        chapters = [];
         addNewFile();
         if (!window.fullScreen)
             note(header, "fullscreen-note", "Consider running in full-screen by hitting F11 on your keyboard.", 1000);
@@ -125,23 +156,23 @@ function parseFileData(fileData){
 
 function nextFile(){
     stowFile();
-    currentFile = (currentFile + 1) % files.length;
+    currentChapter = (currentChapter + 1) % chapters.length;
     showFile();
 }
 
 function prevFile(){
     stowFile();
-    currentFile = (currentFile + files.length - 1) % files.length;
+    currentChapter = (currentChapter + chapters.length - 1) % chapters.length;
     showFile();
 }
 
 function stowFile(){
-    files[currentFile].doc = editor.getValue();
-    files[currentFile].name = filename.getValue();
+    chapters[currentChapter].doc = editor.getValue();
+    chapters[currentChapter].name = filename.getValue();
 }
 
 function loadFromFile(){
-    Array.prototype.forEach.call(this.files, function(f){
+    Array.prototype.forEach.call(this.chapters, function(f){
         var reader = new FileReader();
         reader.addEventListener("load", function(evt){
             parseFileData(evt.target.result);

@@ -31,11 +31,11 @@ function countWords(){
     if(words != null)
         count = words.length;
 
-    if(!files[currentFile].count)
-        files[currentFile].count = count;
+    if(!chapters[currentChapter].count)
+        chapters[currentChapter].count = count;
 
     totalWordCount.setValue(count);
-    addWordCount.setValue(count - files[currentFile].count);
+    addWordCount.setValue(count - chapters[currentChapter].count);
 }
 
 function frequencyAnalysis(){
