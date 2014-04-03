@@ -36,7 +36,7 @@ h4{
 }
 
 html, body, button, input, textarea, select{
-    font-family: Georgia, Tahoma, sans-serif;
+    font-family: Georgia, Tahoma, serif;
     background-color: #445;
     color: #aab;
     margin: 0;
@@ -66,7 +66,7 @@ button{
     margin:0;
     background-color:#556;
     color:#aab;
-    padding:0.25em;
+    padding:1em;
     min-width:3em;
     text-align:center;
 }

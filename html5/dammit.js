@@ -4,7 +4,7 @@ var header = null,
     fileControls = null,
     fileCount = null,
     main = null,
-    chaptername = null,
+    chapterName = null,
     editArea = null,
     editor = null,
     scrollbar = null,
@@ -21,8 +21,11 @@ var header = null,
     storageType = null,
     storageFile = null,
 
-    files = null,
-    currentFile = null;
+    chapters = null,
+    currentChapter = null,
+    dbClient = null,
+    dbDataStoreMGR = null,
+    dbDataStore = null;
 
 function getControls(){
     window.addEventListener("keyup", runCommands, false);
@@ -33,7 +36,7 @@ function getControls(){
     fileControls = getDOM("#file-controls");
     fileCount = getDOM("#file-count");
     main = getDOM("#main");
-    chaptername = getDOM("#chaptername");
+    chapterName = getDOM("#chapter-name");
     editArea = getDOM("#editArea");
     totalWordCount = getDOM("#total-word-count");
     addWordCount = getDOM("#add-word-count");
@@ -71,12 +74,18 @@ function getControls(){
     browserInfo.setValue(window.navigator.userAgent);
 
     var storeType = getSetting("storageType", "local");
+    if(storeType == "dropbox"){
+        dbSetup();
+    }
     storageType = getDOM("#storage-type");
     storageType.setValue(storeType);
-    storageType.addEventListener("change", function(evt){
+    storageType.addEventListener("change", function (evt) {
+        setSetting("lastStorageType", getSetting("storageType"));
         var type = storageType.getValue();
         setSetting("storageType", type);
         showTab("storage-details", "storage-" + type);
+        if(type == "dropbox" && !dbClient)
+            dbSetup();
     });
     showTab("storage-details", "storage-" + storeType);
 
@@ -84,6 +93,20 @@ function getControls(){
     storageFile.addEventListener("change", loadFromFile, false);
 
     showTab("main", getSetting("lastView", "menu"));
+}
+
+function dbSetup(){
+    dbClient = new Dropbox.Client({key: "g2rnjvo102estt0"});
+    
+    dbClient.authenticate({interactive: false}, function (error) {
+        if (error)
+            alert('Authentication error: ' + error);
+    });
+    
+    if (dbClient.isAuthenticated()) {
+        print("Authenticated");
+        dbDataStoreMGR = dbClient.getDatastoreManager();
+    }
 }
 
 function showTab(parentID, id){
@@ -105,7 +128,7 @@ function resize(){
         hide("fullscreen-note");
 
     main.style.height = px(window.innerHeight - header.clientHeight);
-    editArea.style.height = px(main.clientHeight - chaptername.clientHeight);
+    editArea.style.height = px(main.clientHeight - chapterName.clientHeight);
     editor.style.width = px(
         editArea.clientWidth
         - scrollbar.clientWidth

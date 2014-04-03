@@ -1,30 +1,30 @@
-function getSetting(name, defValue){
+function getSetting(name, defValue) {
     return (window.localStorage && window.localStorage.getItem(name)) || defValue;
 }
 
-function setSetting(name, value){
-    if(window.localStorage)
+function setSetting(name, value) {
+    if (window.localStorage)
         window.localStorage.setItem(name, value);
 }
 
-function addNewFile(txt){
-    if(txt == undefined)
+function addNewFile(txt) {
+    if (txt == undefined)
         txt = "";
-    files.push({doc:txt, name:""});
-    currentFile = files.length - 1;
+    chapters.push({ doc: txt, name: "" });
+    currentChapter = chapters.length - 1;
     showFile();
     note(header, "new-file-note", "New file created.");
 }
 
-function showFile(){
-    editor.setValue(files[currentFile].doc);
-    filename.setValue(files[currentFile].name);
-    fileCount.setValue(fmt("$1 of $2", currentFile + 1, files.length));
+function showFile() {
+    editor.setValue(chapters[currentChapter].doc);
+    chapterName.setValue(chapters[currentChapter].name);
+    fileCount.setValue(fmt("$1 of $2", currentChapter + 1, chapters.length));
     countWords();
     showScroll();
 }
 
-function showScroll(){
+function showScroll() {
     scrollbar.setValue(editor.getValue().sanitize());
 }
 
@@ -33,117 +33,159 @@ function moveScroll(evt) {
     editor.setSelection(sel);
 }
 
-function saveDesktopFile(doc){
-    var size = doc.length * 2;
-    if(window.webkitRequestFileSystem && false){
-        print("Webkit FS");
-        window.webkitStorageInfo.requestQuota(PERSISTENT, size, function(grantedBytes) {
-            window.webkitRequestFileSystem(PERSISTENT, size, function(fs) {
-                fs.root.getFile('log.txt', {create: true}, function(fileEntry) {
-                    // Create a FileWriter object for our FileEntry (log.txt).
-                    fileEntry.createWriter(function(fileWriter) {
-                        fileWriter.onwriteend = function(e) {
-                            print('Write completed.');
-                        };
-                        fileWriter.onerror = function(e) {
-                            print('Write failed: ' + e.toString());
-                        };
-                    // Create a new Blob and write it to log.txt.
-                    var blob = new Blob(['Lorem Ipsum'], {type: 'application/json'});
-                    fileWriter.write(blob);
-                    }, print);
-                }, print);
-            }, print);
-        }, print);
-    }
-    else{
-        print("Regular file");
-        var link = a({download: "justwritedammit.json",
-                      href: "data:application/octet-stream;filename=justwritedammit.json;base64," + utf8_to_b64(doc)},
-                      "save");
-        setStyle("display", "none", link);
-        document.body.appendChild(link);
-        print(link);
-        link.click();
-        document.body.removeChild(link);
+function saveDesktopFile(doc) {
+    var link = a({
+        download: "justwritedammit.json",
+        href: "data:application/octet-stream;filename=justwritedammit.json;base64," + utf8_to_b64(doc)
+    },
+                  "save");
+    setStyle("display", "none", link);
+    document.body.appendChild(link);
+    print(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+function withDB(thunk) {
+    dbClient.authenticate();
+    if (dbDataStoreMGR) {
+        if (dbDataStore)
+            thunk(dbDataStore);
+        else
+            dbDataStoreMGR.openDefaultDatastore(function (error, datastore) {
+                if (error)
+                    alert('Error opening default datastore: ' + error);
+                else {
+                    dbDataStore = datastore;
+                    thunk(dbDataStore);
+                }
+            });
     }
 }
 
-function saveFile(){
+var fileSavers = {
+    local: window.localStorage.setItem.bind(window.localStorage, "chapters"),
+    file: saveDesktopFile,
+    dropbox: withDB.bind(this, dbSave)
+};
+
+function saveFile() {
     stowFile();
-    var doc = JSON.stringify(files);
-    switch(storageType.getValue()){
-        case "local":
-            window.localStorage.setItem("files", doc);
-        break;
-        case "file":
-            saveDesktopFile(doc);
-        break;
-        default:
-            doc = null;
+    var doc = JSON.stringify(chapters);
+    var type = storageType.getValue();
+    if (type in fileSavers) {
+        fileSavers[type](doc);
+        note(header, "save-note", fmt("File \"$1\" saved.", chapters[currentChapter].name));
     }
-    if(doc)
-        note(header, "save-note", fmt("File \"$1\" saved.", files[currentFile].name));
 }
 
-function utf8_to_b64( str ) {
-  return window.btoa(unescape(encodeURIComponent( str )));
+function utf8_to_b64(str) {
+    return window.btoa(unescape(encodeURIComponent(str)));
+}
+
+var fileLoaders = {
+    local: function () {
+        parseFileData(window.localStorage.getItem("files")
+        || window.localStorage.getItem("chapters"));
+    },
+    file: function () {
+        storageFile.click();
+    },
+    dropbox: withDB.bind(this, dbLoad)
+};
+
+function dbLoad() {
+    var booksTable = dbDataStore.getTable("books");
+    var books = booksTable.query();
+    print(books, books[0])
+    parseFileData(books[0].get("chapters"));
+}
+
+function dbSave() {
+    var doc = JSON.stringify(chapters);
+    var booksTable = dbDataStore.getTable("books");
+    var books = booksTable.query();
+    print(chapters);
+    if (books.length == 0)
+        booksTable.insert({
+            chapters: doc
+        });
+    else {
+        books[0].set("chapters", doc);
+        for (var i = 1; i < books.length; ++i)
+            books[i].deleteRecord();
+    }
+    print("save file", books);
 }
 
 function loadData() {
-    var type = storageType.getValue();
-    switch(type){
-        case "local":
-            parseFileData(window.localStorage.getItem("files"));
-        break;
-        case "file":
-            storageFile.click();
-        break;
-        default:
-            note(header, "load-failed-msg", fmt("Storage type \"$1\" is not yet supported", type));
-    }
+    var type = getSetting("storageType");
+    if (fileLoaders[type])
+        fileLoaders[type]();
+    else
+        note(header, "load-failed-msg", fmt("Storage type \"$1\" is not yet supported", type));
 }
 
-function parseFileData(fileData){
-    if (fileData) {
-        files = JSON.parse(fileData);
+function parseFileData(fileData) {
+    print("file data", fileData);
+    if (!fileData
+        || (fileData instanceof Array && fileData.length == 0)) {
+        var lastType = getSetting("lastStorageType");
+        var curType = getSetting("storageType");
+        print("no data yet, try last type", lastType);
+        if (lastType) {
+            setSetting("lastStorageType", null);
+            setSetting("storageType", lastType);
+            loadData();
+            setSetting("storageType", curType);
+            setSetting("lastStorageType", lastType);
+        }
+        else {
+            chapters = [];
+            addNewFile();
+            if (!window.fullScreen)
+                note(header, "fullscreen-note", "Consider running in full-screen by hitting F11 on your keyboard.", 1000);
+        }
+    }
+    else {
+        print("Some file data");
+        if (typeof (fileData) == "string") {
+            chapters = JSON.parse(fileData);
+        }
+        else {
+            chapters = fileData;
+        }
         // delete the word counts, so the word counter can pick up later.
-        files.forEach(function (file) {
+        chapters.forEach(function (file) {
             if ("count" in file)
                 delete file["count"];
         });
-        currentFile = 0;
+        currentChapter = 0;
         showFile();
     }
-    else {
-        files = [];
-        addNewFile();
-        if (!window.fullScreen)
-            note(header, "fullscreen-note", "Consider running in full-screen by hitting F11 on your keyboard.", 1000);
-    }
 }
 
-function nextFile(){
+function nextFile() {
     stowFile();
-    currentFile = (currentFile + 1) % files.length;
+    currentChapter = (currentChapter + 1) % chapters.length;
     showFile();
 }
 
-function prevFile(){
+function prevFile() {
     stowFile();
-    currentFile = (currentFile + files.length - 1) % files.length;
+    currentChapter = (currentChapter + chapters.length - 1) % chapters.length;
     showFile();
 }
 
-function stowFile(){
-    files[currentFile].doc = editor.getValue();
-    files[currentFile].name = filename.getValue();
+function stowFile() {
+    chapters[currentChapter].doc = editor.getValue();
+    chapters[currentChapter].name = chapterName.getValue();
 }
 
-function loadFromFile(){
-    Array.prototype.forEach.call(this.files, function(f){
+function loadFromFile() {
+    Array.prototype.forEach.call(this.chapters, function (f) {
         var reader = new FileReader();
-        reader.addEventListener("load", function(evt){
+        reader.addEventListener("load", function (evt) {
             parseFileData(evt.target.result);
         });
         reader.readAsText(f);
@@ -157,9 +199,9 @@ var commands = {
     221: nextFile,
 };
 
-function runCommands(evt){
-    if(evt.ctrlKey){
-        if(evt.keyCode in commands){
+function runCommands(evt) {
+    if (evt.ctrlKey) {
+        if (evt.keyCode in commands) {
             commands[evt.keyCode]();
             evt.preventDefault();
         }
