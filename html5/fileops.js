@@ -46,20 +46,24 @@ function saveDesktopFile(doc) {
 }
 
 function withDB(thunk) {
-    dbClient.authenticate();
-    if (dbDataStoreMGR) {
-        if (dbDataStore)
-            thunk(dbDataStore);
-        else
-            dbDataStoreMGR.openDefaultDatastore(function (error, datastore) {
-                if (error)
-                    alert('Error opening default datastore: ' + error);
-                else {
-                    dbDataStore = datastore;
-                    thunk(dbDataStore);
-                }
-            });
+    if (dbClient) {
+        dbClient.authenticate();
+        if (dbDataStoreMGR) {
+            if (dbDataStore)
+                thunk();
+            else
+                dbDataStoreMGR.openDefaultDatastore(function (error, datastore) {
+                    if (error)
+                        alert('Error opening default datastore: ' + error);
+                    else {
+                        dbDataStore = datastore;
+                        thunk();
+                    }
+                });
+        }
     }
+    else
+        thunk();
 }
 
 var fileSavers = {
@@ -94,9 +98,13 @@ var fileLoaders = {
 };
 
 function dbLoad() {
-    var booksTable = dbDataStore.getTable("books");
-    var books = booksTable.query();
-    parseFileData(books[0].get("chapters"));
+    var doc = null;
+    if (dbDataStore) {
+        var booksTable = dbDataStore.getTable("books");
+        var books = booksTable.query();
+        doc = books[0].get("chapters");
+    }
+    parseFileData(doc);
 }
 
 function dbSave() {
@@ -116,6 +124,7 @@ function dbSave() {
 
 function loadData() {
     var type = getSetting("storageType");
+    print("loading data", type);
     if (fileLoaders[type])
         fileLoaders[type]();
     else
@@ -123,11 +132,12 @@ function loadData() {
 }
 
 function parseFileData(fileData) {
+    var lastType = getSetting("lastStorageType");
+    var curType = getSetting("storageType");
+    print(curType, lastType, fileData);
     if (!fileData
         || (fileData instanceof Array && fileData.length == 0)) {
-        var lastType = getSetting("lastStorageType");
-        var curType = getSetting("storageType");
-        if (lastType) {
+        if (lastType != null && lastType != "null") {
             setSetting("lastStorageType", null);
             setSetting("storageType", lastType);
             loadData();
@@ -135,6 +145,7 @@ function parseFileData(fileData) {
             setSetting("lastStorageType", lastType);
         }
         else {
+            print("default");
             chapters = [];
             addNewFile();
             if (!window.fullScreen)
