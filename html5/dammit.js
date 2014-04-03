@@ -74,9 +74,8 @@ function getControls(){
     browserInfo.setValue(window.navigator.userAgent);
 
     var storeType = getSetting("storageType", "local");
-    if(storeType == "dropbox"){
+    if(storeType == "dropbox")
         dbSetup();
-    }
     storageType = getDOM("#storage-type");
     storageType.setValue(storeType);
     storageType.addEventListener("change", function (evt) {
@@ -103,9 +102,8 @@ function dbSetup(){
             alert('Authentication error: ' + error);
     });
     
-    if (dbClient.isAuthenticated()) {
+    if (dbClient.isAuthenticated())
         dbDataStoreMGR = dbClient.getDatastoreManager();
-    }
 }
 
 function showTab(parentID, id){
