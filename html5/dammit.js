@@ -104,7 +104,6 @@ function dbSetup(){
     });
     
     if (dbClient.isAuthenticated()) {
-        print("Authenticated");
         dbDataStoreMGR = dbClient.getDatastoreManager();
     }
 }

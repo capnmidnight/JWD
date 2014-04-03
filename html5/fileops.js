@@ -41,7 +41,6 @@ function saveDesktopFile(doc) {
                   "save");
     setStyle("display", "none", link);
     document.body.appendChild(link);
-    print(link);
     link.click();
     document.body.removeChild(link);
 }
@@ -97,7 +96,6 @@ var fileLoaders = {
 function dbLoad() {
     var booksTable = dbDataStore.getTable("books");
     var books = booksTable.query();
-    print(books, books[0])
     parseFileData(books[0].get("chapters"));
 }
 
@@ -105,7 +103,6 @@ function dbSave() {
     var doc = JSON.stringify(chapters);
     var booksTable = dbDataStore.getTable("books");
     var books = booksTable.query();
-    print(chapters);
     if (books.length == 0)
         booksTable.insert({
             chapters: doc
@@ -115,7 +112,6 @@ function dbSave() {
         for (var i = 1; i < books.length; ++i)
             books[i].deleteRecord();
     }
-    print("save file", books);
 }
 
 function loadData() {
@@ -127,12 +123,10 @@ function loadData() {
 }
 
 function parseFileData(fileData) {
-    print("file data", fileData);
     if (!fileData
         || (fileData instanceof Array && fileData.length == 0)) {
         var lastType = getSetting("lastStorageType");
         var curType = getSetting("storageType");
-        print("no data yet, try last type", lastType);
         if (lastType) {
             setSetting("lastStorageType", null);
             setSetting("storageType", lastType);
@@ -148,7 +142,6 @@ function parseFileData(fileData) {
         }
     }
     else {
-        print("Some file data");
         if (typeof (fileData) == "string") {
             chapters = JSON.parse(fileData);
         }
