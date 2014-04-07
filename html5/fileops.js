@@ -36,14 +36,19 @@ function utf8_to_b64(str) {
 
 
 var fileSavers = {
-  local: window.localStorage.setItem.bind(window.localStorage, "chapters"),
+  local: function(fail, doc){
+    if(window.localStorage)
+      window.localStorage.setItem("chapters", doc);
+    else
+      fail();
+  },
   dropbox: withDB.bind(this, dbSave)
 };
 
 var fileLoaders = {
   local: function (fail) {
-    parseFileData(window.localStorage.getItem("files")
-                  || window.localStorage.getItem("chapters"), fail);
+    print("loading local data");
+    parseFileData(window.localStorage.getItem("chapters"), fail);
   },
   dropbox: withDB.bind(this, dbLoad),
   "default": function(){
@@ -80,6 +85,7 @@ function loadData(types) {
   if(types == undefined){
     chapters = null;
     types = [getSetting("storageType"), getSetting("lastStorageType")];
+    types = types.filter(function(t){return t;});
     if(types.indexOf("local") == -1)
       types.push("local");
     types.push("default");
@@ -101,9 +107,10 @@ function loadData(types) {
 }
 
 function parseFileData(fileData, fail) {
-  print("parseFileData", fileData);
+  print("parseFileData", fileData, arguments);
   if(fileData) {
     if (typeof (fileData) == "string") {
+      print(fileData);
       chapters = JSON.parse(fileData);
     }
     else {

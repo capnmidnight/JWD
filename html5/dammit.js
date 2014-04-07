@@ -86,16 +86,6 @@ function getControls(){
 
   storageFile = fileUpload(getDOM("#browse-storage-file"));
   storageFile.addEventListener("change", loadFromFile, false);
-
-  if(storeType == "dropbox")
-    withDB(function(){
-      loadData();
-    }, function(){
-      print("failed to load data");
-      loadData();
-    });
-  else
-    loadData();
 }
 
 function showTab(parentID, id){
@@ -150,5 +140,6 @@ function pageLoad(){
   getControls();
   clockTick();
   resize();
+  loadData();
   showTab("main", "menu");
 }

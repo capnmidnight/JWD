@@ -22,6 +22,18 @@ function note(parent, id, msgTxt, delay){
         }, delay);
 }
 
+function XXX_RESET_XXX(){
+  if(confirm("Are you sure you want to reset everything? This can't be undone.")){
+    deleteSetting("storageType");
+    deleteSetting("lastStorageType");
+    deleteSetting("lastView");
+    window.localStorage.removeItem("chapters");
+    if(dbClient)
+      dbClient.signOut();
+    document.location = document.location.href;
+  }
+}
+
 function msg(parent, id, msgTxt, delay, length){
     if(length == undefined){
         length = 4000;
