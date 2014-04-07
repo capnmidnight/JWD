@@ -27,6 +27,12 @@ var header = null,
 function getControls(){
   window.addEventListener("keyup", runCommands, false);
   window.addEventListener("resize", resize, false);
+  window.addEventListener("popstate", function(evt){
+      if(evt.state)
+          showTab(evt.state[0], evt.state[1]);
+      else
+          showTab("main", "menu");
+  }, false);
 
   header = getDOM("header");
   menu = getDOM("menu");
@@ -43,7 +49,7 @@ function getControls(){
   menuItems.forEach(function (mnu) {
     var id = mnu.getValue();
     setSetting("lastView", id);
-    mnu.addEventListener("click", showTab.bind(window, "main", id), false);
+    mnu.addEventListener("click", showTab.bind(window, "main", id, true), false);
     menuItems[id] = mnu;
   });
   menuItems["analyze"].addEventListener("click", frequencyAnalysis, false);
@@ -88,7 +94,7 @@ function getControls(){
   storageFile.addEventListener("change", loadFromFile, false);
 }
 
-function showTab(parentID, id){
+function showTab(parentID, id, saveState){
   var boxes = getDOMAll(fmt("#$1>*", parentID));
   boxes.forEach(function (box) {
     box.style.display = id == box.id ? "block" : "none";
@@ -100,6 +106,8 @@ function showTab(parentID, id){
     }
   });
   resize();
+  if(!!saveState)
+    window.history.pushState([parentID, id]);
 }
 
 function resize(){

@@ -47,7 +47,6 @@ var fileSavers = {
 
 var fileLoaders = {
   local: function (fail) {
-    print("loading local data");
     parseFileData(window.localStorage.getItem("chapters"), fail);
   },
   dropbox: withDB.bind(this, dbLoad),
@@ -72,7 +71,6 @@ function saveFile(types) {
     var doc = JSON.stringify(chapters);
     var type = types.shift();
     if(type){
-      print("saving data", type);
       if (fileSavers[type])
         fileSavers[type](function(){
           setTimeout(saveFile, 1, types);
@@ -89,13 +87,10 @@ function loadData(types) {
     if(types.indexOf("local") == -1)
       types.push("local");
     types.push("default");
-
-    print("loadData", types);
   }
   if(types.length > 0){
     var type = types.shift();
     if(type){
-      print("loading data", type);
       if (fileLoaders[type])
         fileLoaders[type](function(){
           setTimeout(loadData, 1, types);
@@ -107,10 +102,8 @@ function loadData(types) {
 }
 
 function parseFileData(fileData, fail) {
-  print("parseFileData", fileData, arguments);
   if(fileData) {
     if (typeof (fileData) == "string") {
-      print(fileData);
       chapters = JSON.parse(fileData);
     }
     else {
@@ -125,7 +118,6 @@ function parseFileData(fileData, fail) {
     showFile();
   }
   if(!chapters){
-    print("failed to load current type");
     fail();
   }
 }
