@@ -1,8 +1,9 @@
 function frequency(min, arr) {
-    var result = arr
-        .group()
-        .map(function (word) { return [word[0], word[1].length]; })
-        .group(function (word) { return word[1]; }, function (word) { return word[0]; })
+    var result = group(
+            group(arr)
+              .map(function (word) { return [word[0], word[1].length]; }),
+            function (word) { return word[1]; },
+            function (word) { return word[0]; })
         .map(function (count) {
             count[1].sort();
             return [count[0], count[1].join(", ")];

@@ -1,3 +1,17 @@
+function getSetting(name, defValue) {
+    return (window.localStorage && window.localStorage.getItem(name)) || defValue;
+}
+
+function setSetting(name, value) {
+    if (window.localStorage)
+        window.localStorage.setItem(name, value);
+}
+
+function deleteSetting(name){
+  if(window.localStorage)
+    window.localStorage.removeItem(name);
+}
+
 var getDOM = document.querySelector.bind(document);
 
 // snagged and adapted from http://detectmobilebrowsers.com/
@@ -120,9 +134,9 @@ function move(elem, left, top, width, height){
     }
 }
 
-Array.prototype.group = function(getKey, getValue){
+function group(arr, getKey, getValue){
     var groups = [];
-    var clone = this.concat();
+    var clone = arr.concat();
     clone.sort(function(a, b){
         var ka = getKey ? getKey(a) : a;
         var kb = getKey ? getKey(b) : b;
@@ -167,5 +181,30 @@ Element.prototype.fire = function(event){
         var evt = document.createEvent("HTMLEvents");
         evt.initEvent(event, true, true ); // event type,bubbling,cancelable
         return !this.dispatchEvent(evt);
+    }
+}
+
+function toggleFullScreen() {
+    if (!document.fullscreenElement &&    // alternative standard method
+        !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {  // current working methods
+        if (document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen();
+        } else if (document.documentElement.msRequestFullscreen) {
+            document.documentElement.msRequestFullscreen();
+        } else if (document.documentElement.mozRequestFullScreen) {
+            document.documentElement.mozRequestFullScreen();
+        } else if (document.documentElement.webkitRequestFullscreen) {
+            document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+        }
+    } else {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        }
     }
 }

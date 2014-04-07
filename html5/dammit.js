@@ -22,10 +22,7 @@ var header = null,
     storageFile = null,
 
     chapters = null,
-    currentChapter = null,
-    dbClient = null,
-    dbDataStoreMGR = null,
-    dbDataStore = null;
+    currentChapter = null;
 
 function getControls(){
     window.addEventListener("keyup", runCommands, false);
@@ -92,18 +89,6 @@ function getControls(){
     storageFile.addEventListener("change", loadFromFile, false);
 
     showTab("main", getSetting("lastView", "menu"));
-}
-
-function dbSetup(){
-    dbClient = new Dropbox.Client({key: "g2rnjvo102estt0"});
-    
-    dbClient.authenticate({interactive: false}, function (error) {
-        if (error)
-            alert('Authentication error: ' + error);
-    });
-    
-    if (dbClient.isAuthenticated())
-        dbDataStoreMGR = dbClient.getDatastoreManager();
 }
 
 function showTab(parentID, id){

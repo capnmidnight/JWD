@@ -1,12 +1,3 @@
-function getSetting(name, defValue) {
-    return (window.localStorage && window.localStorage.getItem(name)) || defValue;
-}
-
-function setSetting(name, value) {
-    if (window.localStorage)
-        window.localStorage.setItem(name, value);
-}
-
 function addNewFile(txt) {
     if (txt == undefined)
         txt = "";
@@ -33,42 +24,8 @@ function moveScroll(evt) {
     editor.setSelection(sel);
 }
 
-function saveDesktopFile(doc) {
-    var link = a({
-        download: "justwritedammit.json",
-        href: "data:application/octet-stream;filename=justwritedammit.json;base64," + utf8_to_b64(doc)
-    },
-                  "save");
-    setStyle("display", "none", link);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
-
-function withDB(thunk) {
-    if (dbClient) {
-        dbClient.authenticate();
-        if (dbDataStoreMGR) {
-            if (dbDataStore)
-                thunk();
-            else
-                dbDataStoreMGR.openDefaultDatastore(function (error, datastore) {
-                    if (error)
-                        alert('Error opening default datastore: ' + error);
-                    else {
-                        dbDataStore = datastore;
-                        thunk();
-                    }
-                });
-        }
-    }
-    else
-        thunk();
-}
-
 var fileSavers = {
     local: window.localStorage.setItem.bind(window.localStorage, "chapters"),
-    file: saveDesktopFile,
     dropbox: withDB.bind(this, dbSave)
 };
 
@@ -91,68 +48,39 @@ var fileLoaders = {
         parseFileData(window.localStorage.getItem("files")
         || window.localStorage.getItem("chapters"));
     },
-    file: function () {
-        storageFile.click();
-    },
-    dropbox: withDB.bind(this, dbLoad)
+    dropbox: withDB.bind(this, dbLoad),
+    "default": function(){
+        chapters = [];
+        addNewFile();
+        if (!isMobile && !window.fullScreen)
+            note(main, "fullscreen-note", "Consider running in full-screen by hitting F11 on your keyboard."
+                 + "<button type=\"button\" onclick=\"toggleFullScreen()\">go fullscreen</button>", 1000);
+    }
 };
 
-function dbLoad() {
-    var doc = null;
-    if (dbDataStore) {
-        var booksTable = dbDataStore.getTable("books");
-        var books = booksTable.query();
-        doc = books[0].get("chapters");
-    }
-    parseFileData(doc);
-}
-
-function dbSave() {
-    var doc = JSON.stringify(chapters);
-    var booksTable = dbDataStore.getTable("books");
-    var books = booksTable.query();
-    if (books.length == 0)
-        booksTable.insert({
-            chapters: doc
-        });
-    else {
-        books[0].set("chapters", doc);
-        for (var i = 1; i < books.length; ++i)
-            books[i].deleteRecord();
-    }
-}
-
 function loadData() {
-    var type = getSetting("storageType");
-    print("loading data", type);
-    if (fileLoaders[type])
-        fileLoaders[type]();
-    else
-        note(header, "load-failed-msg", fmt("Storage type \"$1\" is not yet supported", type));
+  chapters = null;
+  var types = [getSetting("storageType"), getSetting("lastStorageType")];
+  types.push("default");
+
+  print("loadData", types);
+  for(var i = 0;
+      i < types.length
+      && !chapters; ++i){
+    var type = types[i];
+    if(type){
+      print("loading data", type);
+      if (fileLoaders[type])
+          fileLoaders[type]();
+      else
+          note(header, "load-failed-msg", fmt("Storage type \"$1\" is not yet supported", type));
+    }
+  }
 }
 
 function parseFileData(fileData) {
-    var lastType = getSetting("lastStorageType");
-    var curType = getSetting("storageType");
-    print(curType, lastType, fileData);
-    if (!fileData
-        || (fileData instanceof Array && fileData.length == 0)) {
-        if (lastType != null && lastType != "null") {
-            setSetting("lastStorageType", null);
-            setSetting("storageType", lastType);
-            loadData();
-            setSetting("storageType", curType);
-            setSetting("lastStorageType", lastType);
-        }
-        else {
-            print("default");
-            chapters = [];
-            addNewFile();
-            if (!window.fullScreen)
-                note(header, "fullscreen-note", "Consider running in full-screen by hitting F11 on your keyboard.", 1000);
-        }
-    }
-    else {
+  print("parseFileData", fileData);
+    if(fileData) {
         if (typeof (fileData) == "string") {
             chapters = JSON.parse(fileData);
         }
@@ -184,16 +112,6 @@ function prevFile() {
 function stowFile() {
     chapters[currentChapter].doc = editor.getValue();
     chapters[currentChapter].name = chapterName.getValue();
-}
-
-function loadFromFile() {
-    Array.prototype.forEach.call(this.chapters, function (f) {
-        var reader = new FileReader();
-        reader.addEventListener("load", function (evt) {
-            parseFileData(evt.target.result);
-        });
-        reader.readAsText(f);
-    });
 }
 
 var commands = {

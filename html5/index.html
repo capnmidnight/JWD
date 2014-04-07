@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <title>Just Write, Dammit!</title>
@@ -13,6 +13,8 @@
     <script type="text/javascript" src="interrobang.js"></script>
     <script type="text/javascript" src="markdownsyndrome.js"></script>
     <script type="text/javascript" src="stuffing.js"></script>
+    <script type="text/javascript" src="dorpbox.js"></script>
+    <script type="text/javascript" src="desktop.js"></script>
     <script type="text/javascript" src="fileops.js"></script>
     <script type="text/javascript" src="poindexter.js"></script>
     <script type="text/javascript" src="dammit.js"></script>
@@ -83,12 +85,21 @@
                     <h1>Configuration</h1>
                     <p>Use this screen to set system settings.</p>
 
+                    <h2>Import from/export to file</h2>
+                    <p>
+                        Store the data on your computer's file system. You will be able to share data between browsers, but not between computers. Data will always be immediately available for use.
+                    </p>
+                    <p>
+                        <label for="browse-storage-file">Import data from a file: </label><input type="file" id="browse-storage-file" />
+                    </p>
+                    <p>
+                        <label for="export-file">Export data to a file: </label><button type="button" onclick="exportFile()">Export</button>
+
                     <h2>Storage</h2>
                     <p>Select the system you would like to use to store your writing data. The storage configuration setting must be set separately for all browsers and computers. All other configuration settings are stored in the selected storage system.</p>
                     <label for="storage-type">Storage type:</label>
                     <select id="storage-type">
                         <option value="local">Web browser's local storage</option>
-                        <option value="file">Computer's file system</option>
                         <option value="dropbox">Dropbox</option>
                         <option value="onedrive">Microsoft OneDrive</option>
                         <option value="gdrive">Google Drive</option>
@@ -96,17 +107,9 @@
                     <div id="storage-details">
                         <p id="storage-local">
                             Store the data in your current browser (<span id="browser-info"></span>). You will not be able to share data between browsers or computers. Data will always be immediately available for use.
-                        </p>
-                        <div id="storage-file">
-                            <p>
-                                Store the data on your computer's file system. You will be able to share data between browsers, but not between computers. Data will always be immediately available for use.
-                            </p>
-                            <p>
-                                <label for="browse-storage-file">Select file to load data: </label><input type="file" id="browse-storage-file" />
-                            </p>
-                        </div>
+                        </p>`
                         <p id="storage-dropbox">
-                            (Eventually) Store the data in your <a href="https://www.dropbox.com">Dropbox</a> account. You will be able to share data between browsers and computers. Data may not be available without a network connection.
+                            Store the data in your <a href="https://www.dropbox.com">Dropbox</a> account. You will be able to share data between browsers and computers. Data may not be available without a network connection.
                         </p>
                         <p id="storage-onedrive">
                             (Eventually) Store the data in your <a href="https://onedrive.live.com">Microsoft OneDrive</a> account. You will be able to share data between browsers and computers. Data may not be available without a network connection.
@@ -136,9 +139,9 @@
                     <p>
                         "Just Write, Dammit!" a writing-first program that is <a href="https://github.com/capnmidnight/jwd" target="_new">free, open-source software</a>. © <a href="mailto:sean.mcbeth+jwd@gmail.com">Sean T. McBeth, 2014</a>
                     </p>
-                    <p><small><em><a href="tos.pdf">terms of service</a> 
-                        | <a href="dmca.pdf">dmca notice</a>
-                        | <a href="privacy_policy.pdf">privacy policy</a></em></small></p>
+                    <p><small><em><a href="tos.pdf">terms of service</a>
+                        | <a href="privacy_policy.pdf">privacy policy</a>
+                        | <a href="dmca.pdf">dmca notice</a></em></small></p>
                 </article>
             </section>
         </div>
