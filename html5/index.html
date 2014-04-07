@@ -100,17 +100,6 @@
                 <article class="textContent">
                     <h1>Configuration</h1>
                     <p>Use this screen to set system settings.</p>
-
-                    <h2>Import from/export to file</h2>
-                    <p>
-                        Store the data on your computer's file system. You will be able to share data between browsers, but not between computers. Data will always be immediately available for use.
-                    </p>
-                    <p>
-                        <label for="browse-storage-file">Import data from a file: </label><input type="file" id="browse-storage-file" />
-                    </p>
-                    <p>
-                        <label for="export-file">Export data to a file: </label><button type="button" onclick="exportFile()">Export</button>
-
                     <h2>Storage</h2>
                     <p>Select the system you would like to use to store your writing data. The storage configuration setting must be set separately for all browsers and computers. All other configuration settings are stored in the selected storage system.</p>
                     <label for="storage-type">Storage type:</label>
@@ -123,7 +112,7 @@
                     <div id="storage-details">
                         <p id="storage-local">
                             Store the data in your current browser (<span id="browser-info"></span>). You will not be able to share data between browsers or computers. Data will always be immediately available for use.
-                        </p>`
+                        </p>
                         <p id="storage-dropbox">
                             Store the data in your <a href="https://www.dropbox.com">Dropbox</a> account. You will be able to share data between browsers and computers. Data may not be available without a network connection.
                         </p>
@@ -134,6 +123,18 @@
                             (Eventually) Store the data in your <a href="https://drive.google.com">Google Drive</a> account. You will be able to share data between browsers and computers. Data may not be available without a network connection.
                         </p>
                     </div>
+
+                    <h2>Import from/export to file</h2>
+                    <p>
+                        Store the data on your computer's file system. You will be able to share data between browsers, but not between computers. Data will always be immediately available for use.
+                    </p>
+                    <p>
+                        <label for="browse-storage-file">Import data from a file: </label><input type="file" id="browse-storage-file" />
+                    </p>
+                    <p>
+                        <label for="export-file">Export data to a file: </label><button type="button" onclick="exportFile()">Export</button>
+                    </p>
+
                 </article>
             </section>
             <section id="help">
