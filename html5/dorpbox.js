@@ -3,15 +3,17 @@ var dbClient = null,
     dbDataStore = null;
 
 function dbSetup(){
-    dbClient = new Dropbox.Client({key: "g2rnjvo102estt0"});
+    if(window.Dropbox){
+      dbClient = new Dropbox.Client({key: "g2rnjvo102estt0"});
 
-    dbClient.authenticate({interactive: false}, function (error) {
-        if (error)
-            alert('Authentication error: ' + error);
-    });
+      dbClient.authenticate({interactive: false}, function (error) {
+          if (error)
+              alert('Authentication error: ' + error);
+      });
 
-    if (dbClient.isAuthenticated())
-        dbDataStoreMGR = dbClient.getDatastoreManager();
+      if (dbClient.isAuthenticated())
+          dbDataStoreMGR = dbClient.getDatastoreManager();
+    }
 }
 
 function withDB(thunk) {

@@ -131,10 +131,18 @@ function clockTick(){
     setTimeout(clockTick, 500);
 }
 
+function redirectCheck(){
+  if(document.location.hostname != "localhost"
+     && document.location.hostname != "127.0.0.1"
+     && document.location.protocol == "http:")
+    document.location = document.location.href.replace("http://", "https://");
+}
+
 function pageLoad(){
+    redirectCheck();
     getControls();
     clockTick();
     resize();
-    showTab("main", "menu");
     loadData();
+    showTab("main", "menu");
 }

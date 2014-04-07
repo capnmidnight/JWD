@@ -86,21 +86,24 @@ function fmt(template){
     var args = Array.prototype.slice.call(arguments, 1);
     var regex = /\$(0*)(\d+)(\.(0+))?/g;
     return template.replace(regex, function(m, pad, index, _, precision){
-        var val = args[parseInt(index, 10) - 1];
-        if(val != undefined){
-            val = val.toString();
-            var regex2;
-            if(precision && precision.length > 0){
-                val = sigfig(parseFloat(val, 10), precision.length);
-            }
-            if(pad && pad.length > 0){
-                regex2 = new RegExp("^\\d{" + (pad.length + 1) + "}(\\.\\d+)?");
-                while(!val.match(regex2))
-                    val = "0" + val;
-            }
-            return val;
+        index = parseInt(index, 10) - 1;
+        if(0 <= index && index < args.length){
+          var val = args[index];
+          if(val != undefined){
+              val = val.toString();
+              var regex2;
+              if(precision && precision.length > 0){
+                  val = sigfig(parseFloat(val, 10), precision.length);
+              }
+              if(pad && pad.length > 0){
+                  regex2 = new RegExp("^\\d{" + (pad.length + 1) + "}(\\.\\d+)?");
+                  while(!val.match(regex2))
+                      val = "0" + val;
+              }
+              return val;
+          }
         }
-        return "undefined";
+        return undefined;
     });
 }
 

@@ -44,6 +44,11 @@ html, body, button, input, textarea, select{
     border: 0;
 }
 
+#menu{
+  text-align:center;
+}
+#menu>p{width:100%;}
+
 #editArea, #menu>button{
     width:100%;
 }
@@ -52,12 +57,17 @@ aside{
     position:absolute;
     font-size: 12pt;
     font-weight: bold;
-    color: white;
     padding: 0.5em;
-    padding-left: 1em;
-    border: solid 1px #667;
-    background-color: #556;
+    border-size: 5px;
     top:2em;
+}
+
+aside, aside>button{
+    color: #ffe;
+    border-style: solid;
+    border-color: #887;
+    background-color: #554;
+    margin-left:1em;
 }
 
 button{
