@@ -17,7 +17,7 @@ function withDB(thunk, fail, doc){
       dbClient = new Dropbox.Client({key: "g2rnjvo102estt0"});
 
     print("authenticate dropbox");
-    dbClient.authenticate({interactive: false}, function (error) {
+    dbClient.authenticate({interactive: true}, function (error) {
       print("authenticated:", !error);
       if (error){
         print("dropbox authentication error:", error);
