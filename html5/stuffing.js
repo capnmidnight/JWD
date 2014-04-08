@@ -1,5 +1,6 @@
 var forever = "forever";
 var useNote = false;
+
 function note(parent, id, msgTxt, delay){
     if(delay == undefined)
         delay = 0;
@@ -23,16 +24,25 @@ function note(parent, id, msgTxt, delay){
 }
 
 function XXX_RESET_XXX(){
-  if(confirm("Are you sure you want to reset everything? This can't be undone.")){
-    deleteSetting("storageType");
-    deleteSetting("lastStorageType");
-    deleteSetting("lastView");
-    window.localStorage.removeItem("chapters");
-    window.localStorage.removeItem("data");
-    if(dbClient)
-      dbClient.signOut();
-    document.location = document.location.href;
-  }
+    if(confirm("Are you sure you want to reset everything? This can't be undone.")){
+        deleteSetting("storageType");
+        deleteSetting("lastStorageType");
+        deleteSetting("lastView");
+        window.localStorage.removeItem("chapters");
+        window.localStorage.removeItem("data");
+        if(dbClient){
+            if(dbDataStore){
+                ["jwd", "books"].forEach(function(tableName){
+                    var table = dbDataStore.getTable(tableName);
+                    var records = table.query();
+                    for (var i = 0; i < records.length; ++i)
+                        records[i].deleteRecord();
+                });
+            }
+            dbClient.signOut();
+        }
+        document.location = document.location.href;
+    }
 }
 
 function msg(parent, id, msgTxt, delay, length){

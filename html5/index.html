@@ -17,6 +17,7 @@
     <script type="text/javascript" src="desktop.js"></script>
     <script type="text/javascript" src="fileops.js"></script>
     <script type="text/javascript" src="poindexter.js"></script>
+    <script type="text/javascript" src="snippets.js"></script>
     <script type="text/javascript" src="dammit.js"></script>
 </head>
 <body onload="pageLoad()">
@@ -30,8 +31,14 @@
                 <button type="button" onclick="addNewFile()">new</button>
                 <div>
                     <span id="file-count"></span>
+                    <span id="unsaved-file-indicator">(unsaved)</span>
                     <input type="text" id="chapter-name" spellcheck="false" placeholder="(new chapter)">
                 </div>
+            </span>
+            <span id="snippet-controls">
+                <button type="button" onclick="prevSnippet()">prev</button>
+                <button type="button" onclick="nextSnippet()">next</button>
+                <span id="snippet-count"></span>
             </span>
         </header>
         <div id="main">
@@ -54,7 +61,7 @@
                         | <a href="dmca.pdf">dmca notice</a></em></small>
                 </p>
             </section>
-            <section id="snippet">
+            <section id="snippet" data-show-snippet-controls="true">
                 <textarea id="snippets-editor" class="textContent" spellcheck="false" cols="50" rows="50" placeholder="(save an idea!)"></textarea>
             </section>
             <section id="write" data-show-file-controls="true">
