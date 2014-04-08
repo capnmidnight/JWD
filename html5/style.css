@@ -39,4 +39,4 @@ a.button:hover,::-webkit-scrollbar-thumb:vertical{background-color:#667;}
 @media(min-width:1080px){
 .textContent,select{font-size:18pt;}
 #filename{font-size:30pt;}
-section{padding:10em;}}
+section{padding-top:5em;padding-bottom:5em;padding-left:10em;padding-right:10em;}}
