@@ -117,6 +117,7 @@ function spinner(txt, lbl, min, max){
 
 function fileUpload(fup){
     var browse = a({className:"button",
+            id: fup.id + "-button",
             onclick: function(){
                 fup.click()
             }

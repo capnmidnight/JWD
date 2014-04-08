@@ -2,10 +2,10 @@ var data = null,
     currentChapter = null;
 
 function autoSave(){
+    unsavedFileIndicator.style.display = "";
     if(autoSave.timeout)
         clearTimeout(autoSave.timeout);
     autoSave.timeout = setTimeout(saveFile, 3000);
-    unsavedFileIndicator.style.display = "";
 }
 
 function addNewFile(txt) {
@@ -30,7 +30,7 @@ function utf8_to_b64(str) {
 
 var fileSavers = {
     local: localSave,
-    dropbox: dorpboxSave
+    dropbox: dorpboxSave,
 };
 
 function onSuccessfulSave(){
@@ -77,6 +77,7 @@ function onSuccessfulLoad(){
     currentSnippet = data.snippets.length;
     updateSnippetCount();
     showSnippet();
+    note(main, "data-loaded-message", "Data loaded!");
 }
 
 function loadData(types) {
