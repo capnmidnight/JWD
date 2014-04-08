@@ -7,6 +7,7 @@ var header = null,
     chapterName = null,
     editArea = null,
     editor = null,
+    snippetsEditor = null,
     scrollbar = null,
     totalWordCount = null,
     addWordCount = null,
@@ -19,10 +20,7 @@ var header = null,
     word4Frequency = null,
     browserInfo = null,
     storageType = null,
-    storageFile = null,
-
-    chapters = null,
-    currentChapter = null;
+    storageFile = null;
 
 function getControls(){
   window.addEventListener("keyup", runCommands, false);
@@ -53,6 +51,8 @@ function getControls(){
     menuItems[id] = mnu;
   });
   menuItems["analyze"].addEventListener("click", frequencyAnalysis, false);
+
+  snippetsEditor = getDOM("#snippets-editor");
 
   editor = getDOM("#editor");
   editor.addEventListener("keyup", interrobang, false);

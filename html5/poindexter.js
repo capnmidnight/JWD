@@ -32,11 +32,11 @@ function countWords(){
     if(words != null)
         count = words.length;
 
-    if(!chapters[currentChapter].count)
-        chapters[currentChapter].count = count;
+    if(!data.chapters[currentChapter].count)
+        data.chapters[currentChapter].count = count;
 
     totalWordCount.setValue(count);
-    addWordCount.setValue(count - chapters[currentChapter].count);
+    addWordCount.setValue(count - data.chapters[currentChapter].count);
 }
 
 function frequencyAnalysis(){

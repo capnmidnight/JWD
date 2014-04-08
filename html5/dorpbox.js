@@ -42,26 +42,30 @@ function withDB(thunk, fail, doc){
 function dbLoad(fail) {
   var doc = null;
   if (dbDataStore) {
-    var booksTable = dbDataStore.getTable("books");
-    var books = booksTable.query();
-    doc = books[0].get("chapters");
+    var table = dbDataStore.getTable("jwd");
+    var records = table.query();
+    var fieldName = "data";
+    if(records.length == 0){
+        table = dbDataStore.getTable("books");
+        records = table.query();
+        fieldName = "chapters";
+    }
+    if(records.length > 0)
+        doc = records[0].get(fieldName);
   }
   parseFileData(doc, fail);
 }
 
 function dbSave(fail, doc) {
   if(dbDataStore){
-    var booksTable = dbDataStore.getTable("books");
-    var books = booksTable.query();
-    if (books.length == 0){
-      booksTable.insert({
-        chapters: doc
-      });
-    }
+    var table = dbDataStore.getTable("jwd");
+    var records = booksTable.query();
+    if (records.length == 0)
+      table.insert({data: doc});
     else {
-      books[0].set("chapters", doc);
-      for (var i = 1; i < books.length; ++i){
-        books[i].deleteRecord();
+      records[0].set("data", doc);
+      for (var i = 1; i < records.length; ++i){
+        records[i].deleteRecord();
       }
     }
   }

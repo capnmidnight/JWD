@@ -28,6 +28,7 @@ function XXX_RESET_XXX(){
     deleteSetting("lastStorageType");
     deleteSetting("lastView");
     window.localStorage.removeItem("chapters");
+    window.localStorage.removeItem("data");
     if(dbClient)
       dbClient.signOut();
     document.location = document.location.href;

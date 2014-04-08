@@ -1,3 +1,6 @@
+var data = null,
+    currentChapter = null;
+
 function autoSave(){
   if(autoSave.timeout)
     clearTimeout(autoSave.timeout);
@@ -7,16 +10,16 @@ function autoSave(){
 function addNewFile(txt) {
   if (txt == undefined)
     txt = "";
-  chapters.push({ doc: txt, name: "" });
-  currentChapter = chapters.length - 1;
+  data.chapters.push({ doc: txt, name: "" });
+  currentChapter = data.chapters.length - 1;
   showFile();
   note(header, "new-file-note", "New file created.");
 }
 
 function showFile() {
-  editor.setValue(chapters[currentChapter].doc);
-  chapterName.setValue(chapters[currentChapter].name);
-  fileCount.setValue(fmt("$1 of $2", currentChapter + 1, chapters.length));
+  editor.setValue(data.chapters[currentChapter].doc);
+  chapterName.setValue(data.chapters[currentChapter].name);
+  fileCount.setValue(fmt("$1 of $2", currentChapter + 1, data.chapters.length));
   countWords();
   showScroll();
 }
@@ -38,7 +41,7 @@ function utf8_to_b64(str) {
 var fileSavers = {
   local: function(fail, doc){
     if(window.localStorage)
-      window.localStorage.setItem("chapters", doc);
+      window.localStorage.setItem("data", doc);
     else
       fail();
   },
@@ -47,11 +50,17 @@ var fileSavers = {
 
 var fileLoaders = {
   local: function (fail) {
-    parseFileData(window.localStorage.getItem("chapters"), fail);
+      var data = window.localStorage.getItem("data");
+      print("local", data);
+    parseFileData(data, fail);
   },
   dropbox: withDB.bind(this, dbLoad),
   "default": function(){
-    chapters = [];
+      print("default");
+    data = {
+        chapters: [],
+        snippets: []
+    };
     addNewFile();
     setSetting("storageType", "local");
     if (!isMobile && !window.fullScreen)
@@ -68,7 +77,7 @@ function saveFile(types) {
       types.push("local");
   }
   if(types.length > 0){
-    var doc = JSON.stringify(chapters);
+    var doc = JSON.stringify(data);
     var type = types.shift();
     if(type){
       if (fileSavers[type])
@@ -81,7 +90,7 @@ function saveFile(types) {
 
 function loadData(types) {
   if(types == undefined){
-    chapters = null;
+    data = null;
     types = [getSetting("storageType"), getSetting("lastStorageType")];
     types = types.filter(function(t){return t;});
     if(types.indexOf("local") == -1)
@@ -91,12 +100,15 @@ function loadData(types) {
   if(types.length > 0){
     var type = types.shift();
     if(type){
-      if (fileLoaders[type])
-        fileLoaders[type](function(){
+        var fail = function(){
           setTimeout(loadData, 1, types);
-        });
-      else
-        note(header, "load-failed-msg", fmt("Storage type \"$1\" is not yet supported", type));
+        };
+        if (fileLoaders[type])
+            fileLoaders[type](fail);
+        else{
+            note(header, "load-failed-msg", fmt("Storage type \"$1\" is not yet supported", type));
+            fail();
+        }
     }
   }
 }
@@ -104,39 +116,45 @@ function loadData(types) {
 function parseFileData(fileData, fail) {
   if(fileData) {
     if (typeof (fileData) == "string") {
-      chapters = JSON.parse(fileData);
+      fileData = JSON.parse(fileData);
     }
-    else {
-      chapters = fileData;
+
+    if(fileData.length){
+      fileData = {
+          chapters: fileData,
+          snippets:[]
+      };
     }
+
+    data = fileData;
     // delete the word counts, so the word counter can pick up later.
-    chapters.forEach(function (file) {
+    data.chapters.forEach(function (file) {
       if ("count" in file)
         delete file["count"];
     });
     currentChapter = 0;
     showFile();
   }
-  if(!chapters){
+  if(!data){
     fail();
   }
 }
 
 function nextFile() {
   stowFile();
-  currentChapter = (currentChapter + 1) % chapters.length;
+  currentChapter = (currentChapter + 1) % data.chapters.length;
   showFile();
 }
 
 function prevFile() {
   stowFile();
-  currentChapter = (currentChapter + chapters.length - 1) % chapters.length;
+  currentChapter = (currentChapter + data.chapters.length - 1) % data.chapters.length;
   showFile();
 }
 
 function stowFile() {
-  chapters[currentChapter].doc = editor.getValue();
-  chapters[currentChapter].name = chapterName.getValue();
+  data.chapters[currentChapter].doc = editor.getValue();
+  data.chapters[currentChapter].name = chapterName.getValue();
 }
 
 var commands = {

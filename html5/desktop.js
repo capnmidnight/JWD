@@ -1,6 +1,6 @@
 function exportFile(){
     stowFile();
-    var doc = JSON.stringify(chapters);
+    var doc = JSON.stringify(data.chapters);
     saveDesktopFile(doc);
 }
 
