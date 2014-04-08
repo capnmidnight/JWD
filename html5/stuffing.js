@@ -19,7 +19,7 @@ function note(parent, id, msgTxt, delay){
         return msg(parent, id, msgTxt, delay);
     else
         setTimeout(function(){
-            new Notification("Just Write, Dammit!", {body: msgTxt, tag: id, icon: "jwd.png"});
+            new Notification("Just Write, Dammit!", {body: msgTxt, tag: id, icon: "jwd128x128.png"});
         }, delay);
 }
 

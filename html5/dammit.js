@@ -87,8 +87,8 @@ function onStorageTypeChanged(){
     var type = storageType.getValue();
     setSetting("storageType", type);
     showTab("storage-details", "storage-" + type);
-    if(type == "dropbox")
-        dbSetup();
+    if (type == "dropbox")
+        dorpbox();
 }
 
 function showTab(parentID, id, saveState){
@@ -105,7 +105,7 @@ function showTab(parentID, id, saveState){
     });
     resize();
     if(!!saveState)
-        window.history.pushState([parentID, id]);
+        window.history.pushState([parentID, id], fmt("Just Write, Dammit! > $1 > $2", parentID, id));
 }
 
 function moveHistory(evt){
