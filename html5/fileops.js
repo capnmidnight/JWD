@@ -65,10 +65,14 @@ var fileLoaders = {
 };
 
 function onSuccessfulLoad(){
-    // delete the word counts, so the word counter can pick up later.
-    data.chapters.forEach(function (file) {
-        if ("count" in file)
-            delete file["count"];
+    for(var i = 0; i < data.snippets.length; ++i)
+        data.snippets[i] = decodeURIComponent(escape(data.snippets[i]));
+    for(var i = 0; i < data.chapters.length; ++i)
+        data.chapters[i].doc = decodeURIComponent(escape(data.chapters[i].doc));
+
+    data.chapters.forEach(function(chapter){
+        if ("count" in chapter)
+            delete chapter["count"];
     });
     currentChapter = 0;
     showFile();
@@ -163,5 +167,6 @@ function runCommands(evt) {
     if (evt.ctrlKey && evt.keyCode in commands) {
         commands[evt.keyCode]();
         evt.preventDefault();
+        evt.stopPropagation();
     }
 }

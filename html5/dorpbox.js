@@ -23,7 +23,7 @@ function dorpboxLoad(fail, success) {
         {binary:true},
         function(err, doc, stat, rangeInfo){
             if(!err)
-                parseFileData(decodeURIComponent(doc), fail, success);
+                parseFileData(doc, fail, success);
             else{
                 var thunk = function(fail, success, doc){
                     var table = dbDataStore.getTable("jwd");
@@ -68,7 +68,7 @@ function saveFileToDropbox(filename, data, success, fail){
         else
             dbClient.writeFile(
                 filename,
-                encodeURIComponent(data),
+                data,
                 function(err, stat){
                     if(err) fail();
                     else    success();
