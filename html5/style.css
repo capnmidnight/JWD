@@ -1,183 +1,43 @@
-*, *:before, *:after {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
+*,*:before,*:after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box;}
+html,body,aside{position:absolute;}
+html,body,section,.textContent,#menu>p,#menu>a.button{width:100%;}
+html,body,section,.textContent{height:100%;}
+html,body,a.button,input,textarea,select,a.button,a.button:visited{color:#aab;}
+a{color:#eec;}
+a:visited{color:#886;}
+h1{font-size:200%;}
+h2{font-size:150%;}
+h3{font-size:125%;}
+h4{font-size:100%;}
+html,body,input,textarea,select{padding:0;}
+html,body,a.button,input,textarea,select{font-family:Georgia,Tahoma,serif;background-color:#445;margin:0;border:0;}
+#menu,a.button{text-align:center;}
+aside{font-size:12pt;font-weight:bold;padding:0.5em;border-width:5px;top:2em;}
+a.button{border:solid 1px #667;padding:1em;min-width:3em;text-decoration:none;display:inline-block;cursor:pointer;}
+a.button,a.button:visited{background-color:#556;}
+a.button:hover{color:#bbc;}
+a.button:active{color:#ccd;}
+aside,aside>a.button{border-style:solid;border-color:#887;margin-left:1em;margin-right:1em;}
+aside,aside>a.button,aside>a.button:visited{color:#ffe;background-color:#554;}
+aside>a.button:hover{color:#eed;background-color:#665;}
+aside>a.button:active{color:#ddc;background-color:#776;}
+section,section>*{float:left;}
+section{clear:both;}
+section>*{clear:left;}
+.textContent{overflow-y:scroll;word-wrap:break-word;text-align:justify;padding-right:1em;}
+#storage-details>*,section{display:none;}
+::-webkit-scrollbar{width:5px;}
+a.button:active,::-webkit-scrollbar{background-color:#778;}
+a.button:hover,::-webkit-scrollbar-thumb:vertical{background-color:#667;}
+@media(min-width:320px){.textContent,select{font-size:12pt;}
+#infobar{font-size:8pt;}
+#filename{width:275px;}
 }
-
-html, body{
-    position:absolute;
-    width: 100%;
-    height: 100%;
-    -overflow:hidden;
+@media(min-width:641px){.textContent,select{font-size:18pt;}
+#infobar{font-size:10pt;}
+#filename{width:500px;font-size:24pt;}
 }
-
-a{
-    color: #eec;
-}
-
-a:visited{
-    color: #886;
-}
-
-h1 {
-    font-size: 200%;
-}
-
-h2{
-    font-size: 150%;
-}
-
-h3{
-    font-size: 125%;
-}
-
-h4{
-    font-size: 100%;
-}
-
-html, body, .button, input, textarea, select{
-    font-family: Georgia, Tahoma, serif;
-    background-color: #445;
-    color: #aab;
-    margin: 0;
-    padding:0;
-    border: 0;
-}
-
-#menu{
-  text-align:center;
-}
-#menu>p{width:100%;}
-
-#menu>.button{
-    width:100%;
-}
-
-aside{
-    position:absolute;
-    font-size: 12pt;
-    font-weight: bold;
-    padding: 0.5em;
-    border-size: 5px;
-    top:2em;
-}
-
-.button{
-    margin-right: 1em;
-    border:solid 1px #667;
-    margin:0;
-    padding:1em;
-    min-width:3em;
-    text-align:center;
-    text-decoration:none;
-    display:inline-block;
-    cursor:pointer;
-}
-
-a.button, a.button:visited{
-    color:#aab;
-    background-color:#556;
-}
-
-a.button:hover{
-    color:#bbc;
-    background-color:#667;
-}
-
-a.button:active{
-    color:#ccd;
-    background-color:#778;
-}
-
-aside, aside>a.button{
-    border-style: solid;
-    border-color: #887;
-    margin-left:1em;
-}
-
-aside, aside>a.button, aside>a.button:visited{
-    color: #ffe;
-    background-color: #554;
-}
-
-aside>a.button:hover{
-    color: #eed;
-    background-color: #665;
-}
-
-aside>a.button:active{
-    color: #ddc;
-    background-color: #776;
-}
-
-section{
-    display:none;
-    float:left;
-    clear:both;
-    width:100%;
-    height: 100%;
-}
-
-section>*{
-    float:left;
-    clear:left;
-}
-
-.textContent{
-    overflow-y: scroll;
-    word-wrap: break-word;
-    text-align: justify;
-    padding-right: 1em;
-    height: 100%;
-    width:100%;
-}
-
-#storage-details>*{
-    display: none;
-}
-
-@media(min-width:320px){
-    .textContent, select{
-        font-size: 12pt;
-    }
-    #infobar {
-        font-size:8pt;
-    }
-    #filename{
-        width:275px;
-    }
-}
-
-@media(min-width:641px){
-    .textContent, select{
-        font-size: 18pt;
-    }
-    #infobar {
-        font-size:10pt;
-    }
-    #filename{
-        width:500px;
-        font-size:24pt;
-    }
-}
-
-@media(min-width:1080px){
-    .textContent, select{
-        font-size: 24pt;
-    }
-    #filename{
-        font-size:30pt;
-    }
-    section{
-        padding:10em;
-    }
-}
-
-::-webkit-scrollbar {
-    width: 5px;
-    background-color: #778;
-}
-
-::-webkit-scrollbar-thumb:vertical {
-    background-color: #667;
+@media(min-width:1080px){.textContent,select{font-size:24pt;}
+#filename{font-size:30pt;}
+section{padding:10em;}
 }
