@@ -2,10 +2,14 @@ var data = null,
     currentChapter = null;
 
 function autoSave(){
-    unsavedFileIndicator.style.display = "";
-    if(autoSave.timeout)
-        clearTimeout(autoSave.timeout);
-    autoSave.timeout = setTimeout(saveFile, 3000);
+    var prev = data.chapters[currentChapter].doc;
+    var cur = editor.getValue();
+    if(prev != cur){
+        unsavedFileIndicator.style.display = "";
+        if(autoSave.timeout)
+            clearTimeout(autoSave.timeout);
+        autoSave.timeout = setTimeout(saveFile, 3000);
+    }
 }
 
 function addNewFile(txt) {
