@@ -29,37 +29,13 @@ function utf8_to_b64(str) {
 }
 
 var fileSavers = {
-    local: function(fail, success, doc){
-        if(window.localStorage){
-            window.localStorage.setItem("data", doc);
-            success();
-        }
-        else
-            fail();
-    },
-    dropbox: withDB.bind(this, dbSave)
+    local: localSave,
+    dropbox: dorpboxSave
 };
 
-var fileLoaders = {
-    local: function (fail, success) {
-        var data = window.localStorage.getItem("data")
-          || window.localStorage.getItem("chapters");
-        parseFileData(data, fail, success);
-    },
-    dropbox: withDB.bind(this, dbLoad),
-    "default": function(fail, success){
-        data = {
-            chapters: [],
-            snippets: []
-        };
-        addNewFile();
-        setSetting("storageType", "local");
-        if (!isMobile && !window.fullScreen)
-          note(main, "fullscreen-note", "Consider running in full-screen by hitting F11 on your keyboard."
-               + "<a class=\"button\" href=\"javascript:toggleFullScreen()\">go fullscreen</a>", 1000);
-        success();
-    }
-};
+function onSuccessfulSave(){
+    unsavedFileIndicator.style.display = "none";
+}
 
 function saveFile(types) {
     if(autoSave.timeout)
@@ -82,6 +58,12 @@ function saveFile(types) {
     }
 }
 
+var fileLoaders = {
+    local: localLoad,
+    dropbox: dorpboxLoad,
+    "default": defaultLoad
+};
+
 function onSuccessfulLoad(){
     // delete the word counts, so the word counter can pick up later.
     data.chapters.forEach(function (file) {
@@ -95,10 +77,6 @@ function onSuccessfulLoad(){
     currentSnippet = data.snippets.length;
     updateSnippetCount();
     showSnippet();
-}
-
-function onSuccessfulSave(){
-    unsavedFileIndicator.style.display = "none";
 }
 
 function loadData(types) {
@@ -122,6 +100,19 @@ function loadData(types) {
             }
         }
     }
+}
+
+function defaultLoad(fail, success){
+    data = {
+        chapters: [],
+        snippets: []
+    };
+    addNewFile();
+    setSetting("storageType", "local");
+    if (!isMobile && !window.fullScreen)
+      note(main, "fullscreen-note", "Consider running in full-screen by hitting F11 on your keyboard."
+           + "<a class=\"button\" href=\"javascript:toggleFullScreen()\">go fullscreen</a>", 1000);
+    success();
 }
 
 function parseFileData(fileData, fail, success) {

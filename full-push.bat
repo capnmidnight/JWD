@@ -1,0 +1,1 @@
+ftp -i -n -s:commands.txt seanmcbeth.com

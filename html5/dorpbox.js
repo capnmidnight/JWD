@@ -2,12 +2,11 @@ var dbClient = null,
     dbDataStoreMGR = null,
     dbDataStore = null;
 
-function dbSetup(){
-    withDB(function () { },
-           function () { });
-}
+function dorpbox(thunk, fail, success, doc){
+    if(!thunk) thunk = function(){};
+    if(!fail) fail = function(){};
+    if(!success) success = function(){};
 
-function withDB(thunk, fail, success, doc){
     if(!window.Dropbox)
         fail();
     else{
@@ -37,36 +36,40 @@ function withDB(thunk, fail, success, doc){
     }
 }
 
-function dbLoad(fail, success) {
-    var doc = null;
-    if (dbDataStore) {
-        var table = dbDataStore.getTable("jwd");
-        var records = table.query();
-        var fieldName = "data";
-        if(records.length == 0){
-            table = dbDataStore.getTable("books");
-            records = table.query();
-            fieldName = "chapters";
+function dorpboxLoad(fail, success) {
+    dorpbox(function(fail, success){
+        var doc = null;
+        if (dbDataStore) {
+            var table = dbDataStore.getTable("jwd");
+            var records = table.query();
+            var fieldName = "data";
+            if(records.length == 0){
+                table = dbDataStore.getTable("books");
+                records = table.query();
+                fieldName = "chapters";
+            }
+            if(records.length > 0)
+                doc = records[0].get(fieldName);
         }
-        if(records.length > 0)
-            doc = records[0].get(fieldName);
-    }
-    parseFileData(doc, fail, success);
+        parseFileData(doc, fail, success);
+    }, fail, success);
 }
 
-function dbSave(fail, success, doc) {
-    if(dbDataStore){
-        var table = dbDataStore.getTable("jwd");
-        var records = table.query();
-        if (records.length == 0)
-            table.insert({data: doc});
-        else {
-            records[0].set("data", doc);
-            for (var i = 1; i < records.length; ++i)
-                records[i].deleteRecord();
+function dorpboxSave(fail, success, doc) {
+    dorpbox(function(fail, success, doc){
+        if(dbDataStore){
+            var table = dbDataStore.getTable("jwd");
+            var records = table.query();
+            if (records.length == 0)
+                table.insert({data: doc});
+            else {
+                records[0].set("data", doc);
+                for (var i = 1; i < records.length; ++i)
+                    records[i].deleteRecord();
+            }
+            success();
         }
-        success();
-    }
-    else
-        fail();
+        else
+            fail();
+    }, fail, success, doc);
 }

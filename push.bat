@@ -1,1 +1,1 @@
-ftp -i -n -s:commands.txt seanmcbeth.com
+ftp -i -n -s:commands-skip-pdf.txt seanmcbeth.com
