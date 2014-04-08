@@ -22,16 +22,6 @@ function showFile() {
     chapterName.setValue(data.chapters[currentChapter].name);
     fileCount.setValue(fmt("$1 of $2", currentChapter + 1, data.chapters.length));
     countWords();
-    showScroll();
-}
-
-function showScroll() {
-    scrollbar.setValue(editor.getValue().sanitize());
-}
-
-function moveScroll(evt) {
-    var sel = scrollbar.getSelection();
-    editor.setSelection(sel);
 }
 
 function utf8_to_b64(str) {

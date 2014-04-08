@@ -49,7 +49,7 @@ html, body, button, input, textarea, select{
 }
 #menu>p{width:100%;}
 
-#editArea, #menu>button{
+#menu>button{
     width:100%;
 }
 
@@ -103,14 +103,10 @@ section>*{
     clear:left;
 }
 
-#editor, #scrollbar{
-    float:right;
-    height:100%;
-}
-
 .textContent{
     overflow-y: scroll;
     word-wrap: break-word;
+    text-align: justify;
     padding-right: 1em;
     height: 100%;
     width:100%;
@@ -124,9 +120,6 @@ section>*{
     .textContent, select{
         font-size: 12pt;
     }
-    #scrollbar {
-        width: 25px;
-    }
     #infobar {
         font-size:8pt;
     }
@@ -138,9 +131,6 @@ section>*{
 @media(min-width:641px){
     .textContent, select{
         font-size: 18pt;
-    }
-    #scrollbar {
-        width: 50px;
     }
     #infobar {
         font-size:10pt;
@@ -155,18 +145,12 @@ section>*{
     .textContent, select{
         font-size: 24pt;
     }
-    #scrollbar {
-        width: 100px;
-    }
     #filename{
         font-size:30pt;
     }
-}
-
-#scrollbar{
-    font-size: 2px;
-    color: #fff;
-    background-color: #667;
+    section{
+        padding:10em;
+    }
 }
 
 ::-webkit-scrollbar {

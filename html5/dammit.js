@@ -6,12 +6,10 @@ var header = null,
     main = null,
     unsavedFileIndicator = null,
     chapterName = null,
-    editArea = null,
     editor = null,
     snippetsEditor = null,
     snippetControls = null,
     snippetCounts = null,
-    scrollbar = null,
     totalWordCount = null,
     addWordCount = null,
     clock = null,
@@ -28,12 +26,7 @@ var header = null,
 function getControls(){
     window.addEventListener("keyup", runCommands, false);
     window.addEventListener("resize", resize, false);
-    window.addEventListener("popstate", function(evt){
-        if(evt.state)
-            showTab(evt.state[0], evt.state[1]);
-        else
-            showTab("main", "menu");
-    }, false);
+    window.addEventListener("popstate", moveHistory, false);
 
     header = getDOM("header");
     menu = getDOM("menu");
@@ -44,7 +37,6 @@ function getControls(){
     main = getDOM("#main");
     unsavedFileIndicator = getDOM("#unsaved-file-indicator");
     chapterName = getDOM("#chapter-name");
-    editArea = getDOM("#editArea");
     totalWordCount = getDOM("#total-word-count");
     addWordCount = getDOM("#add-word-count");
     clock = getDOM("#clock");
@@ -64,11 +56,7 @@ function getControls(){
     editor = getDOM("#editor");
     editor.addEventListener("keyup", interrobang, false);
     editor.addEventListener("keyup", countWords, false);
-    editor.addEventListener("keyup", showScroll, false);
     editor.addEventListener("keyup", autoSave, false);
-
-    scrollbar = getDOM("#scrollbar");
-    scrollbar.addEventListener("mouseup", moveScroll, false);
 
     minFreqCount = spinner(getDOM("#min-frequency"), "Minimum frequency:", 1, 1000);
     minFreqCount.addEventListener("change", frequencyAnalysis, false);
@@ -120,16 +108,20 @@ function showTab(parentID, id, saveState){
         window.history.pushState([parentID, id]);
 }
 
+function moveHistory(evt){
+    if(evt.state)
+        showTab(evt.state[0], evt.state[1]);
+    else
+        showTab("main", "menu");
+}
+
 function resize(){
     if(window.fullScreen)
         hide("fullscreen-note");
 
     main.style.height = px(window.innerHeight - header.clientHeight);
-    editArea.style.height = px(main.clientHeight - chapterName.clientHeight);
-    editor.style.width = px(
-        editArea.clientWidth
-        - scrollbar.clientWidth
-        - 10);
+    editor.style.height = "100%";
+    editor.style.height = px(editor.clientHeight - chapterName.clientHeight);
 }
 
 function clockTick(){
