@@ -62,20 +62,10 @@ aside{
     top:2em;
 }
 
-aside, aside>.button{
-    color: #ffe;
-    border-style: solid;
-    border-color: #887;
-    background-color: #554;
-    margin-left:1em;
-}
-
 .button{
     margin-right: 1em;
     border:solid 1px #667;
     margin:0;
-    background-color:#556;
-    color:#aab;
     padding:1em;
     min-width:3em;
     text-align:center;
@@ -84,17 +74,40 @@ aside, aside>.button{
     cursor:pointer;
 }
 
-.button:hover{   
+a.button, a.button:visited{
+    color:#aab;
+    background-color:#556;
+}
+
+a.button:hover{
+    color:#bbc;
     background-color:#667;
 }
 
-.button:active{
-    background-color:#667;
-}
-
-.button.selected{
-    background-color:#778;
+a.button:active{
     color:#ccd;
+    background-color:#778;
+}
+
+aside, aside>a.button{
+    border-style: solid;
+    border-color: #887;
+    margin-left:1em;
+}
+
+aside, aside>a.button, aside>a.button:visited{
+    color: #ffe;
+    background-color: #554;
+}
+
+aside>a.button:hover{
+    color: #eed;
+    background-color: #665;
+}
+
+aside>a.button:active{
+    color: #ddc;
+    background-color: #776;
 }
 
 section{
