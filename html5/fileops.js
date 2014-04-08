@@ -56,7 +56,7 @@ var fileLoaders = {
         setSetting("storageType", "local");
         if (!isMobile && !window.fullScreen)
           note(main, "fullscreen-note", "Consider running in full-screen by hitting F11 on your keyboard."
-               + "<button type=\"button\" onclick=\"toggleFullScreen()\">go fullscreen</button>", 1000);
+               + "<a class=\"button\" href=\"javascript:toggleFullScreen()\">go fullscreen</a>", 1000);
         success();
     }
 };

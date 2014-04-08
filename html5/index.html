@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <title>Just Write, Dammit!</title>
@@ -23,33 +23,40 @@
 <body onload="pageLoad()">
     <form name="form">
         <header>
-            <button type="button" onclick="showTab('main', 'menu', true);">menu</button>
-            <button type="button" onclick="saveFile()">save</button>
+            <a class="button" href="javascript:showTab('main', 'menu', true);">menu</a>
+            <a class="button" href="javascript:saveFile()">save</a>
+
+
             <span id="file-controls">
-                <button type="button" onclick="prevFile()">prev</button>
-                <button type="button" onclick="nextFile()">next</button>
-                <button type="button" onclick="addNewFile()">new</button>
+                <a class="button" href="javascript:prevFile()">prev</a>
+                <a class="button" href="javascript:nextFile()">next</a>
+                <a class="button" href="javascript:addNewFile()">new</a>
                 <div>
                     <span id="file-count"></span>
                     <span id="unsaved-file-indicator">(unsaved)</span>
                     <input type="text" id="chapter-name" spellcheck="false" placeholder="(new chapter)">
                 </div>
             </span>
+
+
             <span id="snippet-controls">
-                <button type="button" onclick="prevSnippet()">prev</button>
-                <button type="button" onclick="nextSnippet()">next</button>
+                <a class="button" href="javascript:prevSnippet()">prev</a>
+                <a class="button" href="javascript:nextSnippet()">next</a>
                 <span id="snippet-count"></span>
             </span>
         </header>
         <div id="main">
+
+
+
             <section id="menu" data-hide-menu="true">
-                <button type="button">snippet</button>
-                <button type="button">write</button>
-                <button type="button">edit</button>
-                <button type="button">analyze</button>
-                <button type="button">publish</button>
-                <button type="button">configure</button>
-                <button type="button">help</button>
+                <a class="button">snippet</a>
+                <a class="button">write</a>
+                <a class="button">edit</a>
+                <a class="button">analyze</a>
+                <a class="button">publish</a>
+                <a class="button">configure</a>
+                <a class="button">help</a>
                 <p>Just Write, Dammit!<br>
                     Writing first, editing second.<br>
                     <a href="https://github.com/capnmidnight/jwd" target="_new">Free, open-source software</a>.<br>
@@ -61,9 +68,15 @@
                         | <a href="dmca.pdf">dmca notice</a></em></small>
                 </p>
             </section>
+
+
+
             <section id="snippet" data-show-snippet-controls="true">
                 <textarea id="snippets-editor" class="textContent" spellcheck="false" cols="50" rows="50" placeholder="(save an idea!)"></textarea>
             </section>
+
+
+
             <section id="write" data-show-file-controls="true">
                 <textarea id="editor" class="textContent" spellcheck="false" cols="50" rows="50" placeholder="(type text here)"></textarea>
                 <div id="infobar">
@@ -72,6 +85,9 @@
                     <label for="clock">Elapsed time:</label> <span id="clock"></span>
                 </div>
             </section>
+
+
+
             <section id="edit" data-show-file-controls="true">
                 <article class="textContent">
                     <h1>Editing</h2>
@@ -80,6 +96,9 @@
                         separately from character-based selection.)</em></p>
                 </article>
             </section>
+
+
+
             <section id="analyze" data-show-file-controls="true">
                 <article id="frequency" class="textContent">
                     <h1>Word frequency analysis</h1>
@@ -96,6 +115,9 @@
                     <p id="word-4-frequency"></p>
                 </article>
             </section>
+
+
+
             <section id="publish" data-show-file-controls="true">
                 <article class="textContent">
                     <h1>Publishing</h1>
@@ -105,6 +127,9 @@
                     </p>
                 </article>
             </section>
+
+
+
             <section id="configure">
                 <article class="textContent">
                     <h1>Configuration</h1>
@@ -117,7 +142,7 @@
                         <option value="dropbox">Dropbox</option>
                         <option value="onedrive">Microsoft OneDrive</option>
                         <option value="gdrive">Google Drive</option>
-                    </select><button type="button" onclick="loadData()">Load data</button>
+                    </select><a class="button" href="javascript:loadData()">Load data</a>
                     <div id="storage-details">
                         <p id="storage-local">
                             Store the data in your current browser (<span id="browser-info"></span>). You will not be able to share data between browsers or computers. Data will always be immediately available for use.
@@ -141,12 +166,15 @@
                         <label for="browse-storage-file">Import data from a file: </label><input type="file" id="browse-storage-file" />
                     </p>
                     <p>
-                        <label for="export-file">Export data to a file: </label><button type="button" onclick="exportFile()">Export</button>
+                        <label for="export-file">Export data to a file: </label><a class="button" href="javascript:exportFile()">Export</a>
                     </p>
                     <h2>DANGER! Developer settings!</h2>
-                    <p><button type="button" onclick="XXX_RESET_XXX()">Reset everything</button></p>
+                    <p><a class="button" href="javascript:XXX_RESET_XXX()">Reset everything</a></p>
                 </article>
             </section>
+
+
+
             <section id="help">
                 <article class="textContent">
                     <h3>Just Write, Dammit!</h3>

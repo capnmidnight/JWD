@@ -54,9 +54,9 @@ function msg(parent, id, msgTxt, delay, length){
 
     var box = aside(
         {id:id},
-        button({
+        a({
             id: id + "-dismiss-button",
-            type: "button",
+            className: "button",
             onclick: function(){
                 setStyle("display", "none", box);
             }
@@ -92,7 +92,7 @@ function spinner(txt, lbl, min, max){
 
     setStyle("textAlign", "right", txt);
     container.appendChild(txt);
-    container.appendChild(button({type: "button",
+    container.appendChild(a({className: "button",
             onclick: function(){
                 var v = txt.getValue();
                 if(v > min){
@@ -101,7 +101,7 @@ function spinner(txt, lbl, min, max){
                 }
             }
         }, "-"));
-    container.appendChild(button({type: "button",
+    container.appendChild(a({className: "button",
             onclick: function(){
                 var v = txt.getValue();
                 if(v < max){
@@ -116,7 +116,7 @@ function spinner(txt, lbl, min, max){
 
 
 function fileUpload(fup){
-    var browse = button({type:"button",
+    var browse = a({className:"button",
             onclick: function(){
                 fup.click()
             }

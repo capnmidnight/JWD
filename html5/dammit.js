@@ -41,7 +41,7 @@ function getControls(){
     addWordCount = getDOM("#add-word-count");
     clock = getDOM("#clock");
 
-    menuItems = getDOMAll("#menu>button");
+    menuItems = getDOMAll("#menu>.button");
     menuItems.forEach(function (mnu) {
         var id = mnu.getValue();
         setSetting("lastView", id);
@@ -141,6 +141,7 @@ function clockTick(){
 function redirectCheck(){
     if(document.location.hostname != "localhost"
        && document.location.hostname != "127.0.0.1"
+       && !document.location.hostname.match(/192\.168\.0\.\d+/)
        && document.location.protocol == "http:")
         document.location = document.location.href.replace("http://", "https://");
 }
