@@ -21,7 +21,8 @@ var header = null,
     word4Frequency = null,
     browserInfo = null,
     storageType = null,
-    storageFile = null;
+    storageFile = null,
+    themeStyle = null;
 
 function getControls(){
     window.addEventListener("keyup", runCommands, false);
@@ -80,6 +81,19 @@ function getControls(){
 
     storageFile = fileUpload(getDOM("#browse-storage-file"));
     storageFile.addEventListener("change", loadFromFile, false);
+
+    themeStyle = getDOM("#theme-block");
+    getDOMAll("td").forEach(function(cell, i){
+        cell.addEventListener("click", function(){
+            setTheme(i);
+            setSetting("theme", i);
+        });
+    });
+    setTheme(getSetting("theme") || 0);
+}
+
+function setTheme(i){
+    themeStyle.href = fmt("color$1.css", i * 1 + 1);
 }
 
 function onStorageTypeChanged(){
