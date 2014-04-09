@@ -1,0 +1,14 @@
+html,body,a.button,input,textarea,select{font-family:Georgia,Tahoma,serif;background-color:#004;}
+a.button,a.button:visited{background-color:#005;}
+aside,aside>a.button,aside>a.button:visited{color:#00f;background-color:#005;}
+aside>a.button:hover{color:#00e;background-color:#006;}
+a.button:hover,::-webkit-scrollbar-thumb:vertical{background-color:#006;}
+aside>a.button:active{color:#00d;background-color:#007;}
+a.button:active,::-webkit-scrollbar{background-color:#007;}
+a:visited{color:#008;}
+a.button,td{border-color:#006;}
+aside,aside>a.button{border-color:#008;}
+html,body,input,textarea,select,a.button,a.button:visited{color:#00a;}
+a.button:hover{color:#00b;}
+a.button:active{color:#00c;}
+a{color:#00e;}

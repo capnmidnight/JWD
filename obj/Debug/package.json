@@ -1,0 +1,30 @@
+{
+    "name": "JWD",
+    "version": "0.0.1",
+    "license": "MIT License",
+    "readme": "./README.txt",
+    "dependencies": {
+        "mime": "latest"
+    },
+
+    "devDependencies": {
+        "mocha": "latest"
+    },
+
+    "description": "Write platform for getting work done.",
+    "keywords": ["writing", "books", "publishing", "authoring"],
+
+    "homepage": "http://www.seanmcbeth.com/jwd",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/capnmidnight/JWD"
+    },
+    "bugs": "https://github.com/capnmidnight/JWD/issues",
+    "author": "Sean T. McBeth <sean.mcbeth+JWD@gmail.com> (http://www.seanmcbeth.com)",
+
+    "main": "./server.js",
+    "scripts": {
+        "start": "node server",
+        "test": "mocha"
+    }
+}

@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{e7fb433a-fb18-41bc-a1a8-7a87826efeae}</ProjectGuid>
+    <ProjectHome />
+    <ProjectView>ProjectFiles</ProjectView>
+    <StartupFile>server.js</StartupFile>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <ItemGroup>
+    <Content Include="commands.txt" />
+    <Content Include="README.txt" />
+    <Content Include="package.json" />
+    <Compile Include="server.js" />
+    <Content Include="html5\index.html" />
+    <Content Include="html5\color1.css" />
+    <Content Include="html5\color2.css" />
+    <Content Include="html5\color3.css" />
+    <Content Include="html5\color4.css" />
+    <Content Include="html5\color5.css" />
+    <Content Include="html5\color6.css" />
+    <Content Include="html5\style.css" />
+    <Content Include="html5\jwd1024x1024.png" />
+    <Content Include="html5\jwd128x128.png" />
+    <Content Include="html5\jwd16x16.png" />
+    <Content Include="html5\jwd256x256.png" />
+    <Content Include="html5\jwd32x32.png" />
+    <Content Include="html5\jwd48x48.png" />
+    <Content Include="html5\jwd50x50.png" />
+    <Content Include="html5\jwd512x512.png" />
+    <Content Include="html5\jwd64x64.png" />
+    <Compile Include="html5\dammit.js" />
+    <Compile Include="html5\desktop.js" />
+    <Compile Include="html5\dorpbox.js" />
+    <Compile Include="html5\fileops.js" />
+    <Compile Include="html5\interrobang.js" />
+    <Compile Include="html5\local.js" />
+    <Compile Include="html5\markdownsyndrome.js" />
+    <Compile Include="html5\poindexter.js" />
+    <Compile Include="html5\psychologist.js" />
+    <Compile Include="html5\selecticator.js" />
+    <Compile Include="html5\snippets.js" />
+    <Compile Include="html5\stuffing.js" />
+    <Content Include="java\preview-application.html" />
+    <Content Include="java\style.css" />
+    <Content Include="java\jwd.png" />
+    <Content Include="java\jwd_splash.png" />
+    <Content Include="java\logo.png" />
+    <Content Include="java\bg.jpg" />
+    <Content Include="java\build.xml" />
+    <Compile Include="src\core.js" />
+    <Compile Include="src\webServer.js" />
+    <Content Include="java\nbproject\build-impl.xml" />
+    <Content Include="java\nbproject\jnlp-impl.xml" />
+    <Content Include="java\nbproject\project.xml" />
+    <Content Include="java\nbproject\private\private.xml" />
+    <Content Include="java\nbproject\private\retriever\catalog.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="html5" />
+    <Folder Include="java" />
+    <Folder Include="java\nbproject" />
+    <Folder Include="java\nbproject\configs" />
+    <Folder Include="java\nbproject\private" />
+    <Folder Include="java\nbproject\private\retriever" />
+    <Folder Include="java\src" />
+    <Folder Include="java\src\com" />
+    <Folder Include="java\src\com\wedusc" />
+    <Folder Include="java\src\com\wedusc\justwritedammit" />
+    <Folder Include="java\src\com\wedusc\ui" />
+    <Folder Include="src" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:48022/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost:1337</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

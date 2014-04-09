@@ -103,8 +103,6 @@ function onStorageTypeChanged(){
     showTab("storage-details", "storage-" + type);
     if (type == "dropbox")
         dorpbox();
-    else if(type == "gdrive")
-        gdrive();
 }
 
 function showTab(parentID, id, saveState){

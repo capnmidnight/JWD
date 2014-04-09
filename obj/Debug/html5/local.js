@@ -4,7 +4,7 @@ function localSave(fail, success, doc){
         success();
     }
     else
-        fail("Browser doesn't support local storage.");
+        fail();
 }
 
 function localLoad(fail, success) {
