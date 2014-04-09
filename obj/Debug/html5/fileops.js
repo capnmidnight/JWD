@@ -35,6 +35,7 @@ function utf8_to_b64(str) {
 var fileSavers = {
     local: localSave,
     dropbox: dorpboxSave,
+    gdrive: gdriveSave,
 };
 
 function onSuccessfulSave(){
@@ -56,7 +57,10 @@ function saveFile(types) {
         var doc = JSON.stringify(data);
         var type = types.shift();
         if(type && fileSavers[type])
-            fileSavers[type](function(){
+            fileSavers[type](function(err){
+                note(main, 
+                    fmt("save-$1-failed", type),
+                    fmt("Couldn't save file to $1. Reason: $2", type, err));
                 setTimeout(saveFile, 1, types);
             }, onSuccessfulSave, doc);
     }
@@ -65,6 +69,7 @@ function saveFile(types) {
 var fileLoaders = {
     local: localLoad,
     dropbox: dorpboxLoad,
+    gdrive: gdriveLoad,
     "default": defaultLoad
 };
 
@@ -103,10 +108,8 @@ function loadData(types) {
             var fail = setTimeout.bind(window, loadData, 1, types);
             if (fileLoaders[type])
                 fileLoaders[type](fail, onSuccessfulLoad);
-            else{
-                note(header, "load-failed-msg", fmt("Storage type \"$1\" is not yet supported", type));
-                fail();
-            }
+            else
+                fail(fmt("Storage type \"$1\" is not yet supported", type));
         }
     }
 }
@@ -140,7 +143,7 @@ function parseFileData(fileData, fail, success) {
     if(data)
         success();
     else
-        fail();
+        fail("Couldn't parse file data: " + JSON.stringify(fileData));
 }
 
 function nextFile() {

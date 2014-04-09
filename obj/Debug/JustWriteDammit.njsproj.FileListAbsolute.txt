@@ -54,3 +54,6 @@ c:\users\thinkpad\documents\github\jwd\obj\Debug\node_modules\mime\test.js
 c:\users\thinkpad\documents\github\jwd\obj\Debug\node_modules\mime\types\mime.types
 c:\users\thinkpad\documents\github\jwd\obj\Debug\node_modules\mime\types\node.types
 c:\users\thinkpad\documents\github\jwd\obj\Debug\bin\Microsoft.NodejsTools.WebRole.dll
+c:\users\thinkpad\documents\github\jwd\obj\Debug\html5\gdrive.js
+c:\users\thinkpad\documents\github\jwd\obj\Debug\html5\color8.css
+c:\users\thinkpad\documents\github\jwd\obj\Debug\html5\color7.css

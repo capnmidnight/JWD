@@ -1,0 +1,12 @@
+html,body,a.button,input,textarea,select{font-family:Georgia,Tahoma,serif;background-color:#000;}
+a.button,a.button:visited,td{background-color:#111;}
+aside,aside>a.button,aside>a.button:visited{color:#fff;background-color:#222;}
+aside>a.button:hover{background-color:#333;}
+a.button:hover,::-webkit-scrollbar-thumb:vertical{background-color:#777;}
+aside>a.button:active{color:#cdd;background-color:#888;}
+a.button:active,::-webkit-scrollbar{background-color:#666;}
+a:visited{color:#fff;}
+html,body,input,textarea,select,a.button,a.button:visited{color:#fff;}
+a.button:hover{color:#111;}
+a.button:active{color:#111;}
+a{color:#fff;}

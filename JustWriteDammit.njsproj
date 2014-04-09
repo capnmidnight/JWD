@@ -17,16 +17,19 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
     <Content Include="commands.txt" />
+    <Content Include="html5\color8.css" />
+    <Content Include="html5\color4.css" />
     <Content Include="README.txt" />
     <Content Include="package.json" />
+    <Compile Include="html5\gdrive.js" />
     <Compile Include="server.js" />
     <Content Include="html5\index.html" />
     <Content Include="html5\color1.css" />
     <Content Include="html5\color2.css" />
     <Content Include="html5\color3.css" />
-    <Content Include="html5\color4.css" />
     <Content Include="html5\color5.css" />
     <Content Include="html5\color6.css" />
+    <Content Include="html5\color7.css" />
     <Content Include="html5\style.css" />
     <Content Include="html5\jwd1024x1024.png" />
     <Content Include="html5\jwd128x128.png" />

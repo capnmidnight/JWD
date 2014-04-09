@@ -6,12 +6,12 @@ function dorpbox(thunk, fail, success, doc){
     if(!thunk) thunk = function(){};
     if(!fail) fail = function(){};
     if(!success) success = function(){};
-    if(!window.Dropbox) fail();
+    if(!window.Dropbox) fail("Dropbox SDK not found");
     else{
         if(!dbClient) dbClient = new Dropbox.Client({key: "g2rnjvo102estt0"});
         dbClient.authenticate({interactive: true},
         function (error) {
-            if (error) fail();
+            if (error) fail("Dropbox error loc #1: " + error);
             else       thunk(fail, success, doc);
         });
     }
@@ -44,7 +44,7 @@ function dorpboxLoad(fail, success) {
                     .getDatastoreManager()
                     .openDefaultDatastore(function (error, datastore) {
                         if (error)
-                            fail();
+                            fail("Dropbox error loc #2: " + error);
                         else {
                             dbDataStore = datastore;
                             thunk(fail, success, doc);
@@ -64,13 +64,13 @@ function dorpboxSave(fail, success, doc) {
 function saveFileToDropbox(filename, data, success, fail){
     dorpbox(function(fail, success, data){
         if(!dbClient)
-            fail();
+            fail("Dropbox setup broken, no Client object");
         else
             dbClient.writeFile(
                 filename,
                 data,
                 function(err, stat){
-                    if(err) fail();
+                    if(err) fail("Dropbox error loc #3: " + err);
                     else    success();
                 });
     }, fail, success, data);
