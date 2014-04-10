@@ -3,7 +3,7 @@ var data = null,
 
 function autoSave(){
     var prev = data.chapters[currentChapter].doc;
-    var cur = editor.getValue();
+    var cur = writer.getValue();
     if(prev != cur){
         unsavedFileIndicator.style.display = "";
         if(autoSave.timeout)
@@ -22,7 +22,7 @@ function addNewFile(txt) {
 }
 
 function showFile() {
-    editor.setValue(data.chapters[currentChapter].doc);
+    writer.setValue(data.chapters[currentChapter].doc);
     chapterName.setValue(data.chapters[currentChapter].name);
     fileCount.setValue(fmt("$1 of $2", currentChapter + 1, data.chapters.length));
     countWords();
@@ -159,7 +159,7 @@ function prevFile() {
 }
 
 function stowFile() {
-    data.chapters[currentChapter].doc = editor.getValue();
+    data.chapters[currentChapter].doc = writer.getValue();
     data.chapters[currentChapter].name = chapterName.getValue();
 }
 

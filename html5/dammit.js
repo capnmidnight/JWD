@@ -6,6 +6,7 @@ var header = null,
     main = null,
     unsavedFileIndicator = null,
     chapterName = null,
+    writer = null,
     editor = null,
     snippetsEditor = null,
     snippetControls = null,
@@ -50,14 +51,18 @@ function getControls(){
         menuItems[id] = mnu;
     });
     menuItems["analyze"].addEventListener("click", frequencyAnalysis, false);
+    menuItems["edit"].addEventListener("click", buildEditView, false);
 
     snippetsEditor = getDOM("#snippets-editor");
     snippetsEditor.addEventListener("keyup", saveSnippets, false);
 
+    writer = getDOM("#writer");
+    writer.addEventListener("keyup", interrobang, false);
+    writer.addEventListener("keyup", countWords, false);
+    writer.addEventListener("keyup", autoSave, false);
+    
     editor = getDOM("#editor");
-    editor.addEventListener("keyup", interrobang, false);
-    editor.addEventListener("keyup", countWords, false);
-    editor.addEventListener("keyup", autoSave, false);
+    editor.addEventListener("mousedrag", moveWriting, false);
 
     minFreqCount = spinner(getDOM("#min-frequency"), "Minimum frequency:", 1, 1000);
     minFreqCount.addEventListener("change", frequencyAnalysis, false);
@@ -136,8 +141,8 @@ function resize(){
         hide("fullscreen-note");
 
     main.style.height = px(window.innerHeight - header.clientHeight);
-    editor.style.height = "100%";
-    editor.style.height = px(editor.clientHeight - chapterName.clientHeight);
+    writer.style.height = "100%";
+    writer.style.height = px(writer.clientHeight - chapterName.clientHeight);
 }
 
 function clockTick(){

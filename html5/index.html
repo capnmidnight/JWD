@@ -21,6 +21,7 @@
     <script type="text/javascript" src="desktop.js"></script>
     <script type="text/javascript" src="fileops.js"></script>
     <script type="text/javascript" src="poindexter.js"></script>
+    <script type="text/javascript" src="editroomfloor.js"></script>
     <script type="text/javascript" src="snippets.js"></script>
     <script type="text/javascript" src="dammit.js"></script>
 </head>
@@ -30,28 +31,24 @@
             <a class="button" href="javascript:showTab('main', 'menu', true);">menu</a>
             <a class="button" href="javascript:saveFile()">save</a>
 
-
             <span id="file-controls">
                 <a class="button" href="javascript:prevFile()">prev</a>
                 <a class="button" href="javascript:nextFile()">next</a>
                 <a class="button" href="javascript:addNewFile()">new</a>
-                <div>
-                    <span id="file-count"></span>
-                    <span id="unsaved-file-indicator">(unsaved)</span>
-                    <input type="text" id="chapter-name" spellcheck="false" placeholder="(new chapter)">
-                </div>
+                <br>
+                <span id="file-count"></span>
+                <span id="unsaved-file-indicator">(unsaved)</span>
+                <input type="text" id="chapter-name" spellcheck="false" placeholder="(new chapter)">
             </span>
-
 
             <span id="snippet-controls">
                 <a class="button" href="javascript:prevSnippet()">prev</a>
-                <a class="button" href="javascript:nextSnippet()">next</a><br>
+                <a class="button" href="javascript:nextSnippet()">next</a>
+                <br>
                 <span id="snippet-count"></span>
             </span>
         </header>
         <div id="main">
-
-
 
             <section id="menu" data-hide-menu="true">
                 <a class="button">snippet</a>
@@ -61,28 +58,29 @@
                 <a class="button">publish</a>
                 <a class="button">configure</a>
                 <a class="button">help</a>
-                <p>Just Write, Dammit!<br>
+                <p>
+                    Just Write, Dammit!<br>
                     Writing first, editing second.<br>
                     <a href="https://github.com/capnmidnight/jwd" target="_new">Free, open-source software</a>.<br>
                     © <a href="mailto:sean.mcbeth+jwd@gmail.com">Sean T. McBeth, 2014</a><br>
                     <a href="https://groups.google.com/d/forum/just-write-dammit">Join the email list for notifications.</a><br>
                     <a href="https://www.gittip.com/capnmidnight/">Help me help writers.</a><br>
-                    <small><em><a href="tos.pdf">terms of service</a>
-                        | <a href="privacy_policy.pdf">privacy policy</a>
-                        | <a href="dmca.pdf">dmca notice</a></em></small>
+                    <small>
+                        <em>
+                            <a href="tos.pdf">terms of service</a>
+                            | <a href="privacy_policy.pdf">privacy policy</a>
+                            | <a href="dmca.pdf">dmca notice</a>
+                        </em>
+                    </small>
                 </p>
             </section>
-
-
 
             <section id="snippet" data-show-snippet-controls="true">
                 <textarea id="snippets-editor" class="textContent" spellcheck="false" cols="50" rows="50" placeholder="(save an idea!)"></textarea>
             </section>
 
-
-
             <section id="write" data-show-file-controls="true">
-                <textarea id="editor" class="textContent" spellcheck="false" cols="50" rows="50" placeholder="(type text here)"></textarea>
+                <textarea id="writer" class="textContent" spellcheck="false" cols="50" rows="50" placeholder="(type text here)"></textarea>
                 <div id="infobar">
                     <label for="total-word-count">Total words:</label> <span id="total-word-count"></span>
                     <label for="add-word-count">Add'l words:</label> <span id="add-word-count"></span>
@@ -90,18 +88,13 @@
                 </div>
             </section>
 
-
-
             <section id="edit" data-show-file-controls="true">
                 <article class="textContent">
                     <h1>Editing</h1>
-                    <p><em>(Eventually, this section will contain tools for editing your writing. Spelling and grammar checking will
-                        be here, as will specialized tools for cutting and pasting text in block of paragraphs and sentences,
-                        separately from character-based selection.)</em></p>
+                    <p>Use this section to edit your writing.</p>
+                    <div id="editor"></div>
                 </article>
             </section>
-
-
 
             <section id="analyze" data-show-file-controls="true">
                 <article id="frequency" class="textContent">
@@ -120,25 +113,23 @@
                 </article>
             </section>
 
-
-
             <section id="publish" data-show-file-controls="true">
                 <article class="textContent">
                     <h1>Publishing</h1>
-                    <p><em>(Eventually, this section will contain tools for preparing your books for publishing into various formats.
-                        This will include some basic formatting (with limited options to maintain consistency), ePub and Mobi document
-                        generation, blog integration, and <a href="http://kdp.amazon.com" target="_new">Kindle Direct Publishing</a></em>
+                    <p>
+                        <em>
+                            (Eventually, this section will contain tools for preparing your books for publishing into various formats.
+                            This will include some basic formatting (with limited options to maintain consistency), ePub and Mobi document
+                            generation, blog integration, and <a href="http://kdp.amazon.com" target="_new">Kindle Direct Publishing</a>
+                        </em>
                     </p>
                 </article>
             </section>
-
-
 
             <section id="configure">
                 <article class="textContent">
                     <h1>Configuration</h1>
                     <p>Use this screen to set system settings.</p>
-
                     <h2>Theme</h2>
                     <p>Select the color set you would like to use while writing.</p>
                     <table>
@@ -155,7 +146,6 @@
                             <td style="background-color:#000">&nbsp;</td>
                         </tr>
                     </table>
-
                     <h2>Storage</h2>
                     <p>Select the system you would like to use to store your writing data. The storage configuration setting must be set separately for all browsers and computers. All other configuration settings are stored in the selected storage system.</p>
                     <label for="storage-type">Storage type:</label>
@@ -175,7 +165,6 @@
                             Store the data in your <a href="https://drive.google.com">Google Drive</a> account. You will be able to share data between browsers and computers. Data may not be available without a network connection.
                         </p>
                     </div>
-
                     <h2>Import from/export to file</h2>
                     <p>
                         Store the data on your computer's file system. You will be able to share data between browsers, but not between computers. Data will always be immediately available for use.
@@ -191,8 +180,6 @@
                     <p><a class="button" href="javascript:XXX_RESET_XXX()">Reset everything</a></p>
                 </article>
             </section>
-
-
 
             <section id="help">
                 <article class="textContent">
@@ -212,9 +199,15 @@
                         © <a href="mailto:sean.mcbeth+jwd@gmail.com">Sean T. McBeth, 2014</a>
                         <a href="https://www.gittip.com/capnmidnight/">Help me help writers.</a>
                     </p>
-                    <p><small><em><a href="tos.pdf">terms of service</a>
-                        | <a href="privacy_policy.pdf">privacy policy</a>
-                        | <a href="dmca.pdf">dmca notice</a></em></small></p>
+                    <p>
+                        <small>
+                            <em>
+                                <a href="tos.pdf">terms of service</a>
+                                | <a href="privacy_policy.pdf">privacy policy</a>
+                                | <a href="dmca.pdf">dmca notice</a>
+                            </em>
+                        </small>
+                    </p>
                 </article>
             </section>
         </div>

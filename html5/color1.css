@@ -1,4 +1,7 @@
-html,body,a.button,input,textarea,select{font-family:Georgia,Tahoma,serif;background-color:#445;}
+html,body,input,textarea,select{font-family:Georgia,Tahoma,serif;}
+html,body,input,textarea,.editor{background-color:#445;}
+.sentence{border:solid 1px rgba(0, 255, 0, 0.5);background-color:#556;}
+.paragraph{border:solid 1px rgba(0, 0, 255, 0.5);background-color:#667;}
 a.button,a.button:visited{background-color:#556;}
 aside,aside>a.button,aside>a.button:visited{color:#ffe;background-color:#554;}
 aside>a.button:hover{color:#eed;background-color:#665;}

@@ -22,7 +22,7 @@ function frequency(min, arr) {
 }
 
 function countWords(){
-    var words = editor.getValue()
+    var words = writer.getValue()
         .replace(/<\/?(br|p)>/g, "\n")
         .replace(/<[^>]+>/g, "")
         .replace(/&nbsp;/g, " ")
@@ -40,7 +40,7 @@ function countWords(){
 }
 
 function frequencyAnalysis(){
-    var words = editor.getValue()
+    var words = writer.getValue()
         .replace(/<\/?(br|p)>/g, "\n")
         .replace(/<[^>]+>/g, "")
         .replace(/&nbsp;/g, " ")
