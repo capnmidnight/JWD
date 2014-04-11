@@ -30,17 +30,8 @@ function XXX_RESET_XXX(){
         deleteSetting("lastView");
         window.localStorage.removeItem("chapters");
         window.localStorage.removeItem("data");
-        if(dbClient){
-            if(dbDataStore){
-                ["jwd", "books"].forEach(function(tableName){
-                    var table = dbDataStore.getTable(tableName);
-                    var records = table.query();
-                    for (var i = 0; i < records.length; ++i)
-                        records[i].deleteRecord();
-                });
-            }
-            dbClient.signOut();
-        }
+        dorpboxSignout();
+        gdriveSignout();
         document.location = document.location.href;
     }
 }

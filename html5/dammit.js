@@ -60,7 +60,7 @@ function getControls(){
     writer.addEventListener("keyup", interrobang, false);
     writer.addEventListener("keyup", countWords, false);
     writer.addEventListener("keyup", autoSave, false);
-    
+
     editor = getDOM("#editor");
     editor.addEventListener("mousedrag", moveWriting, false);
 

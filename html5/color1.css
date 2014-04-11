@@ -1,17 +1,20 @@
 html,body,input,textarea,select{font-family:Georgia,Tahoma,serif;}
-html,body,input,textarea,.editor{background-color:#445;}
-.sentence{border:solid 1px rgba(0, 255, 0, 0.5);background-color:#556;}
-.paragraph{border:solid 1px rgba(0, 0, 255, 0.5);background-color:#667;}
-a.button,a.button:visited{background-color:#556;}
-aside,aside>a.button,aside>a.button:visited{color:#ffe;background-color:#554;}
-aside>a.button:hover{color:#eed;background-color:#665;}
-a.button:hover,::-webkit-scrollbar-thumb:vertical{background-color:#667;}
-aside>a.button:active{color:#ddc;background-color:#776;}
+
+html,body,input,textarea,#editor{background-color:#445;}
+aside,aside>a.button,aside>a.button:visited{background-color:#554;}
+a.button,a.button:visited,.sentence{background-color:#556;}
+aside>a.button:hover{background-color:#665;}
+a.button:hover,.paragraph,::-webkit-scrollbar-thumb:vertical{background-color:#667;}
+aside>a.button:active{background-color:#776;}
 a.button:active,::-webkit-scrollbar{background-color:#778;}
-a:visited{color:#886;}
-a.button,td{border-color:#667;}
+
 aside,aside>a.button{border-color:#887;}
-html,body,input,textarea,select,a.button,a.button:visited{color:#aab;}
+
+a:visited{color:#886;}
+html,body,a.button,a.button:visited,input,textarea{color:#aab;}
 a.button:hover{color:#bbc;}
 a.button:active{color:#ccd;}
+aside>a.button:active{color:#ddc;}
 a{color:#eec;}
+aside>a.button:hover{color:#eed;}
+aside,aside>a.button,aside>a.button:visited{color:#ffe;}

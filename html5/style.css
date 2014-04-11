@@ -18,6 +18,8 @@ section,section>*{float:left;}
 section{clear:both;}
 section>*{clear:left;}
 .textContent{overflow-y:scroll;word-wrap:break-word;text-align:justify;padding-right:1em;}
+.sentence{border:solid 1px rgba(0, 255, 0, 0.5);}
+.paragraph{border:solid 1px rgba(0, 0, 255, 0.5);}
 #storage-details>*,section{display:none;}
 ::-webkit-scrollbar{width:5px;}
 @media(min-width:320px){
