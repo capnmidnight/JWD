@@ -1,5 +1,7 @@
-commands.txt
 node_modules/
-commands-skip-pdf.txt
-*.suo
 obj/
+*.suo
+*.bat
+*.sh
+commands.txt
+commands-skip-pdf.txt
