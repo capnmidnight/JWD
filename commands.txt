@@ -1,8 +1,0 @@
-<user>
-<password>
-bin
-lcd html5
-cd seanmcbeth.com/jwd
-prompt
-mput *
-bye
