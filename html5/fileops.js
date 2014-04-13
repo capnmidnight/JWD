@@ -58,7 +58,7 @@ function saveFile(types) {
         var type = types.shift();
         if(type && fileSavers[type])
             fileSavers[type](function(err){
-                note(main, 
+                note(main,
                     fmt("save-$1-failed", type),
                     fmt("Couldn't save file to $1. Reason: $2", type, err));
                 setTimeout(saveFile, 1, types);
@@ -73,11 +73,16 @@ var fileLoaders = {
     "default": defaultLoad
 };
 
+function deEff(val){
+    try{ return decodeURIComponent(escape(val)); }
+    catch(exp){ return val; }
+}
+
 function onSuccessfulLoad(){
     for(var i = 0; i < data.snippets.length; ++i)
-        data.snippets[i] = decodeURIComponent(escape(data.snippets[i]));
+        data.snippets[i] = deEff(data.snippets[i]);
     for(var i = 0; i < data.chapters.length; ++i)
-        data.chapters[i].doc = decodeURIComponent(escape(data.chapters[i].doc));
+        data.chapters[i].doc = deEff(data.chapters[i].doc);
 
     data.chapters.forEach(function(chapter){
         if ("count" in chapter)

@@ -125,8 +125,16 @@ function showTab(parentID, id, saveState){
         }
     });
     resize();
-    if(!!saveState)
-        window.history.pushState([parentID, id], fmt("Just Write, Dammit! > $1 > $2", parentID, id));
+    if(!!saveState){
+        var url = [parentID, id].join("/");
+        if(url.length > 0)
+            url = "#" + url;
+
+        window.history.pushState(
+            [parentID, id],
+            fmt("Just Write, Dammit! > $1 > $2", parentID, id),
+            url);
+    }
 }
 
 function moveHistory(evt){
@@ -167,14 +175,29 @@ function redirectCheck(){
         document.location = document.location.href.replace("http://", "https://");
 }
 
+function firstNavigation(){
+    var parts;
+    if(document.location.hash.length > 0){
+        parts = document.location.hash.substring(1).split("/");
+        if(parts.length == 1)
+            parts.unshift("main");
+    }
+
+    if(parts && parts.length == 2)
+        showTab(parts[0], parts[1]);
+    else if(!getSetting("storageType"))
+        showTab("main", "about");
+    else if(isMobile)
+        showTab("main", "snippet");
+    else
+        showTab("main", "menu");
+}
+
 function pageLoad(){
     redirectCheck();
     getControls();
     clockTick();
     resize();
     loadData();
-    if(isMobile)
-        showTab("main", "snippet");
-    else
-        showTab("main", "menu");
+    firstNavigation();
 }
