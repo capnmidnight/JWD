@@ -158,12 +158,14 @@ function nextFile() {
     stowFile();
     data.currentChapter = (data.currentChapter + 1) % data.chapters.length;
     showFile();
+    saveFile();
 }
 
 function prevFile() {
     stowFile();
     data.currentChapter = (data.currentChapter + data.chapters.length - 1) % data.chapters.length;
     showFile();
+    saveFile();
 }
 
 function stowFile() {
