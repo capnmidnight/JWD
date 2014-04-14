@@ -21,14 +21,32 @@ function dorpbox(thunk, fail, success, doc){
     if(!fail) fail = function(){};
     if(!success) success = function(){};
     if(!window.Dropbox) fail("Dropbox SDK not found");
-    else{
+    else {
         if(!dbClient) dbClient = new Dropbox.Client({key: "g2rnjvo102estt0"});
-        dbClient.authenticate({interactive: true},
-        function (error) {
-            if (error) fail("Dropbox error loc #1: " + error);
-            else       thunk(fail, success, doc);
-        });
+        dorpboxAuth(thunk, fail, success, doc, dbClient.isAuthenticated());
     }
+}
+
+function dorpboxAuth(thunk, fail, success, doc, immediate) {
+    try{
+        dbClient.authenticate(
+            {interactive: !immediate},
+            dorpboxAuthed.bind(window, thunk, fail, success, doc, immediate));
+    }
+    catch(error){
+        dorpboxAuthed(thunk, fail, success, doc, immediate, error);
+    }
+}
+
+function dorpboxAuthed(thunk, fail, success, doc, wasImmediate, error) {
+    if (!error){
+        thunk(fail, success, doc);
+        goog_report_conversion("linkDorpbox");
+    }
+    else if(wasImmediate)
+        dorpboxAuth(thunk, fail, success, doc, false);
+    else
+        fail("Failed to link to Dropbox. Reason: " + error);
 }
 
 function dorpboxLoad(fail, success) {

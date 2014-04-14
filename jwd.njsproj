@@ -18,9 +18,13 @@
   <ItemGroup>
     <Content Include="commands-skip-pdf.txt" />
     <Content Include="commands.txt" />
+    <Content Include="html5\dmca.pdf" />
+    <Content Include="html5\privacy_policy.pdf" />
+    <Content Include="html5\tos.pdf" />
     <Content Include="README.txt" />
     <Content Include="package.json" />
     <Compile Include="html5\editroomfloor.js" />
+    <Compile Include="html5\ga.js" />
     <Compile Include="server.js" />
     <Content Include="html5\index.html" />
     <Content Include="html5\color1.css" />

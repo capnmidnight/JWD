@@ -10,6 +10,7 @@ function saveSnippets(){
         currentSnippet = data.snippets.length;
         updateSnippetCount();
         showSnippet();
+        goog_report_conversion("saveSnip");
     }, 2000);
 }
 

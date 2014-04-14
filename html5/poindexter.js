@@ -32,11 +32,11 @@ function countWords(){
     if(words != null)
         count = words.length;
 
-    if(!data.chapters[currentChapter].count)
-        data.chapters[currentChapter].count = count;
+    if(!data.chapters[data.currentChapter].count)
+        data.chapters[data.currentChapter].count = count;
 
     totalWordCount.setValue(count);
-    addWordCount.setValue(count - data.chapters[currentChapter].count);
+    addWordCount.setValue(count - data.chapters[data.currentChapter].count);
 }
 
 function frequencyAnalysis(){
@@ -87,4 +87,5 @@ function frequencyAnalysis(){
     word2Frequency.setValue(counts2);
     word3Frequency.setValue(counts3);
     word4Frequency.setValue(counts4);
+    goog_report_conversion("analysisFreq");
 }

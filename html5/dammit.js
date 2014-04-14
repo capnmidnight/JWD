@@ -91,10 +91,10 @@ function getControls(){
     getDOMAll("td").forEach(function(cell, i){
         cell.addEventListener("click", function(){
             setTheme(i);
-            setSetting("theme", i);
+            data.theme = i;
+            saveFile();
         });
     });
-    setTheme(getSetting("theme") || 0);
 }
 
 function setTheme(i){
@@ -185,8 +185,10 @@ function firstNavigation(){
 
     if(parts && parts.length == 2)
         showTab(parts[0], parts[1]);
-    else if(!getSetting("storageType"))
+    else if(!getSetting("storageType")){
         showTab("main", "about");
+        goog_report_conversion("firstTime");
+    }
     else if(isMobile)
         showTab("main", "snippet");
     else

@@ -1,8 +1,7 @@
-var data = null,
-    currentChapter = null;
+var data = null;
 
 function autoSave(){
-    var prev = data.chapters[currentChapter].doc;
+    var prev = data.chapters[data.currentChapter].doc;
     var cur = writer.getValue();
     if(prev != cur){
         unsavedFileIndicator.style.display = "";
@@ -16,15 +15,15 @@ function addNewFile(txt) {
     if (txt == undefined)
         txt = "";
     data.chapters.push({ doc: txt, name: "" });
-    currentChapter = data.chapters.length - 1;
+    data.currentChapter = data.chapters.length - 1;
     showFile();
     note(header, "new-file-note", "New file created.");
 }
 
 function showFile() {
-    writer.setValue(data.chapters[currentChapter].doc);
-    chapterName.setValue(data.chapters[currentChapter].name);
-    fileCount.setValue(fmt("$1 of $2", currentChapter + 1, data.chapters.length));
+    writer.setValue(data.chapters[data.currentChapter].doc);
+    chapterName.setValue(data.chapters[data.currentChapter].name);
+    fileCount.setValue(fmt("$1 of $2", data.currentChapter + 1, data.chapters.length));
     countWords();
 }
 
@@ -40,6 +39,7 @@ var fileSavers = {
 
 function onSuccessfulSave(){
     unsavedFileIndicator.style.display = "none";
+    goog_report_conversion("save");
 }
 
 function saveFile(types) {
@@ -88,7 +88,7 @@ function onSuccessfulLoad(){
         if ("count" in chapter)
             delete chapter["count"];
     });
-    currentChapter = 0;
+    data.currentChapter = data.currentChapter || 0;
     showFile();
     unsavedFileIndicator.style.display = "none";
 
@@ -96,6 +96,9 @@ function onSuccessfulLoad(){
     updateSnippetCount();
     showSnippet();
     note(main, "data-loaded-message", "Data loaded!");
+    data.theme = data.theme || 0;
+    setTheme(data.theme);
+    goog_report_conversion("load");
 }
 
 function loadData(types) {
@@ -153,19 +156,19 @@ function parseFileData(fileData, fail, success) {
 
 function nextFile() {
     stowFile();
-    currentChapter = (currentChapter + 1) % data.chapters.length;
+    data.currentChapter = (data.currentChapter + 1) % data.chapters.length;
     showFile();
 }
 
 function prevFile() {
     stowFile();
-    currentChapter = (currentChapter + data.chapters.length - 1) % data.chapters.length;
+    data.currentChapter = (data.currentChapter + data.chapters.length - 1) % data.chapters.length;
     showFile();
 }
 
 function stowFile() {
-    data.chapters[currentChapter].doc = writer.getValue();
-    data.chapters[currentChapter].name = chapterName.getValue();
+    data.chapters[data.currentChapter].doc = writer.getValue();
+    data.chapters[data.currentChapter].name = chapterName.getValue();
 }
 
 var commands = {

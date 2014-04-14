@@ -1,7 +1,7 @@
 ﻿var selectedWritingBlock = null;
 
 function buildEditView() {
-    var doc = data.chapters[currentChapter].doc;
+    var doc = data.chapters[data.currentChapter].doc;
 
     doc = doc.replace(/\r\n/g, "\n"); // normalize newl ine cha racters
     doc = doc.split(/\n\n/g)
@@ -96,7 +96,7 @@ function placeWriting() {
             .replace(/\n /g, "\n")
             .trim();
 
-        data.chapters[currentChapter].doc = doc;
+        data.chapters[data.currentChapter].doc = doc;
         autoSave();
         showFile();
     }

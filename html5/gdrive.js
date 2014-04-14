@@ -13,7 +13,7 @@ function gdrive(thunk, fail, success, doc) {
     if (!fail) fail = function () { };
     if (!success) success = function () { };
     if (!window.gapi) fail("Google Drive API not installed.");
-    gdriveAuth(thunk, fail, success, doc, true);
+    else gdriveAuth(thunk, fail, success, doc, true);
 }
 
 function gdriveAuth(thunk, fail, success, doc, immediate) {
@@ -21,16 +21,20 @@ function gdriveAuth(thunk, fail, success, doc, immediate) {
         client_id: GDRIVE_CLIENT_ID,
         scope: "https://www.googleapis.com/auth/drive",
         immediate: immediate
-    }, gdriveAuthed.bind(window, thunk, fail, success, doc));
+    }, gdriveAuthed.bind(window, thunk, fail, success, doc, immediate));
 }
 
-function gdriveAuthed(thunk, fail, success, doc, authResult) {
-    if (authResult && !authResult.error)
+function gdriveAuthed(thunk, fail, success, doc, wasImmediate, authResult) {
+    if (authResult && !authResult.error){
         gapi.client.load("drive", "v2", function () {
             thunk(fail, success, doc);
         });
-    else
+        goog_report_conversion("linkGDrive");
+    }
+    else if(wasImmediate)
         gdriveAuth(thunk, fail, success, doc, false);
+    else
+        fail("Failed to link to Google Drive. Reason: " + (authResult && authResult.error));
 }
 
 function gdriveLoad(fail, success){
