@@ -184,21 +184,21 @@ function firstNavigation(){
         if(parts.length == 1)
             parts.unshift("main");
     }
-          msg("fullscreen-note", "Consider running in full-screen by hitting F11 on your keyboard."
-               + "<a class=\"button\" href=\"javascript:toggleFullScreen()\">go fullscreen</a>", 1000);
+
     if(parts && parts.length == 2)
         showTab(parts[0], parts[1]);
     else if(!getSetting("storageType")){
         showTab("main", "about");
-        if (!window.fullScreen)
-          msg("fullscreen-note", "Consider running in full-screen by hitting F11 on your keyboard."
-               + "<a class=\"button\" onclick=\"toggleFullScreen()\">go fullscreen</a>", 1000);
         goog_report_conversion("firstTime");
     }
     else if(isMobile)
         showTab("main", "snippet");
     else
         showTab("main", "menu");
+
+    if (!window.fullScreen)
+        msg("fullscreen-note", "Consider running in full-screen by hitting F11 on your keyboard."
+            + "<a class=\"button\" onclick=\"toggleFullScreen()\">go fullscreen</a>", 1000);
 }
 
 function pageLoad(){
