@@ -5,7 +5,7 @@ function saveSnippets(){
         clearTimeout(saveSnippets.timeout);
     saveSnippets.timeout = setTimeout(function(){
         data.snippets.push(snippetsEditor.getValue());
-        msg(main, "snippet-note", "snippet saved!", 0, 1000);
+        msg("snippet-note", "snippet saved!", 0, 1000);
         saveFile();
         currentSnippet = data.snippets.length;
         updateSnippetCount();

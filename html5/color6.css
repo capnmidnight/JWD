@@ -1,20 +1,20 @@
 html,body,input,textarea,select{font-family:Georgia,Tahoma,serif;}
 
 html,body,input,textarea,#editor{background-color:#050;}
-aside,aside>a.button,aside>a.button:visited{background-color:#040;}
+aside,aside a.button,aside a.button:visited{background-color:#040;}
 a.button,a.button:visited,.sentence{background-color:#060;}
-aside>a.button:hover{background-color:#050;}
+aside a.button:hover{background-color:#050;}
 a.button:hover,.paragraph,::-webkit-scrollbar-thumb:vertical{background-color:#070;}
-aside>a.button:active{background-color:#060;}
+aside a.button:active{background-color:#060;}
 a.button:active,::-webkit-scrollbar{background-color:#080;}
 
-aside,aside>a.button{border-color:#070;}
+aside,aside a.button{border-color:#070;}
 
 a:visited{color:#060;}
 html,body,a.button,a.button:visited,input,textarea{color:#0b0;}
 a.button:hover{color:#0c0;}
 a.button:active{color:#0d0;}
-aside>a.button:active{color:#0c0;}
+aside a.button:active{color:#0c0;}
 a{color:#0c0;}
-aside>a.button:hover{color:#0d0;}
-aside,aside>a.button,aside>a.button:visited{color:#0e0;}
+aside a.button:hover{color:#0d0;}
+aside,aside a.button,aside a.button:visited{color:#0e0;}

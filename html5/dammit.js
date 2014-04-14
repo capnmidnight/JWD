@@ -23,7 +23,8 @@ var header = null,
     browserInfo = null,
     storageType = null,
     storageFile = null,
-    themeStyle = null;
+    themeStyle = null,
+    notifications = null;
 
 function getControls(){
     window.addEventListener("keyup", runCommands, false);
@@ -42,6 +43,7 @@ function getControls(){
     totalWordCount = getDOM("#total-word-count");
     addWordCount = getDOM("#add-word-count");
     clock = getDOM("#clock");
+    notifications = getDOM("#notifications");
 
     menuItems = getDOMAll("#menu>.button");
     menuItems.forEach(function (mnu) {
@@ -182,11 +184,15 @@ function firstNavigation(){
         if(parts.length == 1)
             parts.unshift("main");
     }
-
+          msg("fullscreen-note", "Consider running in full-screen by hitting F11 on your keyboard."
+               + "<a class=\"button\" href=\"javascript:toggleFullScreen()\">go fullscreen</a>", 1000);
     if(parts && parts.length == 2)
         showTab(parts[0], parts[1]);
     else if(!getSetting("storageType")){
         showTab("main", "about");
+        if (!window.fullScreen)
+          msg("fullscreen-note", "Consider running in full-screen by hitting F11 on your keyboard."
+               + "<a class=\"button\" onclick=\"toggleFullScreen()\">go fullscreen</a>", 1000);
         goog_report_conversion("firstTime");
     }
     else if(isMobile)

@@ -17,7 +17,7 @@ function addNewFile(txt) {
     data.chapters.push({ doc: txt, name: "" });
     data.currentChapter = data.chapters.length - 1;
     showFile();
-    note(header, "new-file-note", "New file created.");
+    note("new-file-note", "New file created.");
 }
 
 function showFile() {
@@ -58,8 +58,7 @@ function saveFile(types) {
         var type = types.shift();
         if(type && fileSavers[type])
             fileSavers[type](function(err){
-                note(main,
-                    fmt("save-$1-failed", type),
+                note(fmt("save-$1-failed", type),
                     fmt("Couldn't save file to $1. Reason: $2", type, err));
                 setTimeout(saveFile, 1, types);
             }, onSuccessfulSave, doc);
@@ -95,7 +94,7 @@ function onSuccessfulLoad(){
     currentSnippet = data.snippets.length;
     updateSnippetCount();
     showSnippet();
-    note(main, "data-loaded-message", "Data loaded!");
+    note("data-loaded-message", "Data loaded!");
     data.theme = data.theme || 0;
     setTheme(data.theme);
     goog_report_conversion("load");
@@ -129,9 +128,6 @@ function defaultLoad(fail, success){
     };
     addNewFile();
     setSetting("storageType", "local");
-    if (!isMobile && !window.fullScreen)
-      note(main, "fullscreen-note", "Consider running in full-screen by hitting F11 on your keyboard."
-           + "<a class=\"button\" href=\"javascript:toggleFullScreen()\">go fullscreen</a>", 1000);
     success();
 }
 

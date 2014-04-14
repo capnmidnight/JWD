@@ -1,7 +1,7 @@
 var forever = "forever";
 var useNote = false;
 
-function note(parent, id, msgTxt, delay){
+function note(id, msgTxt, delay){
     if(delay == undefined)
         delay = 0;
 
@@ -16,7 +16,7 @@ function note(parent, id, msgTxt, delay){
     if(!useNote
         || !("Notification" in window)
         || Notification.permission != "granted")
-        return msg(parent, id, msgTxt, delay);
+        return msg(id, msgTxt, delay);
     else
         setTimeout(function(){
             new Notification("Just Write, Dammit!", {body: msgTxt, tag: id, icon: "jwd128x128.png"});
@@ -37,28 +37,30 @@ function XXX_RESET_XXX(){
     }
 }
 
-function msg(parent, id, msgTxt, delay, length){
+function msg(id, msgTxt, delay, length){
     if(length == undefined){
         length = 4000;
         if(delay == undefined)
             delay = 0;
     }
 
+    var s = span();
+    s.innerHTML = msgTxt;
+
     var box = aside(
         {id:id},
-        a({
+        linkButton({
             id: id + "-dismiss-button",
-            className: "button",
             onclick: function(){
                 setStyle("display", "none", box);
             }
         }, "dismiss"),
-        msgTxt);
+        s);
 
-    setTimeout(parent.appendChild.bind(parent, box), delay);
+    setTimeout(notifications.appendChild.bind(notifications, box), delay);
 
     if(length != forever)
-        setTimeout(parent.removeChild.bind(parent, box), delay + length);
+        setTimeout(notifications.removeChild.bind(notifications, box), delay + length);
     return box;
 }
 
@@ -84,7 +86,7 @@ function spinner(txt, lbl, min, max){
 
     setStyle("textAlign", "right", txt);
     container.appendChild(txt);
-    container.appendChild(a({className: "button",
+    container.appendChild(linkButton({
             onclick: function(){
                 var v = txt.getValue();
                 if(v > min){
@@ -93,7 +95,7 @@ function spinner(txt, lbl, min, max){
                 }
             }
         }, "-"));
-    container.appendChild(a({className: "button",
+    container.appendChild(linkButton({
             onclick: function(){
                 var v = txt.getValue();
                 if(v < max){
@@ -108,7 +110,7 @@ function spinner(txt, lbl, min, max){
 
 
 function fileUpload(fup){
-    var browse = a({className:"button",
+    var browse = linkButton({
             id: fup.id + "-button",
             onclick: function(){
                 fup.click()

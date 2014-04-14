@@ -1,20 +1,20 @@
 html,body,input,textarea,select{font-family:Georgia,Tahoma,serif;}
 
 html,body,input,textarea,#editor{background-color:#005;}
-aside,aside>a.button,aside>a.button:visited{background-color:#004;}
+aside,aside a.button,aside a.button:visited{background-color:#004;}
 a.button,a.button:visited,.sentence{background-color:#006;}
-aside>a.button:hover{background-color:#005;}
+aside a.button:hover{background-color:#005;}
 a.button:hover,.paragraph,::-webkit-scrollbar-thumb:vertical{background-color:#007;}
-aside>a.button:active{background-color:#006;}
+aside a.button:active{background-color:#006;}
 a.button:active,::-webkit-scrollbar{background-color:#008;}
 
-aside,aside>a.button{border-color:#007;}
+aside,aside a.button{border-color:#007;}
 
 a:visited{color:#006;}
 html,body,a.button,a.button:visited,input,textarea{color:#00b;}
 a.button:hover{color:#00c;}
 a.button:active{color:#00d;}
-aside>a.button:active{color:#00c;}
+aside a.button:active{color:#00c;}
 a{color:#00c;}
-aside>a.button:hover{color:#00d;}
-aside,aside>a.button,aside>a.button:visited{color:#00e;}
+aside a.button:hover{color:#00d;}
+aside,aside a.button,aside a.button:visited{color:#00e;}

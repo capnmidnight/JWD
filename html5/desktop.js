@@ -5,16 +5,18 @@ function exportFile(){
 }
 
 function saveDesktopFile(doc) {
-    openLink("justwritedammit.jwd",
-        "data:application/octet-stream;filename=justwritedammit.jwd;base64," + utf8_to_b64(doc));
+    saveFileToDesktop("justwritedammit.jwd", "application/octet-stream", doc);
+}
+
+function saveFileToDesktop(filename, type, text){
+    openLink(filename, fmt("data:$1;filename=$2;base64,$3", type, filename, utf8_to_b64(text)));
 }
 
 function openLink(title, href) {
     var link = a({
         download: title,
         href: href
-    },
-                  "save");
+    }, "save");
     setStyle("display", "none", link);
     document.body.appendChild(link);
     link.click();
