@@ -1,5 +1,5 @@
 *,*:before,*:after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box;}
-html,body{position:absolute;}
+html,body,header{position:absolute;}
 html,body,section,.textContent,#menu>p,#menu>a.button{width:100%;}
 html,body,section,.textContent{height:100%;}
 h1{font-size:200%;}

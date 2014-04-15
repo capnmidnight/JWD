@@ -14,14 +14,22 @@ var interrobang = (function(){
     // because I find them easier to manipulate as a
     // quasi-enumeration.
     var characters = {
-        OpenSmartQuote : "\u201c",
-        CloseSmartQuote : "\u201d",
         EnDash : "\u2013",
         EmDash : "\u2014",
+        OpenSmartQuote : "\u201c",
+        CloseSmartQuote : "\u201d",
         Ellipsis : "\u2026",
         Prime : "\u2032",
         DoublePrime : "\u2033",
         TriplePrime : "\u2034",
+        Interrobang : "\u203D",
+        LeftArrow: "\u2190",
+        UpArrow: "\u2191",
+        RightArrow: "\u2192",
+        DownArrow: "\u2193",
+        LeftRightArrow: "\u2194",
+        UpDownArrow: "\u2195",
+        NotEqualTo: "\u2260",
         BallotBox : "\u2610",
         BallotBoxWithCheck : "\u2611",
         BallotBoxWithX : "\u2612",
@@ -36,8 +44,7 @@ var interrobang = (function(){
         ChessBlackRook : "\u265c",
         ChessBlackBishop : "\u265d",
         ChessBlackKnight : "\u265e",
-        ChessBlackPawn : "\u265f",
-        Interrobang : "\u203D"
+        ChessBlackPawn : "\u265f"
     };
 
 
@@ -58,7 +65,14 @@ var interrobang = (function(){
             return String.fromCharCode(parseInt(cap1, 16));
         }],
         [/(!|\?|\u203D)\1+/g, "$1"],
-        [/(, \w+) (and \w+)/g, "$1, $2"]
+        [/(, \w+) (and \w+)/g, "$1, $2"],
+        [/<-/g, characters.LeftArrow],
+        [/^-/g, characters.UpArrow],
+        [/->/g, characters.RightArrow],
+        [/-v/g, characters.DownArrow],
+        [/(<->|\u2190\u2192|\u2190>|<\u2192)/g, characters.LeftRightArrow],
+        [/(<^-v|\u2191\u2193|\u2191v|^\u2193)/g, characters.UpDownArrow],
+        [/=\/=/g, characters.NotEqualTo]
     ];
 
     return function(evt){

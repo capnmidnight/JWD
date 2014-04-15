@@ -24,7 +24,8 @@ var header = null,
     storageType = null,
     storageFile = null,
     themeStyle = null,
-    notifications = null;
+    notifications = null,
+    toggleMenuButton = null;
 
 function getControls(){
     window.addEventListener("keyup", runCommands, false);
@@ -44,6 +45,8 @@ function getControls(){
     addWordCount = getDOM("#add-word-count");
     clock = getDOM("#clock");
     notifications = getDOM("#notifications");
+    storageFile = fileUpload(getDOM("#browse-storage-file"));
+    toggleMenuButton = getDOM("#toggle-menu-button");
 
     menuItems = getDOMAll("#menu>.button");
     menuItems.forEach(function (mnu) {
@@ -86,8 +89,6 @@ function getControls(){
     storageType.setValue(storeType);
     showTab("storage-details", "storage-" + storeType);
 
-    storageFile = fileUpload(getDOM("#browse-storage-file"));
-
     themeStyle = getDOM("#theme-block");
     getDOMAll("td").forEach(function(cell, i){
         cell.addEventListener("click", function(){
@@ -96,6 +97,19 @@ function getControls(){
             saveFile();
         });
     });
+}
+
+function toggleMenu(){
+    if(toggleMenuButton.innerHTML == "\u2192"){
+        toggleMenuButton.innerHTML = "\u2190";
+        header.style.left = 0;
+        header.style.opacity = 1;
+    }
+    else{
+        toggleMenuButton.innerHTML = "\u2192";
+        header.style.left = px(-(header.clientWidth - toggleMenuButton.clientWidth));
+        header.style.opacity = 0.5;
+    }
 }
 
 function setTheme(i){
@@ -149,9 +163,11 @@ function resize(){
     if(window.fullScreen)
         hide("fullscreen-note");
 
-    main.style.height = px(window.innerHeight - header.clientHeight);
+    main.style.height = px(window.innerHeight);
     writer.style.height = "100%";
-    writer.style.height = px(writer.clientHeight - chapterName.clientHeight);
+    writer.style.height = px(writer.clientHeight - chapterName.clientHeight * 2);
+    snippetsEditor.style.height = "100%";
+    snippetsEditor.style.height = px(snippetsEditor.clientHeight - snippetCounts.clientHeight);
 }
 
 function clockTick(){
@@ -190,8 +206,10 @@ function firstNavigation(){
         showTab("main", "about");
         goog_report_conversion("firstTime");
     }
-    else if(isMobile)
+    else if(isMobile){
         showTab("main", "snippet");
+        toggleMenu();
+    }
     else
         showTab("main", "menu");
 
