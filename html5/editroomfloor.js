@@ -70,6 +70,17 @@ function getInsertPosition() {
     }
 }
 
+function stripHTML(doc){
+    return doc
+        .replace(/\r?\n/g, "")
+        .replace(/<\/p>/g, "\n\n")
+        .replace(/<[^>]+>/g, " ")
+        .replace(/  +/g, " ")
+        .replace(/\n{3,}/g, "\n\n")
+        .replace(/\n /g, "\n")
+        .trim();
+}
+
 function placeWriting() {
     if (selectedWritingBlock && over) {
         selectedWritingBlock.style.position = "";
@@ -88,13 +99,7 @@ function placeWriting() {
             placeholder.parentElement.removeChild(placeholder);
 
         var doc = editor.innerHTML;
-        doc = doc
-            .replace(/\n/g, "")
-            .replace(/<\/p>/g, "\n\n")
-            .replace(/<[^>]+>/g, " ")
-            .replace(/ +/g, " ")
-            .replace(/\n /g, "\n")
-            .trim();
+        doc = stripHTML(doc);
 
         data.chapters[data.currentChapter].doc = doc;
         autoSave();

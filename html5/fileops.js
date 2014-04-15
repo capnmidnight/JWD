@@ -88,8 +88,8 @@ function onSuccessfulLoad() {
         data.chapters[i].doc = deEff(data.chapters[i].doc);
 
     data.chapters.forEach(function (chapter) {
-        if ("count" in chapter)
-            delete chapter["count"];
+        if (chapter.count)
+            delete chapter.count;
     });
     data.currentChapter = data.currentChapter || 0;
     showFile();
@@ -136,9 +136,25 @@ function defaultLoad(fail, success) {
 }
 
 function parseFileData(fileData, fail, success) {
+    data = null;
     if (fileData) {
-        if (typeof (fileData) == "string")
-            fileData = JSON.parse(fileData);
+        if (typeof (fileData) == "string"){
+            if(fileData.indexOf("<html>") >= 0) {
+                var ed = []
+                fileData = fileData.replace(/<h(1|2)>([^<]+)<\/h\1>((\s*<p>.+<\/p>)+)/gi,
+                    function(match, headerSize, title, article){
+                        ed.push({
+                            name:title,
+                            doc:stripHTML(article)
+                        });
+                        return "";
+                    });
+                fileData = ed;
+            }
+            else{
+                fileData = JSON.parse(fileData);
+            }
+        }
 
         if (fileData.length)
             fileData = {
@@ -158,14 +174,16 @@ function nextFile() {
     stowFile();
     data.currentChapter = (data.currentChapter + 1) % data.chapters.length;
     showFile();
-    saveFile();
+    if (getSetting("storageType") != "desktop")
+        saveFile();
 }
 
 function prevFile() {
     stowFile();
     data.currentChapter = (data.currentChapter + data.chapters.length - 1) % data.chapters.length;
     showFile();
-    saveFile();
+    if (getSetting("storageType") != "desktop")
+        saveFile();
 }
 
 function stowFile() {
