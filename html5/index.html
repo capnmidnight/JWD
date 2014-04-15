@@ -160,6 +160,7 @@
                         <option value="local">Web browser's local storage</option>
                         <option value="dropbox">Dropbox</option>
                         <option value="gdrive">Google Drive</option>
+                        <option value="desktop">Computer file system</option>
                     </select><a class="button" href="javascript:loadData()">Load data</a>
                     <div id="storage-details">
                         <p id="storage-local">
@@ -171,17 +172,11 @@
                         <p id="storage-gdrive">
                             Store the data in your <a href="https://drive.google.com">Google Drive</a> account. You will be able to share data between browsers and computers. Data may not be available without a network connection.
                         </p>
+                        <p id="storage-desktop">
+                            Store the data on your local file system. You will not be able to share data between browsers or computers. You will not be able to auto-save. Data will be available without a network connection.
+                            <span style="display:none"><input type="file" id="browse-storage-file" /><a class="button" href="javascript:desktopSave()">Export</a></span>
+                        </p>
                     </div>
-                    <h2>Import from/export to file</h2>
-                    <p>
-                        Store the data on your computer's file system. You will be able to share data between browsers, but not between computers. Data will always be immediately available for use.
-                    </p>
-                    <p>
-                        <label for="browse-storage-file">Import data from a file: </label><input type="file" id="browse-storage-file" />
-                    </p>
-                    <p>
-                        <label for="export-file">Export data to a file: </label><a class="button" href="javascript:exportFile()">Export</a>
-                    </p>
                     <h2>DANGER! Developer settings!</h2>
                     <p><a class="button" href="javascript:toggleFullScreen()">Fullscreen</a></p>
                     <p><a class="button" href="javascript:XXX_RESET_XXX()">Reset everything</a></p>

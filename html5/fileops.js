@@ -1,13 +1,15 @@
 var data = null;
 
-function autoSave(){
+function autoSave() {
     var prev = data.chapters[data.currentChapter].doc;
     var cur = writer.getValue();
-    if(prev != cur){
+    if (prev != cur) {
         unsavedFileIndicator.style.display = "";
-        if(autoSave.timeout)
-            clearTimeout(autoSave.timeout);
-        autoSave.timeout = setTimeout(saveFile, 3000);
+        if (getSetting("storageType") != "desktop") {
+            if (autoSave.timeout)
+                clearTimeout(autoSave.timeout);
+            autoSave.timeout = setTimeout(saveFile, 3000);
+        }
     }
 }
 
@@ -35,29 +37,30 @@ var fileSavers = {
     local: localSave,
     dropbox: dorpboxSave,
     gdrive: gdriveSave,
+    desktop: desktopSave,
 };
 
-function onSuccessfulSave(){
+function onSuccessfulSave() {
     unsavedFileIndicator.style.display = "none";
     goog_report_conversion("save");
 }
 
 function saveFile(types) {
-    if(autoSave.timeout)
+    if (autoSave.timeout)
         clearTimeout(autoSave.timeout);
-    if(saveSnippets.timeout)
+    if (saveSnippets.timeout)
         clearTimeout(saveSnippets.timeout);
-    if(types == undefined){
+    if (types == undefined) {
         stowFile();
         types = [getSetting("storageType"), getSetting("lastStorageType")];
-        if(types.indexOf("local") == -1)
+        if (types.indexOf("local") == -1)
             types.push("local");
     }
-    if(types.length > 0){
+    if (types.length > 0) {
         var doc = JSON.stringify(data);
         var type = types.shift();
-        if(type && fileSavers[type])
-            fileSavers[type](function(err){
+        if (type && fileSavers[type])
+            fileSavers[type](function (err) {
                 note(fmt("save-$1-failed", type),
                     fmt("Couldn't save file to $1. Reason: $2", type, err));
                 setTimeout(saveFile, 1, types);
@@ -69,21 +72,22 @@ var fileLoaders = {
     local: localLoad,
     dropbox: dorpboxLoad,
     gdrive: gdriveLoad,
+    desktop: desktopLoad,
     "default": defaultLoad
 };
 
-function deEff(val){
-    try{ return decodeURIComponent(escape(val)); }
-    catch(exp){ return val; }
+function deEff(val) {
+    try { return decodeURIComponent(escape(val)); }
+    catch (exp) { return val; }
 }
 
-function onSuccessfulLoad(){
-    for(var i = 0; i < data.snippets.length; ++i)
+function onSuccessfulLoad() {
+    for (var i = 0; i < data.snippets.length; ++i)
         data.snippets[i] = deEff(data.snippets[i]);
-    for(var i = 0; i < data.chapters.length; ++i)
+    for (var i = 0; i < data.chapters.length; ++i)
         data.chapters[i].doc = deEff(data.chapters[i].doc);
 
-    data.chapters.forEach(function(chapter){
+    data.chapters.forEach(function (chapter) {
         if ("count" in chapter)
             delete chapter["count"];
     });
@@ -101,17 +105,17 @@ function onSuccessfulLoad(){
 }
 
 function loadData(types) {
-    if(types == undefined){
+    if (types == undefined) {
         data = null;
         types = [getSetting("storageType"), getSetting("lastStorageType")];
-        types = types.filter(function(t){return t;});
-        if(types.indexOf("local") == -1)
+        types = types.filter(function (t) { return t; });
+        if (types.indexOf("local") == -1)
             types.push("local");
         types.push("default");
     }
-    if(types.length > 0){
+    if (types.length > 0) {
         var type = types.shift();
-        if(type){
+        if (type) {
             var fail = setTimeout.bind(window, loadData, 1, types);
             if (fileLoaders[type])
                 fileLoaders[type](fail, onSuccessfulLoad);
@@ -121,7 +125,7 @@ function loadData(types) {
     }
 }
 
-function defaultLoad(fail, success){
+function defaultLoad(fail, success) {
     data = {
         chapters: [],
         snippets: []
@@ -132,19 +136,19 @@ function defaultLoad(fail, success){
 }
 
 function parseFileData(fileData, fail, success) {
-    if(fileData) {
-        if (typeof(fileData) == "string")
+    if (fileData) {
+        if (typeof (fileData) == "string")
             fileData = JSON.parse(fileData);
 
-        if(fileData.length)
+        if (fileData.length)
             fileData = {
-              chapters: fileData,
-              snippets:[]
+                chapters: fileData,
+                snippets: []
             };
 
         data = fileData;
     }
-    if(data)
+    if (data)
         success();
     else
         fail("Couldn't parse file data: " + JSON.stringify(fileData));

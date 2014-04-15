@@ -87,7 +87,6 @@ function getControls(){
     showTab("storage-details", "storage-" + storeType);
 
     storageFile = fileUpload(getDOM("#browse-storage-file"));
-    storageFile.addEventListener("change", loadFromFile, false);
 
     themeStyle = getDOM("#theme-block");
     getDOMAll("td").forEach(function(cell, i){

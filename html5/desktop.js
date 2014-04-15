@@ -1,11 +1,6 @@
-function exportFile(){
-    stowFile();
-    var doc = JSON.stringify(data.chapters);
-    saveDesktopFile(doc);
-}
-
-function saveDesktopFile(doc) {
+function desktopSave(fail, success, doc){
     saveFileToDesktop("justwritedammit.jwd", "application/octet-stream", doc);
+    success();
 }
 
 function saveFileToDesktop(filename, type, text){
@@ -23,13 +18,18 @@ function openLink(title, href) {
     document.body.removeChild(link);
 }
 
-
-function loadFromFile() {
-    Array.prototype.forEach.call(storageFile.files, function (f) {
-        var reader = new FileReader();
-        reader.addEventListener("load", function (evt) {
-            parseFileData(evt.target.result);
-        });
-        reader.readAsText(f);
-    });
+function desktopLoad(fail, success) {
+    var load = function(){
+        Array.prototype.forEach.call(storageFile.files, function (f) {
+            var reader = new FileReader();
+            reader.addEventListener("load", function (evt) {
+                parseFileData(evt.target.result, fail, success);
+            });
+            reader.addEventListener("error", fail);
+            reader.readAsText(f);
+        });        
+        storageFile.removeEventListener("change", load, false);
+    };
+    storageFile.addEventListener("change", load, false);
+    storageFile.click();
 }
