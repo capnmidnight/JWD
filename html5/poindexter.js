@@ -36,7 +36,10 @@ function countWords(){
         data.chapters[data.currentChapter].count = count;
 
     totalWordCount.setValue(count);
-    addWordCount.setValue(count - data.chapters[data.currentChapter].count);
+    var additional = count - data.chapters[data.currentChapter].count;
+    if(additional >= 0)
+        additional = fmt("+$1", additional);
+    addWordCount.setValue(additional);
 }
 
 function frequencyAnalysis(){

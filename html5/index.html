@@ -94,15 +94,14 @@
 
             <section id="write" data-show-file-controls="true">
                 <div id="chapter-bar">
-                    <span id="file-count"></span>
-                    <span id="unsaved-file-indicator">(unsaved)</span>
                     <input type="text" id="chapter-name" spellcheck="false" placeholder="(new chapter)">
+                    <span id="unsaved-file-indicator">(unsaved)</span>
                 </div>
                 <textarea id="writer" class="textContent" spellcheck="false" cols="50" rows="50" placeholder="(type text here)"></textarea>
                 <div id="infobar">
-                    <label for="total-word-count">Total words:</label> <span id="total-word-count"></span>
-                    <label for="add-word-count">Add'l words:</label> <span id="add-word-count"></span>
-                    <label for="clock">Elapsed time:</label> <span id="clock"></span>
+                    chapter: <span id="file-count"></span> |
+                    words: <span id="total-word-count"></span> (<span id="add-word-count"></span>) |
+                    time:<span id="clock"></span>
                 </div>
             </section>
 

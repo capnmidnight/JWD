@@ -1,6 +1,6 @@
 *,*:before,*:after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box;}
 html,body,header{position:absolute;}
-html,body,section,.textContent,#menu>p,#menu>a.button{width:100%;}
+html,body,section,.textContent,#menu>p,#menu>a.button,#chapter-bar,#chapter-name{width:100%;}
 html,body,section,.textContent{height:100%;}
 h1{font-size:200%;}
 h2{font-size:150%;}
@@ -27,12 +27,11 @@ section>*{clear:left;}
 ::-webkit-scrollbar{width:5px;}
 @media(min-width:320px){
 .textContent,select,a.button{font-size:10pt;}
-#infobar{font-size:8pt;}
-#chapter-name{width:275px;}}
+#infobar{font-size:8pt;}}
 @media(min-width:641px){
 .textContent,select{font-size:14pt;}
 #infobar{font-size:10pt;}
-#chapter-name{width:500px;font-size:24pt;}}
+#chapter-name{font-size:24pt;}}
 @media(min-width:1080px){
 .textContent,select{font-size:18pt;}
 #chapter-name{font-size:30pt;}
