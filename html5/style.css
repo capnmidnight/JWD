@@ -28,13 +28,13 @@ section>*{clear:left;}
 @media(min-width:320px){
 .textContent,select,a.button{font-size:10pt;}
 #infobar{font-size:8pt;}
-#filename{width:275px;}}
+#chapter-name{width:275px;}}
 @media(min-width:641px){
 .textContent,select{font-size:14pt;}
 #infobar{font-size:10pt;}
-#filename{width:500px;font-size:24pt;}}
+#chapter-name{width:500px;font-size:24pt;}}
 @media(min-width:1080px){
 .textContent,select{font-size:18pt;}
-#filename{font-size:30pt;}
+#chapter-name{font-size:30pt;}
 section{padding-top:5em;padding-bottom:5em;padding-left:10em;padding-right:10em;}}
 #notifications{position:absolute;left:0;top:0;padding:0;margin:0;}

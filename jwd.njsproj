@@ -53,7 +53,6 @@
     <Compile Include="html5\gdrive.js" />
     <Compile Include="html5\interrobang.js" />
     <Compile Include="html5\local.js" />
-    <Compile Include="html5\markdownsyndrome.js" />
     <Compile Include="html5\poindexter.js" />
     <Compile Include="html5\psychologist.js" />
     <Compile Include="html5\selecticator.js" />
