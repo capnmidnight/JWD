@@ -12,7 +12,9 @@ function evtIt(cat, act, lbl, val){
 }
 
 var navIt = evtIt.bind(window, "button", "click");
+var usrIt = evtIt.bind(window, "user");
+var rptIt = evtIt.bind(window, "report");
+
 var datIt = evtIt.bind(window, "data");
 var savIt = datIt.bind(window, "save");
 var lodIt = datIt.bind(window, "load");
-var usrIt = evtIt.bind(window, "user");

@@ -4,12 +4,9 @@ function desktopSave(fail, success, doc){
 }
 
 function saveFileToDesktop(filename, type, text){
-    openLink(filename, fmt("data:$1;filename=$2;base64,$3", type, filename, utf8_to_b64(text)));
-}
-
-function openLink(title, href) {
+    var href = fmt("data:$1;filename=$2;base64,$3", type, filename, utf8_to_b64(text));
     var link = a({
-        download: title,
+        download: filename,
         href: href
     }, "save");
     setStyle("display", "none", link);

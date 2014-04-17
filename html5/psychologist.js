@@ -222,6 +222,7 @@ Element.prototype.fire = function(event){
 function toggleFullScreen() {
     if (!document.fullscreenElement &&    // alternative standard method
         !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {  // current working methods
+        usrIt("fullscreen", "on");
         if (document.documentElement.requestFullscreen)
             document.documentElement.requestFullscreen();
         else if (document.documentElement.msRequestFullscreen)
@@ -232,6 +233,7 @@ function toggleFullScreen() {
             document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
     }
     else {
+        usrIt("fullscreen", "off");
         if (document.exitFullscreen)
             document.exitFullscreen();
         else if (document.msExitFullscreen)

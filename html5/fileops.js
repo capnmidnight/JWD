@@ -40,9 +40,9 @@ var fileSavers = {
     desktop: desktopSave,
 };
 
-function onSuccessfulSave() {
+function onSuccessfulSave(type) {
     unsavedFileIndicator.style.display = "none";
-    goog_report_conversion("save");
+    savIt(type);
 }
 
 function saveFile(types) {
@@ -64,7 +64,7 @@ function saveFile(types) {
                 note(fmt("save-$1-failed", type),
                     fmt("Couldn't save file to $1. Reason: $2", type, err));
                 setTimeout(saveFile, 1, types);
-            }, onSuccessfulSave, doc);
+            }, onSuccessfulSave.bind(window, type), doc);
     }
 }
 
@@ -81,7 +81,7 @@ function deEff(val) {
     catch (exp) { return val; }
 }
 
-function onSuccessfulLoad() {
+function onSuccessfulLoad(type) {
     for (var i = 0; i < data.snippets.length; ++i)
         data.snippets[i] = deEff(data.snippets[i]);
     for (var i = 0; i < data.chapters.length; ++i)
@@ -101,7 +101,7 @@ function onSuccessfulLoad() {
     note("data-loaded-message", "Data loaded!");
     data.theme = data.theme || 0;
     setTheme(data.theme);
-    goog_report_conversion("load");
+    lodIt(type);
 }
 
 function loadData(types) {
@@ -118,7 +118,7 @@ function loadData(types) {
         if (type) {
             var fail = setTimeout.bind(window, loadData, 1, types);
             if (fileLoaders[type])
-                fileLoaders[type](fail, onSuccessfulLoad);
+                fileLoaders[type](fail, onSuccessfulLoad.bind(window, type));
             else
                 fail(fmt("Storage type \"$1\" is not yet supported", type));
         }
@@ -189,19 +189,4 @@ function prevFile() {
 function stowFile() {
     data.chapters[data.currentChapter].doc = writer.getValue();
     data.chapters[data.currentChapter].name = chapterName.getValue();
-}
-
-var commands = {
-    78: addNewFile,
-    83: saveFile,
-    219: prevFile,
-    221: nextFile,
-};
-
-function runCommands(evt) {
-    if (evt.ctrlKey && evt.keyCode in commands) {
-        commands[evt.keyCode]();
-        evt.preventDefault();
-        evt.stopPropagation();
-    }
 }

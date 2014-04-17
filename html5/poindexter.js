@@ -87,5 +87,5 @@ function frequencyAnalysis(){
     word2Frequency.setValue(counts2);
     word3Frequency.setValue(counts3);
     word4Frequency.setValue(counts4);
-    goog_report_conversion("analysisFreq");
+    rptIt("analysisFreq");
 }

@@ -28,7 +28,6 @@ var header = null,
     toggleMenuButton = null;
 
 function getControls(){
-    window.addEventListener("keyup", runCommands, false);
     window.addEventListener("resize", resize, false);
     window.addEventListener("popstate", moveHistory, false);
 
@@ -114,12 +113,14 @@ function toggleMenu(){
 
 function setTheme(i){
     themeStyle.href = fmt("color$1.css", i * 1 + 1);
+    usrIt("theme", themeStyle.href);
 }
 
 function onStorageTypeChanged(){
     setSetting("lastStorageType", getSetting("storageType"));
     var type = storageType.getValue();
     setSetting("storageType", type);
+    datIt("storage type", type);
     showTab("storage-details", "storage-" + type);
     if (type == "dropbox")
         dorpbox();
@@ -129,6 +130,8 @@ function onStorageTypeChanged(){
 
 function showTab(parentID, id, saveState){
     var boxes = getDOMAll(fmt("#$1>*", parentID));
+    var url = [parentID, id].join("/");
+    navIt(url);
     boxes.forEach(function (box) {
         box.style.display = id == box.id ? "block" : "none";
         box.className = id == box.id ? "selected" : "";
@@ -141,7 +144,6 @@ function showTab(parentID, id, saveState){
     });
     resize();
     if(!!saveState){
-        var url = [parentID, id].join("/");
         if(url.length > 0)
             url = "#" + url;
 
@@ -204,7 +206,7 @@ function firstNavigation(){
         showTab(parts[0], parts[1]);
     else if(!getSetting("storageType")){
         showTab("main", "about");
-        goog_report_conversion("firstTime");
+        usrIt("firstTime");
     }
     else if(isMobile){
         showTab("main", "snippet");

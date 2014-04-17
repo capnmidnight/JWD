@@ -33,7 +33,7 @@ function XXX_RESET_XXX(){
         dorpboxSignout();
         gdriveSignout();
         document.location = document.location.href;
-        goog_report_conversion("reset");
+        usrIt("reset");
     }
 }
 

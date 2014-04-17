@@ -26,4 +26,5 @@
             section({id:"main"}, chapters)));
     
     saveFileToDesktop("export.html", "text/html;charset=utf-8", doc.outerHTML);
+    rptIt("publish");
 }

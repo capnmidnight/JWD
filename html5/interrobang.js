@@ -55,17 +55,14 @@ var interrobang = (function(){
     var patterns = [
         [/"([\s\S]+?)"/g, characters.OpenSmartQuote + "$1" + characters.CloseSmartQuote, 0],
         [/(\w)--(\w)/g, "$1" + characters.EmDash + "$2"],
-        [/\s-\s/g, characters.EnDash],
+        [/(\w)-(\w)/g, "$1" + characters.EnDash + "$2"],
         [/\.{3}/g, characters.Ellipsis],
-        [/\?\!/g, characters.Interrobang],
-        [/\!\?/g, characters.Interrobang],
+        [/(\?\!|\!\?)/g, characters.Interrobang],
         [/''/g, characters.DoublePrime],
-        [/(''|\u2033)'/g, characters.TriplePrime],
+        [/('''|\u2033'|'\u2033)/g, characters.TriplePrime],
         [/\\u([0-9a-fA-F]{4})/g, function(match, cap1){
             return String.fromCharCode(parseInt(cap1, 16));
         }],
-        [/(!|\?|\u203D)\1+/g, "$1"],
-        [/(, \w+) (and \w+)/g, "$1, $2"],
         [/<-/g, characters.LeftArrow],
         [/^-/g, characters.UpArrow],
         [/->/g, characters.RightArrow],
