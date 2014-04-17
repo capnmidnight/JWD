@@ -99,13 +99,13 @@ function getControls(){
 }
 
 function toggleMenu(){
-    if(toggleMenuButton.innerHTML == "\u2192"){
-        toggleMenuButton.innerHTML = "\u2190";
+    if(toggleMenuButton.innerHTML == "\u00BB"){
+        toggleMenuButton.innerHTML = "\u00AB";
         header.style.left = 0;
         header.style.opacity = 1;
     }
     else{
-        toggleMenuButton.innerHTML = "\u2192";
+        toggleMenuButton.innerHTML = "\u00BB";
         header.style.left = px(-(header.clientWidth - toggleMenuButton.clientWidth));
         header.style.opacity = 0.5;
     }

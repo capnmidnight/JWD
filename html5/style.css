@@ -11,12 +11,11 @@ html,body,a.button,input,textarea,select{margin:0;border:0;}
 input[type=text],textarea{outline:none;}
 #menu,a.button{text-align:center;}
 aside{font-size:12pt;font-weight:bold;padding:0.5em;border-width:5px;top:2em;}
-td,a.button{border-style:solid;border-width:1px;}
 td{width:3em;cursor:pointer;}
 aside, a.button{display: inline-block;}
 aside{float:left;clear:left;}
-a.button{padding:1em;min-width:2.5em;text-decoration:none;cursor:pointer;}
-aside,aside a.button{border-style:solid;margin-left:1em;margin-right:1em;}
+a.button{padding:0.5em;min-width:2.5em;text-decoration:none;cursor:pointer;}
+aside,aside a.button{margin-left:1em;margin-right:1em;}
 section,section>*{float:left;}
 section{clear:both;}
 section>*{clear:left;}
@@ -29,11 +28,11 @@ section>*{clear:left;}
 .textContent,select,a.button{font-size:10pt;}
 #infobar{font-size:8pt;}}
 @media(min-width:641px){
-.textContent,select{font-size:14pt;}
+.textContent,select,a.button{font-size:14pt;}
 #infobar{font-size:10pt;}
 #chapter-name{font-size:24pt;}}
 @media(min-width:1080px){
-.textContent,select{font-size:18pt;}
+.textContent,select,a.button{font-size:18pt;}
 #chapter-name{font-size:30pt;}
 section{padding-top:5em;padding-bottom:5em;padding-left:10em;padding-right:10em;}}
 #notifications{position:absolute;left:0;top:0;padding:0;margin:0;}

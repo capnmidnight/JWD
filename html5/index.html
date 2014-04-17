@@ -44,21 +44,22 @@
 <body onload="pageLoad()">
     <form name="form">
         <header>
-            <a class="button" onclick="showTab('main', 'menu', true);">menu</a>
-            <a class="button" onclick="saveFile()">save</a>
+            <a class="button" onclick="showTab('main', 'menu', true);">↑</a>
+            <a class="button" onclick="saveFile()">∞</a>
 
             <span id="file-controls">
-                <a class="button" onclick="prevFile()">prev</a>
-                <a class="button" onclick="nextFile()">next</a>
-                <a class="button" onclick="addNewFile()">new</a>
+                <a class="button" onclick="prevFile()">←</a>
+                <a class="button" onclick="nextFile()">→</a>
+                <a class="button" onclick="addNewFile()">+</a>
             </span>
 
             <span id="snippet-controls">
-                <a class="button" onclick="prevSnippet()">prev</a>
-                <a class="button" onclick="nextSnippet()">next</a>
+                <a class="button" onclick="prevSnippet()">←</a>
+                <a class="button" onclick="nextSnippet()">→</a>
             </span>
 
-            <a id="toggle-menu-button" class="button" onclick="toggleMenu()">←</a>
+            <a class="button" onclick="toggleFullScreen()">❖</a>
+            <a id="toggle-menu-button" class="button" onclick="toggleMenu()">«</a>
         </header>
         <div id="main">
 
@@ -189,7 +190,6 @@
                         </p>
                     </div>
                     <h2>DANGER! Developer settings!</h2>
-                    <p><a class="button" onclick="toggleFullScreen()">Fullscreen</a></p>
                     <p><a class="button" onclick="XXX_RESET_XXX()">Reset everything</a></p>
                 </article>
             </section>

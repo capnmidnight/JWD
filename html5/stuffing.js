@@ -54,7 +54,7 @@ function msg(id, msgTxt, delay, length){
             onclick: function(){
                 setStyle("display", "none", box);
             }
-        }, "dismiss"),
+        }, "\u00D7"),
         s);
 
     setTimeout(notifications.appendChild.bind(notifications, box), delay);
