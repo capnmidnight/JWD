@@ -12,7 +12,7 @@ input[type=text],textarea{outline:none;}
 #menu,a.button{text-align:center;}
 aside{font-size:12pt;font-weight:bold;padding:0.5em;border-width:5px;top:2em;}
 td{width:3em;cursor:pointer;}
-aside, a.button{display: inline-block;}
+aside,a.button{display:inline-block;}
 aside{float:left;clear:left;}
 a.button{padding:0.5em;min-width:2.5em;text-decoration:none;cursor:pointer;}
 aside,aside a.button{margin-left:1em;margin-right:1em;}

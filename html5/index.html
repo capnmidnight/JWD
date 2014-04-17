@@ -43,24 +43,7 @@
 </head>
 <body onload="pageLoad()">
     <form name="form">
-        <header>
-            <a class="button" onclick="showTab('main', 'menu', true);">↑</a>
-            <a class="button" onclick="saveFile()">∞</a>
-
-            <span id="file-controls">
-                <a class="button" onclick="prevFile()">←</a>
-                <a class="button" onclick="nextFile()">→</a>
-                <a class="button" onclick="addNewFile()">+</a>
-            </span>
-
-            <span id="snippet-controls">
-                <a class="button" onclick="prevSnippet()">←</a>
-                <a class="button" onclick="nextSnippet()">→</a>
-            </span>
-
-            <a class="button" onclick="toggleFullScreen()">❖</a>
-            <a id="toggle-menu-button" class="button" onclick="toggleMenu()">«</a>
-        </header>
+        <header><a class="button" onclick="showTab('main', 'menu', true);">↑</a><a class="button" onclick="saveFile()">∞</a><span id="file-controls"><a class="button" onclick="prevFile()">←</a><a class="button" onclick="nextFile()">→</a><a class="button" onclick="addNewFile()">+</a></span><span id="snippet-controls"><a class="button" onclick="prevSnippet()">←</a><a class="button" onclick="nextSnippet()">→</a></span><a class="button" onclick="toggleFullScreen()">❖</a><a id="toggle-menu-button" class="button" onclick="toggleMenu()">«</a></header>
         <div id="main">
 
             <section id="menu" data-hide-menu="true">

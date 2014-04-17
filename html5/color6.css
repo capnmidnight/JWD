@@ -1,6 +1,6 @@
 html,body,input,textarea,select{font-family:"DejaVu Serif", "DejaVu Sans", Georgia,Tahoma,serif;}
 
-html,body,input,textarea,#editor,a.button,a.button:visited{background-color:#050;}
+html,body,header,input,textarea,#editor,a.button,a.button:visited{background-color:#050;}
 aside,aside a.button,aside a.button:visited{background-color:#040;}
 a.button:hover,.sentence{background-color:#060;}
 aside a.button:hover{background-color:#050;}
