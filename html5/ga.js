@@ -7,14 +7,11 @@ ga('require', 'linkid', 'linkid.js')
 ga('require', 'displayfeatures');
 ga('send', 'pageview');
 
-function evtIt(cat, act, lbl, val){
-    ga("send", "event", cat, act, lbl, val);
-}
+var navIt = ga.bind(window, "send", "pageview");
+var evtIt = ga.bind(window, "send", "event");
 
-var navIt = evtIt.bind(window, "button", "click");
 var usrIt = evtIt.bind(window, "user");
 var rptIt = evtIt.bind(window, "report");
-
 var datIt = evtIt.bind(window, "data");
-var savIt = datIt.bind(window, "save");
-var lodIt = datIt.bind(window, "load");
+    var savIt = datIt.bind(window, "save");
+    var lodIt = datIt.bind(window, "load");
