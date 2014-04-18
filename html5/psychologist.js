@@ -137,9 +137,14 @@ function setStyle(prop, val, box){
         box.style[prop] = val;
     }
 }
-
-var hide = setStyle.bind(window, "display", "none");
-var show = setStyle.bind(window, "display", "");
+function setDisplay(shown, box){
+    var value = shown ? "" : "none";
+    if(box.style.display != value){
+        box.style.display = value;
+    }
+}
+var hide = setDisplay.bind(window, false);
+var show = setDisplay.bind(window, true);
 
 // hand-scraped from https://developer.mozilla.org/en-US/docs/Web/HTML/Element
 // document.getElementsByClassName("index widgeted")[0].textContent.match(/<\w+>/g).map(function(m){return "\""+m.substring(1, m.length - 1)+"\"";}).join(",")

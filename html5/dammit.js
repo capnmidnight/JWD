@@ -149,11 +149,11 @@ function showTab(parts, saveState){
     var boxes = getDOMAll(fmt("#$1>*", parentID));
     navIt(url);
     boxes.forEach(function (box, i) {
-        box.style.display = id == box.id ? "block" : "none";
+        setDisplay(id == box.id, box);
         box.className = id == box.id ? "selected" : "";
         if(parentID == "main" && id == box.id){
             var ds = box.dataset;
-            header.style.display = ds.hideMenu ? "none" : "";
+            setDisplay(!ds.hideMenu, header);
             fileControls.style.display = ds.showFileControls ? "" : "none";
             snippetControls.style.display = ds.showSnippetControls ? "" : "none";
             waitForData({thunk:window[id + "ScreenShow"], params:parts.slice(2, parts.length)});

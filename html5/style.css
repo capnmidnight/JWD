@@ -1,5 +1,5 @@
 *,*:before,*:after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box;}
-*
+header,a.button
 {
     -webkit-transition-property:all;
     -webkit-transition-duration: 0.5s;
@@ -22,6 +22,7 @@ input[type=text],textarea{outline:none;}
 aside{font-size:12pt;font-weight:bold;padding:0.5em;border-width:5px;top:2em;}
 td{width:3em;cursor:pointer;}
 aside,a.button{display:inline-block;}
+#menu>a.button,header{display:block;}
 aside{float:left;clear:left;}
 a.button{padding:0.5em;min-width:2.5em;text-decoration:none;cursor:pointer;}
 aside,aside a.button{margin-left:1em;margin-right:1em;}
@@ -31,7 +32,7 @@ section>*{clear:left;}
 .textContent{overflow-y:scroll;word-wrap:break-word;text-align:justify;padding-right:1em;}
 .sentence{border:solid 1px rgba(0, 255, 0, 0.5);}
 .paragraph{border:solid 1px rgba(0, 0, 255, 0.5);}
-#storage-details>*,section{display:none;}
+#storage-details>*{display:none;}
 ::-webkit-scrollbar{width:5px;}
 @media(min-width:320px){
 .textContent,select,a.button{font-size:10pt;}
