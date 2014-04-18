@@ -139,7 +139,7 @@ function setStyle(prop, val, box){
 }
 
 var hide = setStyle.bind(window, "display", "none");
-var show = setStyle.bind(window, "display", "block");
+var show = setStyle.bind(window, "display", "");
 
 // hand-scraped from https://developer.mozilla.org/en-US/docs/Web/HTML/Element
 // document.getElementsByClassName("index widgeted")[0].textContent.match(/<\w+>/g).map(function(m){return "\""+m.substring(1, m.length - 1)+"\"";}).join(",")

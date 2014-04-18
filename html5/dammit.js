@@ -32,7 +32,6 @@ function getControls(){
     window.addEventListener("resize", resize, false);
     window.addEventListener("popstate", moveHistory, false);
 
-    header = getDOM("header");
     menu = getDOM("menu");
     fileControls = getDOM("#file-controls");
     fileCount = getDOM("#file-count");
@@ -48,6 +47,10 @@ function getControls(){
     storageFile = fileUpload(getDOM("#browse-storage-file"));
     toggleMenuButton = getDOM("#toggle-menu-button");
     reader = getDOM("#reader");
+
+    header = getDOM("header");
+    header.style.left = 0;
+    header.style.opacity = 1;
 
     menuItems = getDOMAll("#menu>.button");
     menuItems.forEach(function (mnu) {

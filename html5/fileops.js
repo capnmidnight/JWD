@@ -4,7 +4,7 @@ function autoSave() {
     var prev = data.chapters[data.currentChapter].doc;
     var cur = writer.getValue();
     if (prev != cur) {
-        unsavedFileIndicator.style.display = "";
+        show(unsavedFileIndicator);
         if (getSetting("storageType") != "desktop") {
             if (autoSave.timeout)
                 clearTimeout(autoSave.timeout);
@@ -41,7 +41,7 @@ var fileSavers = {
 };
 
 function onSuccessfulSave(type) {
-    unsavedFileIndicator.style.display = "none";
+    hide(unsavedFileIndicator);
     savIt(type);
 }
 
@@ -93,7 +93,7 @@ function onSuccessfulLoad(type) {
     });
     data.currentChapter = data.currentChapter || 0;
     showFile();
-    unsavedFileIndicator.style.display = "none";
+    hide(unsavedFileIndicator);
 
     currentSnippet = data.snippets.length;
     updateSnippetCount();

@@ -9,7 +9,7 @@ function saveFileToDesktop(filename, type, text){
         download: filename,
         href: href
     }, "save");
-    setStyle("display", "none", link);
+    hide(link);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

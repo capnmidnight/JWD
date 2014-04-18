@@ -1,4 +1,13 @@
 *,*:before,*:after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box;}
+*
+{
+    -webkit-transition-property:all;
+    -webkit-transition-duration: 0.5s;
+    -webkit-transition-timing-function:linear;
+    transition-property:all;
+    transition-duration: 0.5s;
+    transition-timing-function:linear;
+}
 html,body,header{position:absolute;}
 html,body,section,.textContent,#menu>p,#menu>a.button,#chapter-bar,#chapter-name{width:100%;}
 html,body,section,.textContent{height:100%;}

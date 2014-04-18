@@ -52,7 +52,7 @@ function msg(id, msgTxt, delay, length){
         linkButton({
             id: id + "-dismiss-button",
             onclick: function(){
-                setStyle("display", "none", box);
+                hide(box);
             }
         }, "\u00D7"),
         s);
@@ -122,7 +122,7 @@ function fileUpload(fup){
     fup.parentElement.replaceChild(container, fup);
     container.appendChild(fup);
 
-    setStyle("display", "none", fup);
+    hide(fup);
 
     fup.addEventListener("change", function () {
         browse.textContent = fup.files.length == 0
