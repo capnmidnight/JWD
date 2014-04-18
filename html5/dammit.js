@@ -230,7 +230,7 @@ function firstNavigation(){
     else
         showTab(["main", "menu"]);
 
-    if (!window.fullScreen)
+    if (!window.fullScreen && document.documentElement.requestFullscreen)
         msg("fullscreen-note", "Consider running in full-screen by hitting F11 on your keyboard."
             + "<a class=\"button\" onclick=\"toggleFullScreen()\">go fullscreen</a>", 1000);
 }
