@@ -1,6 +1,6 @@
 ﻿var selectedWritingBlock = null;
 
-function buildEditView() {
+function editScreenShow() {
     var doc = data.chapters[data.currentChapter].doc;
 
     doc = doc.replace(/\r\n/g, "\n"); // normalize newl ine cha racters
@@ -21,6 +21,26 @@ function buildEditView() {
         s.addEventListener(isMobile ? "touchend" : "mouseup", placeWriting);
         s.addEventListener(isMobile ? "touchmove" : "mousemove", moveWriting);
     });
+}
+
+function readScreenShow(chapterNumber){
+    var elems = exportBody();
+    reader.innerHTML = "";
+    elems.forEach(function(elem){
+        reader.appendChild(elem);
+    });
+    var links = arr(reader.getElementsByTagName("a"));
+    links.forEach(function(lnk){
+        if(lnk.href && lnk.href.indexOf("#") > -1){
+            lnk.href = lnk.href.replace("#", "#main/read/");
+        }
+        else if(lnk.name == chapterNumber){
+            lnk.scrollIntoView(true);
+        }
+    });
+    if(!chapterNumber){
+        reader.scrollTop = 0;
+    }
 }
 
 function getLocation(box) {

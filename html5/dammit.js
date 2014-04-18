@@ -25,7 +25,8 @@ var header = null,
     storageFile = null,
     themeStyle = null,
     notifications = null,
-    toggleMenuButton = null;
+    toggleMenuButton = null,
+    reader = null;
 
 function getControls(){
     window.addEventListener("resize", resize, false);
@@ -46,16 +47,15 @@ function getControls(){
     notifications = getDOM("#notifications");
     storageFile = fileUpload(getDOM("#browse-storage-file"));
     toggleMenuButton = getDOM("#toggle-menu-button");
+    reader = getDOM("#reader");
 
     menuItems = getDOMAll("#menu>.button");
     menuItems.forEach(function (mnu) {
         var id = mnu.getValue();
         setSetting("lastView", id);
-        mnu.addEventListener("click", showTab.bind(window, "main", id, true), false);
+        mnu.addEventListener("click", showTab.bind(window, ["main", id], true), false);
         menuItems[id] = mnu;
     });
-    menuItems["analyze"].addEventListener("click", frequencyAnalysis, false);
-    menuItems["edit"].addEventListener("click", buildEditView, false);
 
     snippetsEditor = getDOM("#snippets-editor");
     snippetsEditor.addEventListener("keyup", saveSnippets, false);
@@ -69,10 +69,10 @@ function getControls(){
     editor.addEventListener("mousedrag", moveWriting, false);
 
     minFreqCount = spinner(getDOM("#min-frequency"), "Minimum frequency:", 1, 1000);
-    minFreqCount.addEventListener("change", frequencyAnalysis, false);
+    minFreqCount.addEventListener("change", analyzeScreenShow, false);
 
     excludeWords = getDOM("#exclude-words");
-    excludeWords.addEventListener("change", frequencyAnalysis, false);
+    excludeWords.addEventListener("change", analyzeScreenShow, false);
 
     word1Frequency = getDOM("#word-1-frequency");
     word2Frequency = getDOM("#word-2-frequency");
@@ -86,7 +86,7 @@ function getControls(){
     storageType = getDOM("#storage-type");
     storageType.addEventListener("change", onStorageTypeChanged, false);
     storageType.setValue(storeType);
-    showTab("storage-details", "storage-" + storeType);
+    showTab(["storage-details", "storage-" + storeType]);
 
     themeStyle = getDOM("#theme-block");
     getDOMAll("td").forEach(function(cell, i){
@@ -121,18 +121,31 @@ function onStorageTypeChanged(){
     var type = storageType.getValue();
     setSetting("storageType", type);
     datIt("storage type", type);
-    showTab("storage-details", "storage-" + type);
+    showTab(["storage-details", "storage-" + type]);
     if (type == "dropbox")
         dorpbox();
     else if(type == "gdrive")
         gdrive();
 }
 
-function showTab(parentID, id, saveState){
+function waitForData(obj){
+    if(obj && obj.thunk){
+        if(!data) {
+            setTimeout(waitForData, 1000, obj);
+        }
+        else{
+            obj.thunk.apply(window, obj.params);
+        }
+    }
+}
+
+function showTab(parts, saveState){
+    var url = parts.join("/");
+    var parentID = parts[0];
+    var id = parts[1];
     var boxes = getDOMAll(fmt("#$1>*", parentID));
-    var url = [parentID, id].join("/");
     navIt(url);
-    boxes.forEach(function (box) {
+    boxes.forEach(function (box, i) {
         box.style.display = id == box.id ? "block" : "none";
         box.className = id == box.id ? "selected" : "";
         if(parentID == "main" && id == box.id){
@@ -140,6 +153,7 @@ function showTab(parentID, id, saveState){
             header.style.display = ds.hideMenu ? "none" : "";
             fileControls.style.display = ds.showFileControls ? "" : "none";
             snippetControls.style.display = ds.showSnippetControls ? "" : "none";
+            waitForData({thunk:window[id + "ScreenShow"], params:parts.slice(2, parts.length)});
         }
     });
     resize();
@@ -148,17 +162,15 @@ function showTab(parentID, id, saveState){
             url = "#" + url;
 
         window.history.pushState(
-            [parentID, id],
-            fmt("Just Write, Dammit! > $1 > $2", parentID, id),
+            parts,
+            fmt("Just Write, Dammit! > $1", parts.join(" > ")),
             url);
     }
 }
 
 function moveHistory(evt){
-    if(evt.state)
-        showTab(evt.state[0], evt.state[1]);
-    else
-        showTab("main", "menu");
+    if(document.location.hash.length > 0);
+        showTab(document.location.hash.substring(1).split("/"));
 }
 
 function resize(){
@@ -202,18 +214,18 @@ function firstNavigation(){
             parts.unshift("main");
     }
 
-    if(parts && parts.length == 2)
-        showTab(parts[0], parts[1]);
+    if(parts && parts.length >= 2)
+        showTab(parts);
     else if(!getSetting("storageType")){
-        showTab("main", "about");
+        showTab(["main", "about"]);
         usrIt("firstTime");
     }
     else if(isMobile){
-        showTab("main", "snippet");
+        showTab(["main", "snippet"]);
         toggleMenu();
     }
     else
-        showTab("main", "menu");
+        showTab(["main", "menu"]);
 
     if (!window.fullScreen)
         msg("fullscreen-note", "Consider running in full-screen by hitting F11 on your keyboard."

@@ -42,7 +42,7 @@ function countWords(){
     addWordCount.setValue(additional);
 }
 
-function frequencyAnalysis(){
+function analyzeScreenShow(){
     var words = writer.getValue()
         .replace(/<\/?(br|p)>/g, "\n")
         .replace(/<[^>]+>/g, "")
