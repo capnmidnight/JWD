@@ -3,10 +3,10 @@
 {
     -webkit-transition-property:all;
     -webkit-transition-duration: 0.5s;
-    -webkit-transition-timing-function:linear;
+    -webkit-transition-timing-function:ease;
     transition-property:all;
     transition-duration: 0.5s;
-    transition-timing-function:linear;
+    transition-timing-function:ease;
 }
 html,body,header{position:absolute;}
 html,body,section,.textContent,#menu>p,#menu>a.button,#chapter-bar,#chapter-name{width:100%;}
