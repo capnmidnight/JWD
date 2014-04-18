@@ -11,7 +11,9 @@
 
     var chapters = data.chapters.map(function(chapter, i){
         return article(
-            h2(a({name:"chapter" + i}, chapter.name)),
+            h2(a({name:"chapter" + i}, 
+                chapter.name + " ",
+                small(a({href:"#TOC"}, "(top)")))),
             chapter.doc
                 .replace(/\r\n/g, "\n")
                 .replace(/\n{2,}/g, "\n")
@@ -21,7 +23,7 @@
     });
 
     return [div({id:"table-of-contents"},
-                h2("Table of Contents"),
+                h2(a({name:"TOC"}, "Table of Contents")),
                 toc),
             div({id:"main"}, chapters)];
 }
@@ -31,7 +33,7 @@ function exportHTML(){
             title("My Book"),
             meta({charset:"utf8"}),
             style("h2{page-break-before:always;}")),
-        body.apply(window, exportBody()));
+        body(exportBody()));
     
     saveFileToDesktop("export.html", "text/html;charset=utf-8", doc.outerHTML);
     rptIt("publish");
