@@ -32,7 +32,16 @@ function exportHTML(){
     var doc = html(head(
             title("My Book"),
             meta({charset:"utf8"}),
-            style("h2{page-break-before:always;}")),
+            style(
+["@page {margin-top: 3cm;margin-bottom:3cm;}",
+"@page :left {margin-left: 4cm; margin-right: 3cm;}",
+"@page :left :header {content:\"pp. \" decimal(pageno), ,;}",
+"@page :left :footer {content:\"pp. \" decimal(pageno), first(chapter),;}",
+"@page :right {margin-left: 3cm;margin-right: 4cm;}",
+"@page :right :header {content:, , \"pp. \" decimal(pageno);}",
+"@page :right :footer {content:, first(chapter), \"pp. \" decimal(pageno);}",
+"h2{page-break-before:always;running-head:chapter;}",
+"p{text-align:justify}"].join("\n"))),
         body(exportBody()));
     
     saveFileToDesktop("export.html", "text/html;charset=utf-8", doc.outerHTML);
