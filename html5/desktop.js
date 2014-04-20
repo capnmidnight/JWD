@@ -1,10 +1,10 @@
-function desktopSave(fail, success, doc){
-    saveFileToDesktop("justwritedammit.jwd", "application/octet-stream", doc);
+function desktopSave(fail, success, text){
+    saveFileToDesktop("justwritedammit.jwd", "application/octet-stream", utf8_to_b64(text));
     success();
 }
 
-function saveFileToDesktop(filename, type, text){
-    var href = fmt("data:$1;filename=$2;base64,$3", type, filename, utf8_to_b64(text));
+function saveFileToDesktop(filename, type, bin64){
+    var href = fmt("data:$1;filename=$2;base64,$3", type, filename, bin64);
     var link = a({
         download: filename,
         href: href

@@ -27,6 +27,7 @@
     <Content Include="package.json" />
     <Compile Include="html5\editroomfloor.js" />
     <Compile Include="html5\ga.js" />
+    <Compile Include="html5\jszip.min.js" />
     <Compile Include="html5\publican.js" />
     <Compile Include="server.js" />
     <Content Include="html5\about.html" />
