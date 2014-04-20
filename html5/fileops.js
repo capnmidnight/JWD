@@ -91,6 +91,18 @@ function onSuccessfulLoad(type) {
         if (chapter.count)
             delete chapter.count;
     });
+
+    if(data.snippets && data.snippets.length > 0){
+        data.chapters.push({
+            name: "snippets",
+            doc: data.snippets
+                .map(function(s){return s.trim();})
+                .filter(function(s){return s.length > 0;})
+                .join("\n\n")
+        });
+        delete data.snippets;
+    }
+
     data.currentChapter = data.currentChapter || 0;
     showFile();
     hide(unsavedFileIndicator);

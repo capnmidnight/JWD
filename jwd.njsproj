@@ -58,7 +58,6 @@
     <Compile Include="html5\poindexter.js" />
     <Compile Include="html5\psychologist.js" />
     <Compile Include="html5\selecticator.js" />
-    <Compile Include="html5\snippets.js" />
     <Compile Include="html5\stuffing.js" />
     <Compile Include="src\core.js" />
     <Compile Include="src\webServer.js" />

@@ -8,9 +8,6 @@ var header = null,
     chapterName = null,
     writer = null,
     editor = null,
-    snippetsEditor = null,
-    snippetControls = null,
-    snippetCounts = null,
     totalWordCount = null,
     addWordCount = null,
     clock = null,
@@ -36,8 +33,6 @@ function getControls(){
     menu = getDOM("menu");
     fileControls = getDOM("#file-controls");
     fileCount = getDOM("#file-count");
-    snippetControls = getDOM("#snippet-controls");
-    snippetCounts = getDOM("#snippet-count");
     main = getDOM("#main");
     unsavedFileIndicator = getDOM("#unsaved-file-indicator");
     chapterName = getDOM("#chapter-name");
@@ -61,9 +56,6 @@ function getControls(){
         mnu.addEventListener("click", showTab.bind(window, ["main", id], true), false);
         menuItems[id] = mnu;
     });
-
-    snippetsEditor = getDOM("#snippets-editor");
-    snippetsEditor.addEventListener("keyup", saveSnippets, false);
 
     writer = getDOM("#writer");
     writer.addEventListener("keyup", interrobang, false);
@@ -157,7 +149,6 @@ function showTab(parts, saveState){
             var ds = box.dataset;
             setDisplay(!ds.hideMenu, header);
             fileControls.style.display = ds.showFileControls ? "" : "none";
-            snippetControls.style.display = ds.showSnippetControls ? "" : "none";
             waitForData({thunk:window[id + "ScreenShow"], params:parts.slice(2, parts.length)});
         }
     });
@@ -186,7 +177,6 @@ function resize(){
     main.style.top = px(header.clientHeight);
     writer.style.height = "100%";
     writer.style.height = px(writer.clientHeight - chapterName.clientHeight - infobar.clientHeight);
-    snippetsEditor.style.height = px(main.clientHeight - snippetCounts.clientHeight);
 }
 
 function clockTick(){
