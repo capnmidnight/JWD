@@ -21,6 +21,7 @@ var header = null,
     word3Frequency = null,
     word4Frequency = null,
     browserInfo = null,
+    infoBar = null,
     storageType = null,
     storageFile = null,
     themeStyle = null,
@@ -47,6 +48,7 @@ function getControls(){
     storageFile = fileUpload(getDOM("#browse-storage-file"));
     toggleMenuButton = getDOM("#toggle-menu-button");
     reader = getDOM("#reader");
+    infoBar= getDOM("#infobar");
 
     header = getDOM("header");
     header.style.left = 0;
@@ -179,12 +181,12 @@ function moveHistory(evt){
 function resize(){
     if(window.fullScreen)
         hide("fullscreen-note");
-
-    main.style.height = px(window.innerHeight);
+    // the extra 2 pixels is to avoid a small scroll overlap with the window edge
+    main.style.height = px(window.innerHeight - header.clientHeight - 2);
+    main.style.top = px(header.clientHeight);
     writer.style.height = "100%";
-    writer.style.height = px(writer.clientHeight - chapterName.clientHeight * 2);
-    snippetsEditor.style.height = "100%";
-    snippetsEditor.style.height = px(snippetsEditor.clientHeight - snippetCounts.clientHeight);
+    writer.style.height = px(writer.clientHeight - chapterName.clientHeight - infobar.clientHeight);
+    snippetsEditor.style.height = px(main.clientHeight - snippetCounts.clientHeight);
 }
 
 function clockTick(){
@@ -224,7 +226,7 @@ function firstNavigation(){
         usrIt("firstTime");
     }
     else if(isMobile){
-        showTab(["main", "snippet"]);
+        showTab(["main", "write"]);
         toggleMenu();
     }
     else
