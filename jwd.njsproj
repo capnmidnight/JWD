@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{e7e06f33-eb96-4a1a-95cb-a856e8023b50}</ProjectGuid>
     <ProjectHome />
-    <ProjectView>ProjectFiles</ProjectView>
+    <ProjectView>ShowAllFiles</ProjectView>
     <StartupFile>server.js</StartupFile>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -19,6 +19,7 @@
     <Content Include="commands-skip-pdf.txt" />
     <Content Include="commands.txt" />
     <Content Include="html5\dmca.pdf" />
+    <Content Include="html5\index.html" />
     <Content Include="html5\privacy_policy.pdf" />
     <Content Include="html5\tos.pdf" />
     <Content Include="README.txt" />
@@ -27,7 +28,7 @@
     <Compile Include="html5\ga.js" />
     <Compile Include="html5\publican.js" />
     <Compile Include="server.js" />
-    <Content Include="html5\index.html" />
+    <Content Include="html5\about.html" />
     <Content Include="html5\color1.css" />
     <Content Include="html5\color2.css" />
     <Content Include="html5\color3.css" />
