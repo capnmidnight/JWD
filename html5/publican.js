@@ -25,7 +25,7 @@
     return [div({ id: "table-of-contents" },
         h2(a({ name: "TOC" }, "Table of Contents")),
         toc),
-        div({ id: "main" }, chapters)];
+        div({ id: "chapters" }, chapters)];
 }
 
 function exportHTML() {

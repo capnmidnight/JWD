@@ -16,13 +16,10 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
-    <Content Include="commands.txt" />
-    <Content Include="commands-skip-pdf.txt" />
     <Content Include="html5\dmca.pdf" />
     <Content Include="html5\index.html" />
     <Content Include="html5\privacy_policy.pdf" />
     <Content Include="html5\tos.pdf" />
-    <Content Include="push-all.bat" />
     <Content Include="README.txt" />
     <Content Include="package.json" />
     <Compile Include="html5\editroomfloor.js" />
