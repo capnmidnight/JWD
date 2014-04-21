@@ -48,8 +48,6 @@ function onSuccessfulSave(type) {
 function saveFile(types) {
     if (autoSave.timeout)
         clearTimeout(autoSave.timeout);
-    if (saveSnippets.timeout)
-        clearTimeout(saveSnippets.timeout);
     if (types == undefined) {
         stowFile();
         types = [getSetting("storageType"), getSetting("lastStorageType")];
@@ -82,8 +80,6 @@ function deEff(val) {
 }
 
 function onSuccessfulLoad(type) {
-    for (var i = 0; i < data.snippets.length; ++i)
-        data.snippets[i] = deEff(data.snippets[i]);
     for (var i = 0; i < data.chapters.length; ++i)
         data.chapters[i].doc = deEff(data.chapters[i].doc);
 
@@ -96,7 +92,7 @@ function onSuccessfulLoad(type) {
         data.chapters.push({
             name: "snippets",
             doc: data.snippets
-                .map(function(s){return s.trim();})
+                .map(function(s){return deEff(s.trim());})
                 .filter(function(s){return s.length > 0;})
                 .join("\n\n")
         });
@@ -106,10 +102,6 @@ function onSuccessfulLoad(type) {
     data.currentChapter = data.currentChapter || 0;
     showFile();
     hide(unsavedFileIndicator);
-
-    currentSnippet = data.snippets.length;
-    updateSnippetCount();
-    showSnippet();
     note("data-loaded-message", "Data loaded!");
     data.theme = data.theme || 0;
     setTheme(data.theme);
@@ -139,8 +131,7 @@ function loadData(types) {
 
 function defaultLoad(fail, success) {
     data = {
-        chapters: [],
-        snippets: []
+        chapters: []
     };
     addNewFile();
     setSetting("storageType", "local");
@@ -170,8 +161,7 @@ function parseFileData(fileData, fail, success) {
 
         if (fileData.length)
             fileData = {
-                chapters: fileData,
-                snippets: []
+                chapters: fileData
             };
 
         data = fileData;
