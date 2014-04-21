@@ -193,14 +193,6 @@ function clockTick(){
     setTimeout(clockTick, 500);
 }
 
-function redirectCheck(){
-    if(document.location.hostname != "localhost"
-       && document.location.hostname != "127.0.0.1"
-       && !document.location.hostname.match(/192\.168\.0\.\d+/)
-       && document.location.protocol == "http:")
-        document.location = document.location.href.replace("http://", "https://");
-}
-
 function firstNavigation(){
     var parts;
     if(document.location.hash.length > 0){
@@ -228,7 +220,6 @@ function firstNavigation(){
 }
 
 function pageLoad(){
-    redirectCheck();
     getControls();
     clockTick();
     resize();
