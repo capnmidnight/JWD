@@ -5,7 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=1">
     <title>Just Write, Dammit!</title>
     <script>
-(function (h, p, l, arr) { if (h != "localhost" && h != "127.0.0.1" && !h.match(/192\.168\.0\.\d+/) && p == "http:") { document.location = l.replace("http://", "https://"); } else { function loadIt(libs) { if (!document.body) { setTimeout(loadIt, 1, libs); } else { var G = document.createElement("div"), B = document.createElement("div"); var Gs = G.style, Bs = B.style, Db = document.body; Bs.position = Gs.position = "absolute"; Bs.height = Gs.height = "100%"; Bs.padding = Gs.padding = 0; Bs.margin = Gs.margin = 0; Bs.border = Gs.border = 0; Gs.backgroundColor = "#667"; Bs.backgroundColor = "#f67"; Db.appendChild(G); Db.appendChild(B); var toLoad = {}; function set(m, i) { toLoad[m] = i; var c, g, e; c = g = e = 0; for (var k in toLoad) { c++; if (toLoad[k] == 1) g++; else if (toLoad[k] == -1) e++; } Bs.width = (e * 100 / c) + "%"; Bs.left = Gs.width = (g * 100 / c) + "%"; if (c == g + e) { Db.removeChild(B); Db.removeChild(G); document.form.style.display = "block"; pageLoad(); } } arr.map(function (m) { return m; }).forEach(function (m) { set(m, 0); var s = document.createElement("script"); s.addEventListener("load", set.bind(window, m, 1)); s.addEventListener("error", set.bind(window, m, -1)); s.src = m + (m.indexOf(".js") > -1 ? "" : ".js"); document.head.appendChild(s); }); } } loadIt(arr); } })(document.location.hostname, document.location.protocol, document.location.href, ["https://www.dropbox.com/static/api/dropbox-datastores-1.0-latest.js", "https://apis.google.com/js/client.js", "https://www.googleadservices.com/pagead/conversion_async.js", "jszip.min",
+        (function (h, p, l, arr) {
+            if (h != "localhost" && h != "127.0.0.1" && !h.match(/192\.168\.0\.\d+/) && p == "http:") { document.location = l.replace("http://", "https://"); }
+            else {
+                var toLoad = {};
+                function set(i, m) {
+                    toLoad[m] = i;
+                    var c, g, e;
+                    c = g = e = 0;
+                    for (var k in toLoad) {
+                        c++;
+                        if (toLoad[k] == 1) {
+                            g++;
+                        } else if (toLoad[k] == -1) {
+                            e++;
+                        }
+                    }
+                    Bs.width = (e * 100 / c) + "%";
+                    Bs.left = Gs.width = (g * 100 / c) + "%";
+                    if (c == g + e) {
+                        document.body.removeChild(B);
+                        document.body.removeChild(G);
+                        document.form.style.display = "block";
+                        pageLoad();
+                    }
+                }
+                var G = document.createElement("div"), B = document.createElement("div");
+                var Gs = G.style, Bs = B.style;
+                Bs.position = Gs.position = "absolute";
+                Bs.height = Gs.height = "100%";
+                Bs.padding = Gs.padding = 0;
+                Bs.margin = Gs.margin = 0;
+                Bs.border = Gs.border = 0;
+                Gs.backgroundColor = "#667";
+                Bs.backgroundColor = "#f67";
+                arr.forEach(set.bind(this, 0));
+                function tryLoad(libs) {
+                    if (!document.body) { setTimeout(tryLoad, 1, libs); }
+                    else {
+                        document.body.appendChild(G);
+                        document.body.appendChild(B);
+                        loadLibs(libs);
+                    }
+                }
+                function loadLibs(libs) {
+                    if (libs.length > 0) {
+                        var m = libs.shift();
+                        var s = document.createElement("script");
+                        s.addEventListener("load", function () {
+                            set(1, m);
+                            loadLibs(libs);
+                        });
+                        var err = function () {
+                            set(-1, m);
+                            loadLibs(libs);
+                        }
+                        s.addEventListener("error", err);
+                        s.addEventListener("abort", err);
+                        s.src = m + (m.indexOf(".js") > -1 ? "" : ".js");
+                        document.head.appendChild(s);
+                    }
+                }
+                tryLoad(arr);
+            }
+        })(document.location.hostname, document.location.protocol, document.location.href, ["https://www.dropbox.com/static/api/dropbox-datastores-1.0-latest.js", "https://apis.google.com/js/client.js", "https://www.googleadservices.com/pagead/conversion_async.js", "jszip.min",
 "selecticator", "psychologist", "markdownsyndrome", "interrobang", "stuffing", "local", "dorpbox", "gdrive", "desktop", "fileops", "poindexter", "editroomfloor", "publican", "dammit", "ga"]);</script>
     <meta name="description" content="Writing first, editing second. A streamlined app for writers.">
     <meta name="keywords" content="writing software,book writing,novel writing,be more creative,my story,writing apps,writing flow,programs for writers,creativity aids,apps for writers,getting into flow">
