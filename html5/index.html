@@ -21,13 +21,22 @@
                             e++;
                         }
                     }
+                    console.log(i, m, c, g, e);
                     Bs.width = (e * 100 / c) + "%";
                     Bs.left = Gs.width = (g * 100 / c) + "%";
+                    if (c > 2 && c == g + e + 2) {
+                        console.log("loading");
+                        pageLoad(
+                            set.bind(window, 1, "init"),
+                            set.bind(window, -1, "init"),
+                            set.bind(window, 1, "loadData"),
+                            set.bind(window, -1, "loadData"));
+                    }
                     if (c == g + e) {
                         document.body.removeChild(B);
                         document.body.removeChild(G);
                         document.form.style.display = "block";
-                        pageLoad();
+                        resize();
                     }
                 }
                 var G = document.createElement("div"), B = document.createElement("div");
@@ -45,6 +54,8 @@
                     else {
                         document.body.appendChild(G);
                         document.body.appendChild(B);
+                        set(0, "init");
+                        set(0, "loadData");
                         loadLibs(libs);
                     }
                 }

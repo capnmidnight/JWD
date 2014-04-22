@@ -79,7 +79,7 @@ function deEff(val) {
     catch (exp) { return val; }
 }
 
-function onSuccessfulLoad(type) {
+function onSuccessfulLoad(type, loadDataDone) {
     for (var i = 0; i < data.chapters.length; ++i)
         data.chapters[i].doc = deEff(data.chapters[i].doc);
 
@@ -106,9 +106,10 @@ function onSuccessfulLoad(type) {
     data.theme = data.theme || 0;
     setTheme(data.theme);
     lodIt(type);
+    loadDataDone();
 }
 
-function loadData(types) {
+function loadData(loadDataDone, loadDataFailed, types) {
     if (types == undefined) {
         data = null;
         types = [getSetting("storageType"), getSetting("lastStorageType")];
@@ -120,11 +121,16 @@ function loadData(types) {
     if (types.length > 0) {
         var type = types.shift();
         if (type) {
-            var fail = setTimeout.bind(window, loadData, 1, types);
-            if (fileLoaders[type])
-                fileLoaders[type](fail, onSuccessfulLoad.bind(window, type));
-            else
+            var fail = setTimeout.bind(window, loadData.bind(loadDataDone, loadDataFailed, types), 1);
+            if (fileLoaders[type]){
+                fileLoaders[type](fail, onSuccessfulLoad.bind(window, type, loadDataDone));
+            }
+            else{
                 fail(fmt("Storage type \"$1\" is not yet supported", type));
+                if(types.length == 0){
+                    loadDataFailed();
+                }
+            }
         }
     }
 }
