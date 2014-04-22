@@ -40,7 +40,8 @@ function exportHTML() {
                 "@page :right {margin-left: 3cm;margin-right: 4cm;}",
                 "@page :right :header {content:, , \"pp. \" decimal(pageno);}",
                 "@page :right :footer {content:, first(chapter), \"pp. \" decimal(pageno);}",
-                "h2{page-break-before:always;running-head:chapter;}",
+                "article{page-break-before:always;}",
+                "h2{running-head:chapter;}",
                 "p{text-align:justify}"].join("\n"))),
         body(exportBody()));
     var zip = new JSZip();
