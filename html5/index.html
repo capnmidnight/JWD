@@ -1,10 +1,11 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Just Write, Dammit!</title>
-    <script>(function(h,p,l){if(h != "localhost" && h != "127.0.0.1" && !h.match(/192\.168\.0\.\d+/) && p == "http:") document.location = l.replace("http://", "https://");})(document.location.hostname,document.location.protocol,document.location.href);</script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=1">
+    <title>Just Write, Dammit!</title>
+    <script>(function (h, p, l, arr){if (h != "localhost" && h != "127.0.0.1" && !h.match(/192\.168\.0\.\d+/) && p == "http:"){document.location = l.replace("http://", "https://");}else{function loadIt(libs){if (!document.body){setTimeout(loadIt, 1, libs);}else{var G = document.createElement("div"), B = document.createElement("div");var Gs = G.style, Bs = B.style, Db = document.body;Bs.position = Gs.position = "absolute";Bs.height = Gs.height = "100%";Bs.padding = Gs.padding = 0;Bs.margin = Gs.margin = 0;Bs.border = Gs.border = 0;Gs.backgroundColor = "#667";Bs.backgroundColor = "#f67";Db.appendChild(G);Db.appendChild(B);var toLoad ={};function set(m, i){toLoad[m] = i;var c, g, e;c = g = e = 0;for (var k in toLoad){c++;if (toLoad[k] == 1) g++;else if (toLoad[k] == -1) e++;}Bs.width = (e * 100 / c) + "%";Bs.left = Gs.width = (g * 100 / c) + "%";if (c == g + e){Db.removeChild(B);Db.removeChild(G);document.form.style.display = "block";pageLoad();}}arr.map(function (m){return m;}).forEach(function (m){set(m, 0);var s = document.createElement("script");s.addEventListener("load", set.bind(window, m, 1));s.addEventListener("error", set.bind(window, m, -1));s.src = m + (m.indexOf(".js") > -1 ? "" : ".js");document.head.appendChild(s);});}}loadIt(arr);}})(document.location.hostname, document.location.protocol, document.location.href, ["https://www.dropbox.com/static/api/dropbox-datastores-1.0-latest.js", "https://apis.google.com/js/client.js", "https://www.googleadservices.com/pagead/conversion_async.js", "jszip.min",
+"selecticator", "psychologist", "markdownsyndrome", "interrobang", "stuffing", "local", "dorpbox", "gdrive", "desktop", "fileops", "poindexter", "editroomfloor", "publican", "dammit", "ga"]);</script>
     <meta name="description" content="Writing first, editing second. A streamlined app for writers.">
     <meta name="keywords" content="writing software,book writing,novel writing,be more creative,my story,writing apps,writing flow,programs for writers,creativity aids,apps for writers,getting into flow">
     <meta name="twitter:card" content="product">
@@ -19,30 +20,12 @@
     <meta name="twitter:label2" content="Users">
     <meta name="twitter:data2" content="no signup required">
     <link type="image/png" rel="icon" href="jwd64x64.png">
-    <link rel="apple-touch-icon" href="jwd64x64.png">
+    <link type="image/png" rel="apple-touch-icon" href="jwd64x64.png">
     <link type="text/css" rel="stylesheet" href="style.css">
     <link type="text/css" rel="stylesheet" href="color1.css" id="theme-block">
-    <script src="https://www.dropbox.com/static/api/dropbox-datastores-1.0-latest.js"></script>
-    <script src="https://apis.google.com/js/client.js"></script>
-    <script src="https://www.googleadservices.com/pagead/conversion_async.js"></script>
-    <script src="jszip.min.js"></script>
-    <script src="selecticator.js"></script>
-    <script src="psychologist.js"></script>
-    <script src="interrobang.js"></script>
-    <script src="stuffing.js"></script>
-    <script src="local.js"></script>
-    <script src="dorpbox.js"></script>
-    <script src="gdrive.js"></script>
-    <script src="desktop.js"></script>
-    <script src="fileops.js"></script>
-    <script src="poindexter.js"></script>
-    <script src="editroomfloor.js"></script>
-    <script src="publican.js"></script>
-    <script src="dammit.js"></script>
-    <script src="ga.js"></script>
 </head>
-<body onload="pageLoad()">
-    <form name="form">
+<body>
+    <form name="form" style="display:none;">
         <header><a class="button" onclick="showTab(['main', 'menu'], true);">#</a><a class="button" onclick="saveFile()">∞</a><span id="file-controls"><a class="button" onclick="prevFile()">&lt;</a><a class="button" onclick="nextFile()">&gt;</a><a class="button" onclick="addNewFile()">+</a></span><a class="button" onclick="toggleFullScreen()">❖</a><a id="toggle-menu-button" class="button" onclick="toggleMenu()">«</a></header>
         <div id="main">
 
@@ -77,7 +60,7 @@
                 </div>
                 <textarea id="writer" class="textContent" spellcheck="false" cols="50" rows="50" placeholder="(type text here)"></textarea>
                 <div id="infobar">
-                    chapter: <span id="file-count"></span> 
+                    chapter: <span id="file-count"></span>
                     <span id="unsaved-file-indicator">(unsaved)</span> |
                     words: <span id="total-word-count"></span> (<span id="add-word-count"></span>) |
                     time:<span id="clock"></span>

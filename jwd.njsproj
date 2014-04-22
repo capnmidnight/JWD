@@ -20,11 +20,11 @@
     <Content Include="html5\index.html" />
     <Content Include="html5\privacy_policy.pdf" />
     <Content Include="html5\tos.pdf" />
-    <Content Include="README.txt" />
     <Content Include="package.json" />
     <Compile Include="html5\editroomfloor.js" />
     <Compile Include="html5\ga.js" />
     <Compile Include="html5\jszip.min.js" />
+    <Compile Include="html5\markdownsyndrome.js" />
     <Compile Include="html5\publican.js" />
     <Compile Include="server.js" />
     <Content Include="html5\about.html" />
@@ -59,6 +59,7 @@
     <Compile Include="html5\stuffing.js" />
     <Compile Include="src\core.js" />
     <Compile Include="src\webServer.js" />
+    <Content Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="html5" />
