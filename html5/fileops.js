@@ -109,7 +109,7 @@ function onSuccessfulLoad(type, loadDataDone) {
     loadDataDone();
 }
 
-function loadData(loadDataDone, loadDataFailed, types) {
+function loadData(loadDataDone, types) {
     if (types == undefined) {
         data = null;
         types = [getSetting("storageType"), getSetting("lastStorageType")];
@@ -121,14 +121,14 @@ function loadData(loadDataDone, loadDataFailed, types) {
     if (types.length > 0) {
         var type = types.shift();
         if (type) {
-            var fail = setTimeout.bind(window, loadData.bind(loadDataDone, loadDataFailed, types), 1);
+            var fail = setTimeout.bind(window, loadData.bind(loadDataDone, types), 1);
             if (fileLoaders[type]){
                 fileLoaders[type](fail, onSuccessfulLoad.bind(window, type, loadDataDone));
             }
             else{
                 fail(fmt("Storage type \"$1\" is not yet supported", type));
                 if(types.length == 0){
-                    loadDataFailed();
+                    loadDataDone();
                 }
             }
         }

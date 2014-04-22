@@ -11,49 +11,41 @@
                 var toLoad = {};
                 function set(i, m) {
                     toLoad[m] = i;
-                    var c, g, e;
-                    c = g = e = 0;
+                    var c, g;
+                    c = g = 0;
                     for (var k in toLoad) {
                         c++;
                         if (toLoad[k] == 1) {
                             g++;
-                        } else if (toLoad[k] == -1) {
-                            e++;
                         }
                     }
-                    console.log(i, m, c, g, e);
-                    Bs.width = (e * 100 / c) + "%";
-                    Bs.left = Gs.width = (g * 100 / c) + "%";
-                    if (c > 2 && c == g + e + 2) {
-                        console.log("loading");
+
+                    Gs.width = (100 - (g * 100 / c)) + "%";
+                    if (c > 2 && c == g + 2) {
                         pageLoad(
                             set.bind(window, 1, "init"),
-                            set.bind(window, -1, "init"),
-                            set.bind(window, 1, "loadData"),
-                            set.bind(window, -1, "loadData"));
+                            set.bind(window, 1, "loadData"));
                     }
-                    if (c == g + e) {
-                        document.body.removeChild(B);
+                    if (c == g) {
                         document.body.removeChild(G);
-                        document.form.style.display = "block";
+                        document.form.style.opacity = 1;
                         resize();
                     }
                 }
-                var G = document.createElement("div"), B = document.createElement("div");
-                var Gs = G.style, Bs = B.style;
-                Bs.position = Gs.position = "absolute";
-                Bs.height = Gs.height = "100%";
-                Bs.padding = Gs.padding = 0;
-                Bs.margin = Gs.margin = 0;
-                Bs.border = Gs.border = 0;
+                var G = document.createElement("div");
+                var Gs = G.style;
+                Gs.position = "absolute";
+                Gs.height = "100%";
+                Gs.width = "100%";
+                Gs.padding = 0;
+                Gs.margin = 0;
+                Gs.border = 0;
                 Gs.backgroundColor = "#667";
-                Bs.backgroundColor = "#f67";
                 arr.forEach(set.bind(this, 0));
                 function tryLoad(libs) {
                     if (!document.body) { setTimeout(tryLoad, 1, libs); }
                     else {
                         document.body.appendChild(G);
-                        document.body.appendChild(B);
                         set(0, "init");
                         set(0, "loadData");
                         loadLibs(libs);
@@ -63,16 +55,13 @@
                     if (libs.length > 0) {
                         var m = libs.shift();
                         var s = document.createElement("script");
-                        s.addEventListener("load", function () {
+                        var thunk = function () {
                             set(1, m);
                             loadLibs(libs);
-                        });
-                        var err = function () {
-                            set(-1, m);
-                            loadLibs(libs);
                         }
-                        s.addEventListener("error", err);
-                        s.addEventListener("abort", err);
+                        s.addEventListener("load", thunk)
+                        s.addEventListener("error", thunk);
+                        s.addEventListener("abort", thunk);
                         s.src = m + (m.indexOf(".js") > -1 ? "" : ".js");
                         document.head.appendChild(s);
                     }
@@ -100,7 +89,7 @@
     <link type="text/css" rel="stylesheet" href="color1.css" id="theme-block">
 </head>
 <body>
-    <form name="form" style="display:none;">
+    <form name="form">
         <header><a class="button" onclick="showTab(['main', 'menu'], true);">#</a><a class="button" onclick="saveFile()">∞</a><span id="file-controls"><a class="button" onclick="prevFile()">&lt;</a><a class="button" onclick="nextFile()">&gt;</a><a class="button" onclick="addNewFile()">+</a></span><a class="button" onclick="toggleFullScreen()">❖</a><a id="toggle-menu-button" class="button" onclick="toggleMenu()">«</a></header>
         <div id="main">
 

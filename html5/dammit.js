@@ -219,17 +219,16 @@ function firstNavigation(){
             + "<a class=\"button\" onclick=\"toggleFullScreen()\">go fullscreen</a>", 1000);
 }
 
-function pageLoad(initDone, initFailed, loadDataDone, loadDataFailed){
+function pageLoad(initDone, loadDataDone){
     try{
         getControls();
         clockTick();
         resize();
-        loadData(loadDataDone, loadDataFailed);
+        loadData(loadDataDone);
         firstNavigation();
-        initDone();
     }
     catch(exp){
-        initFailed();
-        loadDataFailed();
+        loadDataDone();
     }
+    initDone();
 }

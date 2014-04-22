@@ -1,5 +1,5 @@
 *,*:before,*:after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box;}
-header
+header, form
 {
     -webkit-transition-property:all;
     -webkit-transition-duration: 0.5s;
@@ -8,6 +8,7 @@ header
     transition-duration: 0.5s;
     transition-timing-function:ease;
 }
+form{opacity:0;}
 html,body,header,#main{position:absolute;}
 html,body,section,.textContent,#menu>p,#menu>a.button,#main,#chapter-bar,#chapter-name{width:100%;}
 html,body,section,.textContent{height:100%;}
