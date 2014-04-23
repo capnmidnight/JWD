@@ -118,10 +118,10 @@ function loadData(loadDataDone, types) {
             types.push("local");
         types.push("default");
     }
-    if (types.length > 0) {
+    if (types && types.length > 0) {
         var type = types.shift();
         if (type) {
-            var fail = setTimeout.bind(window, loadData.bind(loadDataDone, types), 1);
+            var fail = setTimeout.bind(window, loadData.bind(window, loadDataDone, types), 1);
             if (fileLoaders[type]){
                 fileLoaders[type](fail, onSuccessfulLoad.bind(window, type, loadDataDone));
             }
