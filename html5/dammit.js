@@ -201,18 +201,24 @@ function firstNavigation(){
             parts.unshift("main");
     }
 
-    if(parts && parts.length >= 2)
+    if(parts && parts.length >= 2){
+        print("firstNav URL", parts);
         showTab(parts);
+    }
     else if(!getSetting("storageType")){
+        print("firstNav about");
         showTab(["main", "about"]);
         usrIt("firstTime");
     }
     else if(isMobile){
+        print("firstNav mobile");
         showTab(["main", "write"]);
         toggleMenu();
     }
-    else
+    else{
+        print("firstNav main menu");
         showTab(["main", "menu"]);
+    }
 
     if (!window.fullScreen && document.documentElement.requestFullscreen)
         msg("fullscreen-note", "Consider running in full-screen by hitting F11 on your keyboard."
@@ -224,8 +230,10 @@ function pageLoad(initDone, loadDataDone){
         getControls();
         clockTick();
         resize();
-        loadData(loadDataDone);
-        firstNavigation();
+        loadData(function(){
+            loadDataDone();
+            firstNavigation();
+        });
     }
     catch(exp){
         loadDataDone();

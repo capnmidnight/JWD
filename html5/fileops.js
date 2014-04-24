@@ -106,10 +106,12 @@ function onSuccessfulLoad(type, loadDataDone) {
     data.theme = data.theme || 0;
     setTheme(data.theme);
     lodIt(type);
-    loadDataDone();
+    if(loadDataDone)
+        loadDataDone();
 }
 
-function loadData(loadDataDone, types) {
+function loadData(loadDataDone, types, res) {
+    print("loading error?", !!res, res);
     if (types == undefined) {
         data = null;
         types = [getSetting("storageType"), getSetting("lastStorageType")];
@@ -127,7 +129,7 @@ function loadData(loadDataDone, types) {
             }
             else{
                 fail(fmt("Storage type \"$1\" is not yet supported", type));
-                if(types.length == 0){
+                if(types.length == 0 && loadDataDone){
                     loadDataDone();
                 }
             }

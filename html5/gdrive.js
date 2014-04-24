@@ -12,8 +12,16 @@ function gdrive(thunk, fail, success, doc) {
     if (!thunk) thunk = function () { };
     if (!fail) fail = function () { };
     if (!success) success = function () { };
-    if (!window.gapi) fail("Google Drive API not installed.");
-    else gdriveAuth(thunk, fail, success, doc, true);
+    else{
+        include("https://apis.google.com/js/client.js", function(){
+            setTimeout(function(){
+                if (!window.gapi || !gapi.auth){ fail("Google Drive API not installed.");}
+                else{
+                    gdriveAuth(thunk, fail, success, doc, true);
+                }
+            }, 250);
+        }, fail);
+    }
 }
 
 function gdriveAuth(thunk, fail, success, doc, immediate) {

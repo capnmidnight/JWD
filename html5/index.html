@@ -4,72 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=1">
     <title>Just Write, Dammit!</title>
+    <script src="psychologist.js"></script>
     <script>
-        (function (h, p, l, arr) {
-            if (h != "localhost" && h != "127.0.0.1" && !h.match(/192\.168\.0\.\d+/) && p == "http:") { document.location = l.replace("http://", "https://"); }
-            else {
-                var toLoad = {};
-                function set(i, m) {
-                    toLoad[m] = i;
-                    var c, g;
-                    c = g = 0;
-                    for (var k in toLoad) {
-                        c++;
-                        if (toLoad[k] == 1) {
-                            g++;
-                        }
-                    }
-
-                    Gs.width = (100 - (g * 100 / c)) + "%";
-                    if (c > 2 && c == g + 2) {
-                        pageLoad(
-                            set.bind(window, 1, "init"),
-                            set.bind(window, 1, "loadData"));
-                    }
-                    if (c == g) {
-                        document.body.removeChild(G);
-                        document.form.style.opacity = 1;
-                        resize();
-                    }
-                }
-                var G = document.createElement("div");
-                var Gs = G.style;
-                Gs.position = "absolute";
-                Gs.height = "100%";
-                Gs.width = "100%";
-                Gs.padding = 0;
-                Gs.margin = 0;
-                Gs.border = 0;
-                Gs.backgroundColor = "#667";
-                arr.forEach(set.bind(this, 0));
-                function tryLoad(libs) {
-                    if (!document.body) { setTimeout(tryLoad, 1, libs); }
-                    else {
-                        document.body.appendChild(G);
-                        set(0, "init");
-                        set(0, "loadData");
-                        loadLibs(libs);
-                    }
-                }
-                function loadLibs(libs) {
-                    if (libs.length > 0) {
-                        var m = libs.shift();
-                        var s = document.createElement("script");
-                        var thunk = function () {
-                            set(1, m);
-                            loadLibs(libs);
-                        }
-                        s.addEventListener("load", thunk)
-                        s.addEventListener("error", thunk);
-                        s.addEventListener("abort", thunk);
-                        s.src = m + (m.indexOf(".js") > -1 ? "" : ".js");
-                        document.head.appendChild(s);
-                    }
-                }
-                tryLoad(arr);
-            }
-        })(document.location.hostname, document.location.protocol, document.location.href, ["https://www.dropbox.com/static/api/dropbox-datastores-1.0-latest.js", "https://apis.google.com/js/client.js", "https://www.googleadservices.com/pagead/conversion_async.js", "jszip.min",
-"selecticator", "psychologist", "markdownsyndrome", "interrobang", "stuffing", "local", "dorpbox", "gdrive", "desktop", "fileops", "poindexter", "editroomfloor", "publican", "dammit", "ga"]);</script>
+        require("promise-0.1.1.min.js", "https://www.googleadservices.com/pagead/conversion_async.js", "jszip.min.js",
+"selecticator.js", "markdownsyndrome.js", "interrobang.js", "stuffing.js", "local.js", "dorpbox.js", "gdrive.js", "desktop.js", "fileops.js", "poindexter.js", "editroomfloor.js", "publican.js", "dammit.js", "ga.js");
+    </script>
     <meta name="description" content="Writing first, editing second. A streamlined app for writers.">
     <meta name="keywords" content="writing software,book writing,novel writing,be more creative,my story,writing apps,writing flow,programs for writers,creativity aids,apps for writers,getting into flow">
     <meta name="twitter:card" content="product">

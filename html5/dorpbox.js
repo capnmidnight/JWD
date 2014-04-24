@@ -20,10 +20,14 @@ function dorpbox(thunk, fail, success, doc){
     if(!thunk) thunk = function(){};
     if(!fail) fail = function(){};
     if(!success) success = function(){};
-    if(!window.Dropbox) fail("Dropbox SDK not found");
     else {
-        if(!dbClient) dbClient = new Dropbox.Client({key: "g2rnjvo102estt0"});
-        dorpboxAuth(thunk, fail, success, doc, dbClient.isAuthenticated());
+        include("https://www.dropbox.com/static/api/dropbox-datastores-1.0-latest.js", function(){
+            if(!window.Dropbox) { fail("Dropbox SDK not found"); }
+            else{
+                if(!dbClient) dbClient = new Dropbox.Client({key: "g2rnjvo102estt0"});
+                dorpboxAuth(thunk, fail, success, doc, dbClient.isAuthenticated());
+            }
+        }, fail);
     }
 }
 
