@@ -202,21 +202,17 @@ function firstNavigation(){
     }
 
     if(parts && parts.length >= 2){
-        print("firstNav URL", parts);
         showTab(parts);
     }
     else if(!getSetting("storageType")){
-        print("firstNav about");
         showTab(["main", "about"]);
         usrIt("firstTime");
     }
     else if(isMobile){
-        print("firstNav mobile");
         showTab(["main", "write"]);
         toggleMenu();
     }
     else{
-        print("firstNav main menu");
         showTab(["main", "menu"]);
     }
 
