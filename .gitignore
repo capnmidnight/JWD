@@ -1,5 +1,6 @@
 node_modules/
 obj/
+bin/
 *.suo
 *.bat
 *.sh
