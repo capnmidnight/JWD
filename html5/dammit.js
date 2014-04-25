@@ -141,7 +141,8 @@ function showTab(parts, saveState){
     var parentID = parts[0];
     var id = parts[1];
     var boxes = getDOMAll(fmt("#$1>*", parentID));
-    navIt(url);
+    if(parentID == "main");
+        navIt(url);
     boxes.forEach(function (box, i) {
         setDisplay(id == box.id, box);
         box.className = id == box.id ? "selected" : "";
