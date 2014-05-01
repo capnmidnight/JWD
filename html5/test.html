@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>window test</title>
+    <script>
+        var dims = ["width", "height", "x", "y", "left", "right", "top", "bottom"];
+        var types = ["", "client", "offset", "scroll", "inner", "outer", "avail"];
+        var track = ["document.body", "document.documentElement", "frameElement", "screen", "window"];
+        setInterval(function () {
+            var output = document.getElementById("output");
+            track.forEach(function (o) {
+                var n = o;
+                var parts = o.split(".");
+                o = window;
+                parts.forEach(function (p) {
+                    o = o[p];
+                });
+                if (o) {
+                    types.forEach(function (t) {
+                        dims.forEach(function (d) {
+                            if (t.length > 0) {
+                                d = d[0].toUpperCase() + d.substring(1);
+                            }
+                            d = t + d;
+                            if (o[d] != undefined) {
+                                var id = n + "." + d; //n.replace(/\./g, "-");
+                                var e = document.getElementById(id);
+                                if (!e) {
+                                    e = document.createElement("span");
+                                    e.style.width = "49%";
+                                    e.style.float = "left";
+                                    e.id = id;
+                                    output.appendChild(e);
+                                }
+                                e.innerHTML = id + " = " + o[d];
+                            }
+                        });
+                    });
+                }
+            });
+        }, 250);
+    </script>
+</head>
+<body>
+    <div id="output" style="column-count:2"></div>
+</body>
+</html>

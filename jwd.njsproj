@@ -19,6 +19,7 @@
     <Content Include="html5\dmca.pdf" />
     <Content Include="html5\index.html" />
     <Content Include="html5\privacy_policy.pdf" />
+    <Content Include="html5\test.html" />
     <Content Include="html5\tos.pdf" />
     <Content Include="package.json" />
     <Compile Include="html5\editroomfloor.js" />
