@@ -2,48 +2,86 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta charset="utf-8" />
     <title>window test</title>
     <script>
-        var dims = ["width", "height", "x", "y", "left", "right", "top", "bottom"];
+        // full-screen-ism polyfill
+        if (!document.documentElement.requestFullscreen) {
+            if (document.documentElement.msRequestFullscreen) {
+                document.documentElement.requestFullscreen = document.documentElement.msRequestFullscreen;
+                document.exitFullscreen = document.msExitFullscreen;
+            }
+            else if (document.documentElement.mozRequestFullScreen) {
+                document.documentElement.requestFullscreen = document.documentElement.mozRequestFullScreen;
+                document.exitFullscreen = document.mozCancelFullScreen;
+            }
+            else if (document.documentElement.webkitRequestFullscreen) {
+                document.documentElement.requestFullscreen = function () {
+                    document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT)
+                };
+                document.exitFullscreen = document.webkitExitFullscreen;
+            }
+        }
+
+        function toggleFullScreen() {
+            if (document.documentElement.requestFullscreen) {
+                if (!(document.fullscreenElement
+                    || document.mozFullScreenElement
+                    || document.webkitFullscreenElement
+                    || document.msFullscreenElement)) {  // current working methods
+                    document.documentElement.requestFullscreen();
+                }
+                else {
+                    document.exitFullscreen();
+                }
+            }
+        }
+        var dims = ["height", "width", "x", "y"];
         var types = ["", "client", "offset", "scroll", "inner", "outer", "avail"];
-        var track = ["document.body", "document.documentElement", "frameElement", "screen", "window"];
+        var track = ["document.documentElement", "screen", "window"];
         setInterval(function () {
             var output = document.getElementById("output");
-            track.forEach(function (o) {
-                var n = o;
-                var parts = o.split(".");
-                o = window;
-                parts.forEach(function (p) {
-                    o = o[p];
-                });
-                if (o) {
-                    types.forEach(function (t) {
-                        dims.forEach(function (d) {
+            dims.forEach(function (d_) {
+                types.forEach(function (t) {
+                    track.forEach(function (o) {
+                        var n = o;
+                        var parts = o.split(".");
+                        o = window;
+                        parts.forEach(function (p) {
+                            o = o[p];
+                        });
+                        if (o) {
+                            var d = d_;
                             if (t.length > 0) {
                                 d = d[0].toUpperCase() + d.substring(1);
                             }
                             d = t + d;
-                            if (o[d] != undefined) {
-                                var id = n + "." + d; //n.replace(/\./g, "-");
-                                var e = document.getElementById(id);
+                            var id = n + "." + d;
+                            var e = document.getElementById(id);
+                            if (o[d] != undefined || e) {
                                 if (!e) {
-                                    e = document.createElement("span");
-                                    e.style.width = "49%";
-                                    e.style.float = "left";
+                                    e = document.createElement("div");
                                     e.id = id;
                                     output.appendChild(e);
                                 }
-                                e.innerHTML = id + " = " + o[d];
+                                e.innerHTML = (id + " = " + o[d])
+                                    .replace("document", "D")
+                                    .replace("documentElement", "DE")
+                                    .replace("body", "B")
+                                    .replace("window", "W")
+                                    .replace("screen", "S");
                             }
-                        });
+                        };
                     });
-                }
+                });
             });
-        }, 250);
+        }, 100);
     </script>
 </head>
 <body>
-    <div id="output" style="column-count:2"></div>
+    <input type="text" value="text" /><input type="button" onclick="toggleFullScreen()" value="FULL" />
+    <div id="output" style="font-size:6pt;"></div>
+    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 </body>
 </html>
