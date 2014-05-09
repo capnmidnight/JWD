@@ -1,35 +1,37 @@
 var data = null;
 
-function autoSave() {
+function autoSave(){
     var prev = data.chapters[data.currentChapter].doc;
     var cur = writer.getValue();
-    if (prev != cur) {
+    if (prev != cur){
         show(unsavedFileIndicator);
-        if (getSetting("storageType") != "desktop") {
-            if (autoSave.timeout)
+        if (getSetting("storageType") != "desktop"){
+            if (autoSave.timeout){
                 clearTimeout(autoSave.timeout);
+            }
             autoSave.timeout = setTimeout(saveFile, 3000);
         }
     }
 }
 
-function addNewFile(txt) {
-    if (txt == undefined)
+function addNewFile(txt){
+    if (txt == undefined){
         txt = "";
+    }
     data.chapters.push({ doc: txt, name: "" });
     data.currentChapter = data.chapters.length - 1;
     showFile();
     note("new-file-note", "New file created.");
 }
 
-function showFile() {
+function showFile(){
     writer.setValue(data.chapters[data.currentChapter].doc);
     chapterName.setValue(data.chapters[data.currentChapter].name);
     fileCount.setValue(fmt("$1 of $2", data.currentChapter + 1, data.chapters.length));
     countWords();
 }
 
-function utf8_to_b64(str) {
+function utf8_to_b64(str){
     return window.btoa(unescape(encodeURIComponent(str)));
 }
 
@@ -40,29 +42,32 @@ var fileSavers = {
     desktop: desktopSave,
 };
 
-function onSuccessfulSave(type) {
+function onSuccessfulSave(type){
     hide(unsavedFileIndicator);
     savIt(type);
 }
 
-function saveFile(types) {
-    if (autoSave.timeout)
+function saveFile(types){
+    if (autoSave.timeout){
         clearTimeout(autoSave.timeout);
-    if (types == undefined) {
+    }
+    if (types == undefined){
         stowFile();
         types = [getSetting("storageType"), getSetting("lastStorageType")];
-        if (types.indexOf("local") == -1)
+        if (types.indexOf("local") == -1){
             types.push("local");
+        }
     }
-    if (types.length > 0) {
+    if (types.length > 0){
         var doc = JSON.stringify(data);
         var type = types.shift();
-        if (type && fileSavers[type])
-            fileSavers[type](function (err) {
+        if (type && fileSavers[type]){
+            fileSavers[type](function (err){
                 note(fmt("save-$1-failed", type),
                     fmt("Couldn't save file to $1. Reason: $2", type, err));
                 setTimeout(saveFile, 1, types);
             }, onSuccessfulSave.bind(window, type), doc);
+        }
     }
 }
 
@@ -74,18 +79,19 @@ var fileLoaders = {
     "default": defaultLoad
 };
 
-function deEff(val) {
+function deEff(val){
     try { return decodeURIComponent(escape(val)); }
-    catch (exp) { return val; }
+    catch (exp){ return val; }
 }
 
-function onSuccessfulLoad(type, loadDataDone) {
+function onSuccessfulLoad(type, loadDataDone){
     for (var i = 0; i < data.chapters.length; ++i)
         data.chapters[i].doc = deEff(data.chapters[i].doc);
 
-    data.chapters.forEach(function (chapter) {
-        if (chapter.count)
+    data.chapters.forEach(function (chapter){
+        if (chapter.count){
             delete chapter.count;
+        }
     });
 
     if(data.snippets && data.snippets.length > 0){
@@ -106,23 +112,25 @@ function onSuccessfulLoad(type, loadDataDone) {
     data.theme = data.theme || 0;
     setTheme(data.theme);
     lodIt(type);
-    if(loadDataDone)
+    if(loadDataDone){
         loadDataDone();
+    }
 }
 
-function loadData(loadDataDone, types, res) {
+function loadData(loadDataDone, types, res){
     print("loading error?", !!res, res);
-    if (types == undefined) {
+    if (types == undefined){
         data = null;
         types = [getSetting("storageType"), getSetting("lastStorageType")];
-        types = types.filter(function (t) { return t; });
-        if (types.indexOf("local") == -1)
+        types = types.filter(function (t){ return t; });
+        if (types.indexOf("local") == -1){
             types.push("local");
+        }
         types.push("default");
     }
-    if (types && types.length > 0) {
+    if (types && types.length > 0){
         var type = types.shift();
-        if (type) {
+        if (type){
             var fail = setTimeout.bind(window, loadData.bind(window, loadDataDone, types), 1);
             if (fileLoaders[type]){
                 fileLoaders[type](fail, onSuccessfulLoad.bind(window, type, loadDataDone));
@@ -137,7 +145,7 @@ function loadData(loadDataDone, types, res) {
     }
 }
 
-function defaultLoad(fail, success) {
+function defaultLoad(fail, success){
     data = {
         chapters: []
     };
@@ -146,11 +154,11 @@ function defaultLoad(fail, success) {
     success();
 }
 
-function parseFileData(fileData, fail, success) {
+function parseFileData(fileData, fail, success){
     data = null;
-    if (fileData) {
+    if (fileData){
         if (typeof (fileData) == "string"){
-            if(fileData.indexOf("<html>") >= 0) {
+            if(fileData.indexOf("<html>") >= 0){
                 var ed = []
                 fileData = fileData.replace(/<h(1|2)>([^<]+)<\/h\1>((\s*<p>.+<\/p>)+)/gi,
                     function(match, headerSize, title, article){
@@ -167,36 +175,41 @@ function parseFileData(fileData, fail, success) {
             }
         }
 
-        if (fileData.length)
+        if (fileData.length){
             fileData = {
                 chapters: fileData
             };
+        }
 
         data = fileData;
     }
-    if (data)
+    if (data){
         success();
-    else
+    }
+    else{
         fail("Couldn't parse file data: " + JSON.stringify(fileData));
+    }
 }
 
-function nextFile() {
+function nextFile(){
     stowFile();
     data.currentChapter = (data.currentChapter + 1) % data.chapters.length;
     showFile();
-    if (getSetting("storageType") != "desktop")
+    if (getSetting("storageType") != "desktop"){
         saveFile();
+    }
 }
 
-function prevFile() {
+function prevFile(){
     stowFile();
     data.currentChapter = (data.currentChapter + data.chapters.length - 1) % data.chapters.length;
     showFile();
-    if (getSetting("storageType") != "desktop")
+    if (getSetting("storageType") != "desktop"){
         saveFile();
+    }
 }
 
-function stowFile() {
+function stowFile(){
     data.chapters[data.currentChapter].doc = writer.getValue();
     data.chapters[data.currentChapter].name = chapterName.getValue();
 }

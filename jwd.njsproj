@@ -12,6 +12,9 @@
     <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ScriptArguments>-m=true</ScriptArguments>
+    <StartWebBrowser>True</StartWebBrowser>
+    <LaunchUrl>localhost:8080</LaunchUrl>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
@@ -24,10 +27,9 @@
     <Content Include="package.json" />
     <Compile Include="html5\editroomfloor.js" />
     <Compile Include="html5\ga.js" />
-    <Compile Include="html5\jszip.min.js" />
     <Compile Include="html5\markdownsyndrome.js" />
-    <Compile Include="html5\promise-0.1.1.min.js" />
     <Compile Include="html5\publican.js" />
+    <Compile Include="minify.js" />
     <Compile Include="server.js" />
     <Content Include="html5\about.html" />
     <Content Include="html5\color1.css" />
@@ -60,6 +62,8 @@
     <Compile Include="html5\selecticator.js" />
     <Compile Include="html5\stuffing.js" />
     <Compile Include="src\core.js" />
+    <Compile Include="src\minifier.js" />
+    <Compile Include="src\options.js" />
     <Compile Include="src\webServer.js" />
     <Content Include="README.md" />
   </ItemGroup>

@@ -1,10 +1,10 @@
-function frequency(min, arr) {
+function frequency(min, arr){
     var result = group(
             group(arr)
-              .map(function (word) { return [word[0], word[1].length]; }),
-            function (word) { return word[1]; },
-            function (word) { return word[0]; })
-        .map(function (count) {
+              .map(function (word){ return [word[0], word[1].length]; }),
+            function (word){ return word[1]; },
+            function (word){ return word[0]; })
+        .map(function (count){
             count[1].sort();
             return [count[0], count[1].join(", ")];
         })
@@ -12,11 +12,11 @@ function frequency(min, arr) {
             return count[0] >= min
         });
 
-    result.sort(function (a, b) {
+    result.sort(function (a, b){
         return b[0] - a[0];
     });
 
-    return result.map(function (word) {
+    return result.map(function (word){
         return fmt("$1: $2", word[0], word[1]);
     }).join("\n<br>");
 }
@@ -29,16 +29,19 @@ function countWords(){
         .match(/[\w'’]+/g),
         count = 0;
 
-    if(words != null)
+    if(words != null){
         count = words.length;
+    }
 
-    if(!data.chapters[data.currentChapter].count)
+    if(!data.chapters[data.currentChapter].count){
         data.chapters[data.currentChapter].count = count;
+    }
 
     totalWordCount.setValue(count);
     var additional = count - data.chapters[data.currentChapter].count;
-    if(additional >= 0)
+    if(additional >= 0){
         additional = fmt("+$1", additional);
+    }
     addWordCount.setValue(additional);
 }
 
@@ -61,10 +64,11 @@ function analyzeScreenShow(){
             return word.length > 0;
         });
 
-    if(exclude.length > 0)
+    if(exclude.length > 0){
         words = words.filter(function(word){
             return exclude.indexOf(word) == -1;
         });
+    }
 
     if(words != null){
         words = words.map(function(word){
@@ -73,13 +77,16 @@ function analyzeScreenShow(){
 
         counts1 = frequency(min, words);
         var words2 = [], words3 = [], words4 = [];
-        for (var i = 0; i < words.length; ++i) {
-            if (i > 0)
+        for (var i = 0; i < words.length; ++i){
+            if (i > 0){
                 words2.push(words.slice(i - 1, i + 1).join(" "));
-            if (i > 1)
+            }
+            if (i > 1){
                 words3.push(words.slice(i - 2, i + 1).join(" "));
-            if (i > 2)
+            }
+            if (i > 2){
                 words4.push(words.slice(i - 3, i + 1).join(" "));
+            }
         }
         counts2 = frequency(min, words2);
         counts3 = frequency(min, words3);

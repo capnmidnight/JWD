@@ -15,11 +15,11 @@ function saveFileToDesktop(filename, type, bin64){
     document.body.removeChild(link);
 }
 
-function desktopLoad(fail, success) {
+function desktopLoad(fail, success){
     var load = function(){
-        Array.prototype.forEach.call(storageFile.files, function (f) {
+        Array.prototype.forEach.call(storageFile.files, function (f){
             var reader = new FileReader();
-            reader.addEventListener("load", function (evt) {
+            reader.addEventListener("load", function (evt){
                 parseFileData(evt.target.result, fail, success);
             });
             reader.addEventListener("error", fail);

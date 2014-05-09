@@ -50,7 +50,7 @@ function getControls(){
     header.style.opacity = 1;
 
     menuItems = getDOMAll("#menu>.button");
-    menuItems.forEach(function (mnu) {
+    menuItems.forEach(function (mnu){
         var id = mnu.getValue();
         setSetting("lastView", id);
         mnu.addEventListener("click", showTab.bind(window, ["main", id], true), false);
@@ -119,15 +119,17 @@ function onStorageTypeChanged(){
     setSetting("storageType", type);
     datIt("storage type", type);
     showTab(["storage-details", "storage-" + type]);
-    if (type == "dropbox")
+    if (type == "dropbox"){
         dorpbox();
-    else if(type == "gdrive")
+    }
+    else if(type == "gdrive"){
         gdrive();
+    }
 }
 
 function waitForData(obj){
     if(obj && obj.thunk){
-        if(!data) {
+        if(!data){
             setTimeout(waitForData, 1000, obj);
         }
         else{
@@ -141,9 +143,10 @@ function showTab(parts, saveState){
     var parentID = parts[0];
     var id = parts[1];
     var boxes = getDOMAll(fmt("#$1>*", parentID));
-    if(parentID == "main");
+    if(parentID == "main"){
         navIt(url);
-    boxes.forEach(function (box, i) {
+    }
+    boxes.forEach(function (box, i){
         setDisplay(id == box.id, box);
         box.className = id == box.id ? "selected" : "";
         if(parentID == "main" && id == box.id){
@@ -155,8 +158,9 @@ function showTab(parts, saveState){
     });
     resize();
     if(!!saveState){
-        if(url.length > 0)
+        if(url.length > 0){
             url = "#" + url;
+        }
 
         window.history.pushState(
             parts,
@@ -166,13 +170,15 @@ function showTab(parts, saveState){
 }
 
 function moveHistory(evt){
-    if(document.location.hash.length > 0);
+    if(document.location.hash.length > 0){
         showTab(document.location.hash.substring(1).split("/"));
+    }
 }
 
 function resize(){
-    if(window.fullScreen)
+    if(window.fullScreen){
         hide("fullscreen-note");
+    }
     // the extra 2 pixels is to avoid a small scroll overlap with the window edge
     main.style.height = px(window.innerHeight - header.clientHeight - 2);
     main.style.top = px(header.clientHeight);
@@ -181,8 +187,9 @@ function resize(){
 }
 
 function clockTick(){
-    if(!this.start)
+    if(!this.start){
         this.start = new Date().getTime();
+    }
     var next = new Date().getTime();
     var hours = next - this.start;
     hours = Math.floor(hours / 1000);
@@ -198,8 +205,9 @@ function firstNavigation(){
     var parts;
     if(document.location.hash.length > 0){
         parts = document.location.hash.substring(1).split("/");
-        if(parts.length == 1)
+        if(parts.length == 1){
             parts.unshift("main");
+        }
     }
 
     if(parts && parts.length >= 2){
@@ -217,9 +225,10 @@ function firstNavigation(){
         showTab(["main", "menu"]);
     }
 
-    if (!window.fullScreen && document.documentElement.requestFullscreen)
+    if (!window.fullScreen && document.documentElement.requestFullscreen){
         msg("fullscreen-note", "Consider running in full-screen by hitting F11 on your keyboard."
             + "<a class=\"button\" onclick=\"toggleFullScreen()\">go fullscreen</a>", 1000);
+    }
 }
 
 function pageLoad(initDone, loadDataDone){

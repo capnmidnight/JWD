@@ -8,14 +8,21 @@ function gdriveSignout(){
     });
 }
 
-function gdrive(thunk, fail, success, doc) {
-    if (!thunk) thunk = function () { };
-    if (!fail) fail = function () { };
-    if (!success) success = function () { };
+function gdrive(thunk, fail, success, doc){
+    if (!thunk){
+        thunk = function (){ };
+    }
+    if (!fail){
+        fail = function (){ };
+    }
+    if (!success){
+        success = function (){ };
+    }
     else{
         include("https://apis.google.com/js/client.js", function(){
             setTimeout(function(){
-                if (!window.gapi || !gapi.auth){ fail("Google Drive API not installed.");}
+                if (!window.gapi || !gapi.auth){
+                    fail("Google Drive API not installed.");}
                 else{
                     gdriveAuth(thunk, fail, success, doc, true);
                 }
@@ -24,7 +31,7 @@ function gdrive(thunk, fail, success, doc) {
     }
 }
 
-function gdriveAuth(thunk, fail, success, doc, immediate) {
+function gdriveAuth(thunk, fail, success, doc, immediate){
     gapi.auth.authorize({
         client_id: GDRIVE_CLIENT_ID,
         scope: "https://www.googleapis.com/auth/drive",
@@ -32,33 +39,36 @@ function gdriveAuth(thunk, fail, success, doc, immediate) {
     }, gdriveAuthed.bind(window, thunk, fail, success, doc, immediate));
 }
 
-function gdriveAuthed(thunk, fail, success, doc, wasImmediate, authResult) {
+function gdriveAuthed(thunk, fail, success, doc, wasImmediate, authResult){
     if (authResult && !authResult.error){
-        gapi.client.load("drive", "v2", function () {
+        gapi.client.load("drive", "v2", function (){
             thunk(fail, success, doc);
         });
         datIt("link", "gdrive");
     }
-    else if(wasImmediate)
+    else if(wasImmediate){
         gdriveAuth(thunk, fail, success, doc, false);
-    else
+    }
+    else{
         fail("Failed to link to Google Drive. Reason: " + (authResult && authResult.error));
+    }
 }
 
 function gdriveLoad(fail, success){
-    gdrive(function (fail, success) {
-        gdriveFindFile("justwritedammit.jwd", fail, function (file) {
-            if (!file.downloadUrl)
+    gdrive(function (fail, success){
+        gdriveFindFile("justwritedammit.jwd", fail, function (file){
+            if (!file.downloadUrl){
                 fail("GDrive error loc #2:" + JSON.stringify(file));
+            }
             else{
                 var accessToken = gapi.auth.getToken().access_token;
                 var xhr = new XMLHttpRequest();
                 xhr.open("GET", file.downloadUrl);
                 xhr.setRequestHeader("Authorization", "Bearer " + accessToken);
-                xhr.onload = function () {
+                xhr.onload = function (){
                     parseFileData(xhr.responseText, fail, success);
                 };
-                xhr.onerror = function () {
+                xhr.onerror = function (){
                     fail("GDrive error loc #3");
                 };
                 xhr.send();
@@ -67,7 +77,7 @@ function gdriveLoad(fail, success){
     }, fail, success);
 }
 
-function gdriveSave(fail, success, doc) {
+function gdriveSave(fail, success, doc){
     saveFileToGDrive("justwritedammit.jwd", "application/json", fail, success, doc);
 }
 
@@ -94,9 +104,11 @@ function saveFileToGDrive(filename, contentType, fail, success, doc){
         base64Data +
         close_delim;
 
-    var doIt = function (file) {
+    var doIt = function (file){
         var path = "/upload/drive/v2/files";
-        if (file) path += "/" + file.id;
+        if (file){
+            path += "/" + file.id;
+        }
 
         var request = gapi.client.request({
             path: path,
@@ -110,33 +122,35 @@ function saveFileToGDrive(filename, contentType, fail, success, doc){
         request.execute(success);
     };
 
-    gdrive(function (fail, success, doc) {
+    gdrive(function (fail, success, doc){
         gdriveFindFile(filename, doIt, doIt);
     }, fail, success, doc);
 }
 
 
-function gdriveFindFile(filename, fail, success) {
-    var retrievePageOfFiles = function (request, result) {
-        request.execute(function (resp) {
+function gdriveFindFile(filename, fail, success){
+    var retrievePageOfFiles = function (request, result){
+        request.execute(function (resp){
             var test = resp
                 && resp.items
-                && resp.items.filter(function (item) {
+                && resp.items.filter(function (item){
                     return item.title == filename
                         && !(item.labels && item.labels.trashed);
                 });
-            if (test
-                && test.length > 0)
+            if (test && test.length > 0){
                 success(test[0]);
-            else {
+            }
+            else{
                 var nextPageToken = resp.nextPageToken;
-                if (nextPageToken) {
+                if (nextPageToken){
                     request = gapi.client.drive.files.list({
                         pageToken: nextPageToken
                     });
                     retrievePageOfFiles(request, result);
-                } else
+                } 
+                else{
                     fail();
+                }
             }
         });
     }

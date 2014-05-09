@@ -7,32 +7,32 @@
     <title>window test</title>
     <script>
         // full-screen-ism polyfill
-        if (!document.documentElement.requestFullscreen) {
-            if (document.documentElement.msRequestFullscreen) {
+        if (!document.documentElement.requestFullscreen){
+            if (document.documentElement.msRequestFullscreen){
                 document.documentElement.requestFullscreen = document.documentElement.msRequestFullscreen;
                 document.exitFullscreen = document.msExitFullscreen;
             }
-            else if (document.documentElement.mozRequestFullScreen) {
+            else if (document.documentElement.mozRequestFullScreen){
                 document.documentElement.requestFullscreen = document.documentElement.mozRequestFullScreen;
                 document.exitFullscreen = document.mozCancelFullScreen;
             }
-            else if (document.documentElement.webkitRequestFullscreen) {
-                document.documentElement.requestFullscreen = function () {
+            else if (document.documentElement.webkitRequestFullscreen){
+                document.documentElement.requestFullscreen = function (){
                     document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT)
                 };
                 document.exitFullscreen = document.webkitExitFullscreen;
             }
         }
 
-        function toggleFullScreen() {
-            if (document.documentElement.requestFullscreen) {
+        function toggleFullScreen(){
+            if (document.documentElement.requestFullscreen){
                 if (!(document.fullscreenElement
                     || document.mozFullScreenElement
                     || document.webkitFullscreenElement
-                    || document.msFullscreenElement)) {  // current working methods
+                    || document.msFullscreenElement)){  // current working methods
                     document.documentElement.requestFullscreen();
                 }
-                else {
+                else{
                     document.exitFullscreen();
                 }
             }
@@ -40,27 +40,27 @@
         var dims = ["height", "width", "x", "y"];
         var types = ["", "client", "offset", "scroll", "inner", "outer", "avail"];
         var track = ["document.documentElement", "screen", "window"];
-        setInterval(function () {
+        setInterval(function (){
             var output = document.getElementById("output");
-            dims.forEach(function (d_) {
-                types.forEach(function (t) {
-                    track.forEach(function (o) {
+            dims.forEach(function (d_){
+                types.forEach(function (t){
+                    track.forEach(function (o){
                         var n = o;
                         var parts = o.split(".");
                         o = window;
-                        parts.forEach(function (p) {
+                        parts.forEach(function (p){
                             o = o[p];
                         });
-                        if (o) {
+                        if (o){
                             var d = d_;
-                            if (t.length > 0) {
+                            if (t.length > 0){
                                 d = d[0].toUpperCase() + d.substring(1);
                             }
                             d = t + d;
                             var id = n + "." + d;
                             var e = document.getElementById(id);
-                            if (o[d] != undefined || e) {
-                                if (!e) {
+                            if (o[d] != undefined || e){
+                                if (!e){
                                     e = document.createElement("div");
                                     e.id = id;
                                     output.appendChild(e);

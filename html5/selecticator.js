@@ -9,12 +9,15 @@
         while(queue.length > 0){
             var current = queue.shift();
 
-            if(thunk(current))
+            if(thunk(current)){
                 break;
+            }
 
-            if(current.nodeType != 3) // 3 - text node
-                for(var i = current.childNodes.length - 1; i >= 0; --i)
+            if(current.nodeType != 3){ // 3 - text node
+                for(var i = current.childNodes.length - 1; i >= 0; --i){
                     queue.unshift(current.childNodes[i]);
+                }
+            }
         }
     }
 
@@ -103,8 +106,9 @@
         if(final != initial){
             delta = final.length - initial.length;
             sel[0] += delta;
-            if(delta != 0)
+            if(delta != 0){
                 sel[1] = sel[0];
+            }
             this.setValue(final);
             this.setSelection(sel);
         }

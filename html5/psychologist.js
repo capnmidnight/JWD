@@ -1,27 +1,24 @@
-console.log(document.location.hostname != "localhost" ,
-    document.location.hostname != "127.0.0.1" ,
-    !document.location.hostname.match(/192\.168\.0\.\d+/),
-    document.location.protocol == "http:");
-
 if (document.location.hostname != "localhost" 
     && document.location.hostname != "127.0.0.1" 
     && !document.location.hostname.match(/192\.168\.0\.\d+/) 
-    && document.location.protocol == "http:") {
+    && document.location.protocol == "http:"){
     document.location = document.location.replace("http://", "https://");
 }
 
-function getSetting(name, defValue) {
+function getSetting(name, defValue){
     return (window.localStorage && window.localStorage.getItem(name)) || defValue;
 }
 
-function setSetting(name, value) {
-    if (window.localStorage)
+function setSetting(name, value){
+    if (window.localStorage){
         window.localStorage.setItem(name, value);
+    }
 }
 
 function deleteSetting(name){
-  if(window.localStorage)
-    window.localStorage.removeItem(name);
+    if(window.localStorage){
+        window.localStorage.removeItem(name);
+    }
 }
 
 var getDOM = document.querySelector.bind(document);
@@ -43,14 +40,17 @@ function getDOMAll(sel){
 function setATTRs(t, vs){
     if(t && vs){
         for(var key in vs){
-            if(key.indexOf("on") == 0)
+            if(key.indexOf("on") == 0){
                 t.addEventListener(
                     key.substring(2),
                     vs[key], false);
-            else if(vs[key] instanceof Object)
+            }
+            else if(vs[key] instanceof Object){
                 setATTRs(t[key], vs[key]);
-            else
+            }
+            else{
                 t.setAttribute(key, vs[key]);
+            }
         }
     }
 }
@@ -60,11 +60,14 @@ function flatten(arr){
     var todo = [arr];
     while(todo.length > 0){
         var cur = todo.shift();
-        if(cur instanceof Array)
-            while(cur.length > 0)
+        if(cur instanceof Array){
+            while(cur.length > 0){
                 todo.push(cur.shift());
-        else
+            }
+        }
+        else{
             output.push(cur);
+        }
     }
     return output;
 }
@@ -101,12 +104,12 @@ var newDOM = function(){
 
 var print = console.log.bind(console);
 
-function sigfig(x, y) {
+function sigfig(x, y){
     var p = Math.pow(10, y);
     var v = (Math.round(x * p) / p).toString();
-    if (y > 0) {
+    if (y > 0){
         var i = v.indexOf(".");
-        if (i == -1) {
+        if (i == -1){
             v += ".";
             i = v.length - 1;
         }
@@ -164,30 +167,12 @@ var show = setDisplay.bind(window, true);
     window[tag] = newDOM.bind(window, tag);
 });
 
-function include(src, success, fail){
-    if(!include.cache){ include.cache = {}; }
-    if(!include.cache[src]){
-        var s = script({
-            onerror: fail,
-            onabort: fail,
-            onload: function(){
-                include.cache[src] = true;
-                success();
-            }
-        });
-        document.head.appendChild(s);
-        s.src = src;
-    }
-    else{
-        success();
-    }
-}
-
 function linkButton(){
     var btn = a.apply(this, arguments);
     if(btn.className.indexOf("button") < 0){
-        if(btn.className.length > 0)
+        if(btn.className.length > 0){
             btn.className += " ";
+        }
         btn.className += "button";
     }
     return btn;
@@ -200,8 +185,9 @@ function move(elem, left, top, width, height){
     setStyle("top", px(top), elem);
     if(width != undefined){
         setStyle("width", px(width), elem);
-        if(height != undefined)
+        if(height != undefined){
             setStyle("height", px(height), elem);
+        }
     }
 }
 
@@ -211,18 +197,21 @@ function group(arr, getKey, getValue){
     clone.sort(function(a, b){
         var ka = getKey ? getKey(a) : a;
         var kb = getKey ? getKey(b) : b;
-        if(ka < kb)
+        if(ka < kb){
             return -1;
-        else if(ka > kb)
+        }
+        else if(ka > kb){
             return 1;
+        }
         return 0;
     });
     clone.forEach(function(obj){
         var key = getKey ? getKey(obj) : obj;
         var val = getValue ? getValue(obj) : obj;
         if(groups.length == 0
-            || groups[groups.length - 1][0] != key)
+            || groups[groups.length - 1][0] != key){
             groups.push([key, []]);
+        }
         groups[groups.length - 1][1].push(val);
     });
     return groups;
@@ -273,85 +262,18 @@ if (!document.documentElement.requestFullscreen){
     }
 }
 
-function toggleFullScreen() {
+function toggleFullScreen(){
     if(document.documentElement.requestFullscreen){
         if (!(document.fullscreenElement 
             || document.mozFullScreenElement 
             || document.webkitFullscreenElement 
-            || document.msFullscreenElement)) {  // current working methods
+            || document.msFullscreenElement)){  // current working methods
             usrIt("fullscreen", "on");
             document.documentElement.requestFullscreen();
         }
-        else {
+        else{
             usrIt("fullscreen", "off");
             document.exitFullscreen();
         }
     }
 }
-
-var require = (function () {
-    var G = document.createElement("div");
-    var Gs = G.style;
-    Gs.position = "absolute";
-    Gs.height = "100%";
-    Gs.right = 0;
-    Gs.padding = 0;
-    Gs.margin = 0;
-    Gs.border = 0;
-    Gs.backgroundColor = "#667";
-
-    var toLoad = {};
-    function set(i, m) {
-        if(m.indexOf("#") == m.length - 1);
-            m = m.substring(0, m.length - 1);
-        toLoad[m] = i;
-        var c, g;
-        c = g = 0;
-        for (var k in toLoad) {
-            c++;
-            if (toLoad[k] == 1) {
-                g++;
-            }
-        }
-        var v = (g * 100 / c);
-        Gs.left = v + "%";
-        if (c > 2 && c == g + 2) {
-            pageLoad(
-                set.bind(window, 1, "init"),
-                set.bind(window, 1, "loadData"));
-        }
-        if (c == g) {
-            document.body.removeChild(G);
-            document.form.style.opacity = 1;
-            resize();
-        }
-    }
-
-    function tryAppend() {
-        if (!document.body) { setTimeout(tryAppend, 10); }
-        else if (G.parentElement != document.body) { document.body.appendChild(G); }
-    }
-
-    function loadLibs(libs) {
-        if (libs.length > 0) {
-            var m = libs.shift();
-            var thunk = function () {
-                set(1, m);
-                loadLibs(libs);
-            }
-
-            include(m, thunk, thunk);
-        }
-    }
-
-    function require() {
-        tryAppend();
-        var libs = Array.prototype.slice.call(arguments);
-        libs.forEach(set.bind(this, 0));
-        set(0, "init");
-        set(0, "loadData");
-        loadLibs(libs);
-    }
-
-    return require;
-})();
