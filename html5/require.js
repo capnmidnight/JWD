@@ -33,7 +33,7 @@ var require = (function () {
     Gs.padding = 0;
     Gs.margin = 0;
     Gs.border = 0;
-    Gs.backgroundColor = "#667";
+    Gs.backgroundColor = "rgba(96, 96, 112, 0.5)";
 
     var toLoad = {};
     function set(i, m) {
