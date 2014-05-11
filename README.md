@@ -6,9 +6,9 @@ With your support, we can make JWD even more. Be able to management multiple boo
 
 So what the hell are you doing? Get to work!
 
-! 3rd party libraries
+## 3rd party libraries
 
-!! jszip.min.js
+### jszip.min.js
 JSZip - A Javascript class for generating and reading zip files
 <http://stuartk.com/jszip>
 
@@ -18,7 +18,7 @@ Dual licenced under the MIT license or GPLv3. See https://raw.github.com/Stuk/js
 JSZip uses the library zlib.js released under the following license :
 zlib.js 2012 - imaya [ https://github.com/imaya/zlib.js ] The MIT License
 
-!! promise-0.1.1.js
+### promise-0.1.1.js
 Copyright (c) 2013 Yehuda Katz, Tom Dale, and contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
