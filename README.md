@@ -1,3 +1,4 @@
+## Just Write, Dammit
 Website: https://www.justwritedammit.com
 
 This is "Just Write, Dammit!" As in, that's all you can do when you use it. As in, put Twitter/Facebook/G+/Farmville/etc. down and just write, dammit. It is a distraction-free writing program that syncs your writing across devices. On desktop computers and smartphones, the minimalist, fullscreen layout helps focus the writer on long writing sessions. Read more about the motivations leading to "Just Write, Dammit" (https://www.justwritedammit.com/about.html).
