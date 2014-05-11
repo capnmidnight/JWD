@@ -8,7 +8,6 @@ header, form
     transition-duration: 0.5s;
     transition-timing-function:ease-in-out;
 }
-form{opacity:0;}
 html,body,header,#main{position:absolute;}
 html,body,section,.textContent,#menu>p,#menu>a.button,#main,#chapter-bar,#chapter-name{width:100%;}
 html,body,section,.textContent{height:100%;}

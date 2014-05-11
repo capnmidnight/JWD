@@ -58,7 +58,6 @@ var require = (function () {
         }
         if (c == g) {
             document.body.removeChild(G);
-            document.form.style.opacity = 1;
             resize();
         }
     }
