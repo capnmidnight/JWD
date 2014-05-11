@@ -58,8 +58,10 @@ function getControls(){
     menuItems = getDOMAll("#menu>.button");
     menuItems.forEach(function (mnu){
         var id = mnu.getValue();
-        setSetting("lastView", id);
-        mnu.addEventListener("click", showTab.bind(window, ["main", id], true), false);
+        mnu.addEventListener("click", function(){
+            setSetting("lastView", id);
+            showTab(["main", id], true)
+        }, false);
         menuItems[id] = mnu;
     });
 
@@ -240,17 +242,18 @@ function firstNavigation(){
 }
 
 function pageLoad(initDone, loadDataDone){
+    var doneDone = function(){
+        loadDataDone();
+        firstNavigation();
+        initDone();
+    };
     try{
         getControls();
         clockTick();
         resize();
-        loadData(function(){
-            loadDataDone();
-            firstNavigation();
-        });
+        loadData(doneDone);
     }
     catch(exp){
-        loadDataDone();
+        doneDone();
     }
-    initDone();
 }
