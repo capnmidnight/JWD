@@ -94,7 +94,7 @@ function ePub(){
     var metainf = zip.folder("META-INF");
     metainf.file("container.xml", ePubContainer(fileName));
 
-    saveFileToDesktop(fileName + ".epub", "application/rpub+zip", zip.generate());
+    saveFileToDesktop(fileName + ".epub", "application/epub+zip", zip.generate());
 }
 
 function ePubContentDoc(styleFileName, chapter){
