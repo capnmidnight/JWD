@@ -30,11 +30,19 @@ var patterns = [
     [/&QUOT;/g, "\\\""]
 ];
 
-function minify(inputDir, outputDir, verbose){
+function minify(inputDir, outputDir, tempDir, verbose){
     var output = verbose ? console.log.bind(console) : function(){};
 
     output("reading from: ", inputDir);
     output("writing to: ", outputDir);
+    output("deploying from: ", tempDir);
+
+    var files = fs.readdirSync(tempDir);
+    if(files){
+        files.forEach(function(file){
+            fs.unlink(path.join(tempDir, file));
+        });
+    }
 
     fs.readdir(inputDir, function(err, files){
         if(err){
@@ -46,6 +54,7 @@ function minify(inputDir, outputDir, verbose){
                 var ext = path.extname(file).substring(1);
                 var inputFile = path.join(inputDir, file);
                 var outputFile = path.join(outputDir, file);
+                var tempFile = path.join(tempDir, file);
                 var opts = {};
                 var minify = ext == "js" && !/\.min/.test(file);
                 if(minify){
@@ -53,6 +62,7 @@ function minify(inputDir, outputDir, verbose){
                 }
             
                 var data = fs.readFileSync(inputFile, opts);
+                var data2 = fs.existsSync(outputFile) && fs.readFileSync(outputFile, opts);
                 if(minify){
                     var start = data.length;
                     strings = [];
@@ -66,14 +76,23 @@ function minify(inputDir, outputDir, verbose){
                     total += saved;
                     output(file + " saved " + saved + " characters");
                 }
-                fs.writeFile(outputFile, data, opts, function(err){
-                    if(err){
-                        console.error(err);
-                    }
-                });
+                var changed = !(data2 && Array.prototype.map.call(data, function(v, i){
+                    return i < data2.length && v == data2[i];
+                }).reduce(function(a, b){
+                    return a && b;
+                }));
+                output(file, " changed? ", changed);
+                if(changed){
+                    fs.writeFile(outputFile, data, opts, function(err){
+                        if(err){
+                            console.error(err);
+                        }
+                    });
+                    fs.writeFileSync(tempFile, data, opts);
+                }
             });
-
             output("Total saved: ", total);
+            output("Deploying files: ", fs.readdirSync(tempDir));
         }
     });
 }

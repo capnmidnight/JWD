@@ -5,6 +5,7 @@
 options.parse(process.argv);
 
 minify(
-    options.i || path.join(process.cwd(), "html5"),
-    options.o || path.join(process.cwd(), "obj"),
+    options.i || "html5",
+    options.o || "obj",
+    options.c || "cur",
     options.v != "false");

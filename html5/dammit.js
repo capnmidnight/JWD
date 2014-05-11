@@ -191,6 +191,7 @@ function resize(){
     main.style.top = px(header.clientHeight);
     writer.style.height = "100%";
     writer.style.height = px(writer.clientHeight - chapterName.clientHeight - infobar.clientHeight);
+    window.scrollX = window.scrollY = 0;
 }
 
 function clockTick(){
