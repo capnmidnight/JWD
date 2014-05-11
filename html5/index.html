@@ -5,6 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=1">
     <title>Just Write, Dammit!</title>
     <script>
+        function include(src, success, fail) {
+            if (!include.cache) {
+                include.cache = {};
+            }
+            if (!include.cache[src]) {
+                var t = src.indexOf(".css") > -1;
+                var s = document.createElement(t ? "link" : "script");
+                s.type = t ? "text/css" : "text/javascript";
+                s.async = true;
+                s.addEventListener("error", fail);
+                s.addEventListener("abort", fail);
+                s.addEventListener("load", function () {
+                    include.cache[src] = true;
+                    success();
+                });
+                document.head.appendChild(s);
+                if (t) {
+                    s.rel = "stylesheet";
+                }
+                s[t ? "href" : "src"] = src;
+            }
+            else {
+                success();
+            }
+        }
+
         var require = (function (){
             var G = document.createElement("div");
             var Gs = G.style;
@@ -53,27 +79,6 @@
                 }
             }
 
-            function include(src, success, fail){
-                if (!include.cache){
-                    include.cache = {};
-                }
-                if (!include.cache[src]){
-                    var s = document.createElement("script");
-                    s.async = true;
-                    s.addEventListener("error", fail);
-                    s.addEventListener("abort", fail);
-                    s.addEventListener("load", function (){
-                        include.cache[src] = true;
-                        success();
-                    });
-                    document.head.appendChild(s);
-                    s.src = src;
-                }
-                else{
-                    success();
-                }
-            }
-
             function loadLibs(libs){
                 if (libs.length > 0){
                     var m = libs.shift();
@@ -100,7 +105,7 @@
 
         (function (i, r) { i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () { (i[r].q = i[r].q || []).push(arguments) }, i[r].l = 1 * new Date(); })(window, 'ga');
 
-        require("psychologist.js", "selecticator.js", "markdownsyndrome.js", "interrobang.js", "stuffing.js", "local.js", "dorpbox.js", "gdrive.js", "desktop.js", "fileops.js", "poindexter.js", "editroomfloor.js", "publican.js", "dammit.js", "ga.js", "promise-0.1.1.min.js", "jszip.min.js",
+        require("style.css", "psychologist.js", "selecticator.js", "markdownsyndrome.js", "interrobang.js", "stuffing.js", "local.js", "dorpbox.js", "gdrive.js", "desktop.js", "fileops.js", "poindexter.js", "editroomfloor.js", "publican.js", "dammit.js", "ga.js", "jszip.min.js",
             "https://www.google-analytics.com/analytics.js",
             "https://www.googleadservices.com/pagead/conversion_async.js");
     </script>
@@ -119,8 +124,7 @@
     <meta name="twitter:data2" content="no signup required">
     <link type="image/png" rel="icon" href="jwd64x64.png">
     <link type="image/png" rel="apple-touch-icon" href="jwd64x64.png">
-    <link type="text/css" rel="stylesheet" href="style.css">
-    <link type="text/css" rel="stylesheet" href="color1.css" id="theme-block">
+    <link type="text/css" rel="stylesheet" id="theme-block">
 </head>
 <body>
     <form name="form">
@@ -150,6 +154,22 @@
                         </em>
                     </small>
                 </p>
+            </section>
+            
+            <section id="about">
+                <article class="textContent">
+                    <h3>Just Write, Dammit!</h3>
+                    <img src="jwd64x64.png" style="float:left;margin:0.5em">
+                    <p>
+                        This is "Just Write, Dammit!" As in, that's all you can do when you use it. As in, put Twitter/Facebook/G+/Farmville/etc. down and just write, dammit. It is a distraction-free writing program that syncs your writing across devices. On desktop computers and smartphones, the minimalist, fullscreen layout helps focus the writer on long writing sessions. <a href="about.html">Read more about the motivations leading to "Just Write, Dammit"</a>.
+                    </p>
+                    <p>
+                        <a href="https://www.gittip.com/capnmidnight/" target="_blank" onclick="navIt('gittip');">With your support</a>, we can make JWD even more. Be able to management multiple book-writing projects at the same time. Apply basic formatting and export to the ePub for direct publishing. Text analysis algorithms for honing the writing. And creativity-stimulating minigames that serve to stimulate the writer out of writer's-block or teach us better writing habits. You can <a href="https://www.github.com/capnmidnight/JWD/issues" target="_blank" onclick="navIt('github');">check out JWD's issues list on GitHub</a> to see more of where JWD is going.
+                    </p>
+                    <p>
+                        So what the hell are you doing? Get to work!
+                    </p>
+                </article>
             </section>
 
             <section id="write" data-show-file-controls="true">
@@ -198,11 +218,14 @@
                 <article class="textContent">
                     <h1>Publishing</h1>
                     <p>
-                        <em>
-                            (Eventually, this section will contain tools for preparing your books for publishing into various formats.
-                            This will include some basic formatting (with limited options to maintain consistency), ePub and Mobi document
-                            generation, blog integration, and <a href="http://kdp.amazon.com" target="_new" rel="nofollow">Kindle Direct Publishing</a>
-                        </em>
+                        Use this page to generate an HTML or ePub file for your book.
+                    </p>
+                    <p>
+                        <label for="pub-title">Title:</label>
+                        <input type="text" id="pub-title" placeholder="(enter book title)"><br />
+                        <label for="pub-author-first-name">Author:</label>
+                        <input type="text" id="pub-author-first-name" placeholder="(first name)">
+                        <input type="text" id="pub-author-last-name" placeholder="(last name)">
                     </p>
                     <a class="button" onclick="exportHTML()">Export HTML</a>
                     <a class="button" onclick="exportEPUB()">Export EPUB</a>
@@ -258,21 +281,6 @@
                 </article>
             </section>
 
-            <section id="about">
-                <article class="textContent">
-                    <h3>Just Write, Dammit!</h3>
-                    <img src="jwd64x64.png" style="float:left;margin:0.5em">
-                    <p>
-                        This is "Just Write, Dammit!" As in, that's all you can do when you use it. As in, put Twitter/Facebook/G+/Farmville/etc. down and just write, dammit. It is a distraction-free writing program that syncs your writing across devices. On desktop computers and smartphones, the minimalist, fullscreen layout helps focus the writer on long writing sessions. <a href="about.html">Read more about the motivations leading to "Just Write, Dammit"</a>.
-                    </p>
-                    <p>
-                        <a href="https://www.gittip.com/capnmidnight/" target="_blank" onclick="navIt('gittip');">With your support</a>, we can make JWD even more. Be able to management multiple book-writing projects at the same time. Apply basic formatting and export to the ePub for direct publishing. Text analysis algorithms for honing the writing. And creativity-stimulating minigames that serve to stimulate the writer out of writer's-block or teach us better writing habits. You can <a href="https://www.github.com/capnmidnight/JWD/issues" target="_blank" onclick="navIt('github');">check out JWD's issues list on GitHub</a> to see more of where JWD is going.
-                    </p>
-                    <p>
-                        So what the hell are you doing? Get to work!
-                    </p>
-                </article>
-            </section>
         </div>
         <div id="notifications"></div>
     </form>

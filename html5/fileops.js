@@ -106,6 +106,9 @@ function onSuccessfulLoad(type, loadDataDone){
     }
 
     data.currentChapter = data.currentChapter || 0;
+    pubTitle.setValue(data.title);
+    pubAuthFirstName.setValue(data.authorFirstName);
+    pubAuthLastName.setValue(data.authorLastName);
     showFile();
     hide(unsavedFileIndicator);
     note("data-loaded-message", "Data loaded!");
@@ -118,7 +121,6 @@ function onSuccessfulLoad(type, loadDataDone){
 }
 
 function loadData(loadDataDone, types, res){
-    print("loading error?", !!res, res);
     if (types == undefined){
         data = null;
         types = [getSetting("storageType"), getSetting("lastStorageType")];

@@ -24,7 +24,10 @@ var header = null,
     themeStyle = null,
     notifications = null,
     toggleMenuButton = null,
-    reader = null;
+    reader = null,
+    pubTitle = null,
+    pubAuthFirstName = null,
+    pubAuthLastName = null;
 
 function getControls(){
     window.addEventListener("resize", resize, false);
@@ -44,6 +47,9 @@ function getControls(){
     toggleMenuButton = getDOM("#toggle-menu-button");
     reader = getDOM("#reader");
     infoBar= getDOM("#infobar");
+    pubTitle = getDOM("#pub-title");
+    pubAuthFirstName = getDOM("#pub-author-first-name");
+    pubAuthLastName = getDOM("#pub-author-last-name");
 
     header = getDOM("header");
     header.style.left = 0;

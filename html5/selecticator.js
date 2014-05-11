@@ -81,14 +81,24 @@
     };
 
     Element.prototype.getValue = function(){return this.innerHTML; }
-    Element.prototype.setValue = function(val){ this.innerHTML = val; }
+    Element.prototype.setValue = function(val){ 
+        if(val == undefined || val == null){
+            val = "";
+        }
+        this.innerHTML = val; 
+    }
+    HTMLTextAreaElement.prototype.getValue = 
     HTMLSelectElement.prototype.getValue =
     HTMLInputElement.prototype.getValue = function(){return this.value; }
+    HTMLTextAreaElement.prototype.setValue = 
     HTMLSelectElement.prototype.setValue =
-    HTMLInputElement.prototype.setValue = function(val){ this.value = val; }
-    HTMLTextAreaElement.prototype.getValue = function(){return this.value; }
-    HTMLTextAreaElement.prototype.setValue = function(val){ this.value = val; }
-
+    HTMLInputElement.prototype.setValue = function(val){ 
+        if(val == undefined || val == null){
+            val = "";
+        }
+        this.value = val; 
+    }
+    
     HTMLTextAreaElement.prototype.getSelection = function(){
         return [this.selectionStart, this.selectionEnd];
     };

@@ -50,22 +50,45 @@ function exportHTML(){
 }
 
 function exportEPUB(){
-    ePub("My Book", "Sean T.", "McBeth")
-    rptIt("publish");
+    data.title = pubTitle.getValue();
+    data.authorFirstName = pubAuthFirstName.getValue();
+    data.authorLastName = pubAuthLastName.getValue();
+    saveFile();
+    if(data.title && data.authorFirstName && data.authorLastName){
+        ePub();
+        rptIt("publish");
+    }
+    else{
+        var message = "Before generating a publishable document, please enter a value the following fields:<ul>";
+        
+        if(!data.title){
+            message += "<li>Title</li>";
+        }
+        if(!data.authorFirstName){
+            message += "<li>Author (first name)</li>";
+        }
+        if(!data.authorLastName){
+            message += "<li>Author (last name)</li>";
+        }
+
+        message += "</ul>";
+
+        msg("publish-error-message", message, 0, forever);
+    }
 }
 
-function ePub(title, authFirstName, authLastName){
+function ePub(){
     var styleFileName = "style";
     var navFileName = "nav";
-    var fileName = title.replace(/ /g, "-");
+    var fileName = data.title.replace(/ /g, "-");
     var zip = new JSZip();
     zip.file("mimetype", "application/epub+zip");
     zip.file(styleFileName + ".css", "body{}");
-    zip.file(fileName + ".opf", ePubPackageDoc("pubid", guid(), title, "en-US", authFirstName, authLastName, navFileName, styleFileName));
-    zip.file(navFileName + ".xhtml", ePubNavigationDoc(title, styleFileName));
+    zip.file(fileName + ".opf", ePubPackageDoc("pubid", guid(), "en", navFileName, styleFileName));
+    zip.file(navFileName + ".xhtml", ePubNavigationDoc(styleFileName));
     data.chapters.forEach(function(chapter, i){
         var name = chapter.name.replace(/ /g, "-");
-        zip.file(fmt("chapter$1.xhtml", i + 1), ePubContentDoc(title, styleFileName, chapter));
+        zip.file(fmt("chapter$1.xhtml", i + 1), ePubContentDoc(styleFileName, chapter));
     });
 
     var metainf = zip.folder("META-INF");
@@ -74,7 +97,7 @@ function ePub(title, authFirstName, authLastName){
     saveFileToDesktop(fileName + ".epub", "application/rpub+zip", zip.generate());
 }
 
-function ePubContentDoc(title, styleFileName, chapter){
+function ePubContentDoc(styleFileName, chapter){
     var chapterBody = chapter.doc
         .replace(/\r\n/g, "\n")
         .replace(/\n{2,}/g, "\n")
@@ -83,56 +106,18 @@ function ePubContentDoc(title, styleFileName, chapter){
         })
         .join("\n");
 
-    return fmt("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-+"<!DOCTYPE html>\n"
-+"<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:epub=\"http://www.idpf.org/2007/ops\" xml:lang=\"en\" lang=\"en\">\n"
-+"<head>\n"
-+"<meta charset=\"utf-8\" />\n"
-+"<title>$1: $2</title>\n"
-+"<link rel=\"stylesheet\" href=\"$3.css\" type=\"text/css\"/>\n"
-+"</head>\n"
-+"<body>\n"
-+"<section epub:type=\"chapter\">\n"
-+"<h1 epub:type=\"title\">$2</h1>\n"
-+"$4\n"
-+"</section>\n"
-+"</body>\n"
-+"</html>", title, chapter.name, styleFileName, chapterBody);
+    return fmt("<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE html>\n<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:epub=\"http://www.idpf.org/2007/ops\" xml:lang=\"en\" lang=\"en\"><head><meta charset=\"utf-8\" /><title>$1: $2</title><link rel=\"stylesheet\" href=\"$3.css\" type=\"text/css\"/></head>\n<body><section epub:type=\"chapter\"><h1 epub:type=\"title\">$2</h1>$4</section></body></html>", data.title, chapter.name, styleFileName, chapterBody);
 }
 
-function ePubNavigationDoc(title, styleFileName){
+function ePubNavigationDoc(styleFileName){
     var chaptersChunk = data.chapters.map(function(chapter, i){
         return fmt("<li id=\"chapter$1\"><a href=\"chapter$1.xhtml\">$2</a></li>", i + 1, chapter.name);
     }).join("\n");
 
-    return fmt("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-+ "<!DOCTYPE html>\n"
-+ "<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:epub=\"http://www.idpf.org/2007/ops\" xml:lang=\"en\" lang=\"en\">\n"
-+ "<head>\n"
-+ "<meta charset=\"utf-8\" />\n"
-+ "<title>$1</title>\n"
-+ "<link rel=\"stylesheet\" href=\"$2.css\" type=\"text/css\"/>\n"
-+ "</head>\n"
-+ "<body>\n"
-+ "<h1>$1</h1>\n"
-+ "<nav id=\"toc\" epub:type=\"toc\">\n"
-+ "<h2>Table of Contents</h2>\n"
-+ "<ol>\n"
-+ "$3\n"
-+ "</ol>\n"
-+ "</nav>\n"
-+ "<nav epub:type=\"landmarks\" id=\"guide\">\n"
-+ "<h2>Guide</h2>\n"
-+ "<ol>\n"
-+ "<li><a epub:type=\"toc\" href=\"#toc\">Table of Contents</a></li>\n"
-+ "<li><a epub:type=\"bodymatter\" href=\"chapter1.xhtml\">Begin Reading</a></li>\n"
-+ "</ol>\n"
-+ "</nav>\n"
-+ "</body>\n"
-+ "</html>", title, styleFileName, chaptersChunk);
+    return fmt("<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE html>\n<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:epub=\"http://www.idpf.org/2007/ops\" xml:lang=\"en\" lang=\"en\">\n<head><meta charset=\"utf-8\" /><title>$1</title><link rel=\"stylesheet\" href=\"$2.css\" type=\"text/css\"/></head>\n<body><h1>$1</h1><nav id=\"toc\" epub:type=\"toc\"><h2>Table of Contents</h2><ol>$3</ol></nav>\n</body></html>", data.title, styleFileName, chaptersChunk);
 }
 
-function ePubPackageDoc(pubID, uuid, title, lang, authFirstName, authLastName, navFileName, styleFileName){
+function ePubPackageDoc(pubID, uuid, lang, navFileName, styleFileName){
     var now = new Date();
 
     var chapters = data.chapters.map(function(chapter, i){
@@ -150,29 +135,7 @@ function ePubPackageDoc(pubID, uuid, title, lang, authFirstName, authLastName, n
         return c.itemref;
     }).join("\n");
 
-    return fmt("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-+"<package version=\"3.0\" unique-identifier=\"$1\" xml:lang=\"en\" xmlns=\"http://www.idpf.org/2007/opf\" >\n"
-+"<metadata xmlns:dc=\"http://purl.org/dc/elements/1.1/\">\n"
-+"<dc:identifier id=\"$1\">urn:uuid:$2</dc:identifier>\n"
-+"<dc:title>$3</dc:title>\n"
-+"<dc:language>$4</dc:language>\n"
-+"<meta property=\"dcterms:modified\">$5</meta>\n"
-+"<dc:creator id=\"creator01\">$6 $7</dc:creator>\n"
-+"<meta refines=\"#creator01\" property=\"file-as\">$7, $6</meta>\n"
-+"<meta refines=\"#creator01\" property=\"display-seq\">1</meta>\n"
-+"<meta refines=\"#creator01\" property=\"role\" scheme=\"marc:relators\">aut</meta>\n"
-+"<dc:date>$5</dc:date>\n"
-+"<dc:rights>Copyright © $8 $6 $7</dc:rights>\n"
-+"</metadata>\n"
-+"<manifest>\n"
-+"<item id=\"nav-id-1\" properties=\"nav\" href=\"$9.xhtml\" media-type=\"application/xhtml+xml\"/>\n"
-+"<item id=\"main-style-sheet\" href=\"$10.css\" media-type=\"text/css\"/>\n"
-+"$11\n"
-+"</manifest>\n"
-+"<spine toc=\"nav-id-1\">\n"
-+"$12\n"
-+"</spine>\n"
-+"</package>", pubID, uuid, title, lang, now.toISOString(), authFirstName, authLastName, now.getFullYear(), navFileName,
+    return fmt("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<package version=\"3.0\" unique-identifier=\"$1\" xml:lang=\"en\" xmlns=\"http://www.idpf.org/2007/opf\" ><metadata xmlns:dc=\"http://purl.org/dc/elements/1.1/\"><dc:identifier id=\"$1\">urn:uuid:$2</dc:identifier><dc:title>$3</dc:title><dc:language>$4</dc:language><meta property=\"dcterms:modified\">$5</meta><dc:creator id=\"creator01\">$6 $7</dc:creator><meta refines=\"#creator01\" property=\"file-as\">$7, $6</meta><meta refines=\"#creator01\" property=\"display-seq\">1</meta><meta refines=\"#creator01\" property=\"role\" scheme=\"marc:relators\">aut</meta><dc:date>$5</dc:date><dc:rights>Copyright © $8 $6 $7</dc:rights></metadata><manifest><item id=\"nav-id-1\" properties=\"nav\" href=\"$9.xhtml\" media-type=\"application/xhtml+xml\"/><item id=\"main-style-sheet\" href=\"$10.css\" media-type=\"text/css\"/>$11</manifest><spine toc=\"nav-id-1\">$12</spine></package>", pubID, uuid, data.title, lang, now.toISOString(), data.authorFirstName, data.authorLastName, now.getFullYear(), navFileName,
             styleFileName, manifestChapters, spineChapters);
 }
 
@@ -184,10 +147,5 @@ function guid(){
 }
 
 function ePubContainer(pubName){
-    return fmt("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-+"<container version=\"1.0\" xmlns=\"urn:oasis:names:tc:opendocument:xmlns:container\">\n"
-+"<rootfiles>\n"
-+"<rootfile full-path=\"$1.opf\" media-type=\"application/oebps-package+xml\" />\n"
-+"</rootfiles>\n"
-+"</container>", pubName);
+    return fmt("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<container version=\"1.0\" xmlns=\"urn:oasis:names:tc:opendocument:xmlns:container\">\n<rootfiles>\n<rootfile full-path=\"$1.opf\" media-type=\"application/oebps-package+xml\" />\n</rootfiles>\n</container>", pubName);
 }

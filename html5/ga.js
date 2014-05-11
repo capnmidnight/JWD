@@ -1,5 +1,5 @@
 ga('create', 'UA-49938410-1', 'justwritedammit.com');
-ga('require', 'linkid', 'linkid.js')
+ga('require', 'linkid', 'linkid.js');
 ga('require', 'displayfeatures');
 
 var navIt = ga.bind(window, "send", "pageview");
