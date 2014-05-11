@@ -5,38 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta charset="utf-8" />
     <title>window test</title>
+    <script src="fullscreen.js"></script>
     <script>
-        // full-screen-ism polyfill
-        if (!document.documentElement.requestFullscreen){
-            if (document.documentElement.msRequestFullscreen){
-                document.documentElement.requestFullscreen = document.documentElement.msRequestFullscreen;
-                document.exitFullscreen = document.msExitFullscreen;
-            }
-            else if (document.documentElement.mozRequestFullScreen){
-                document.documentElement.requestFullscreen = document.documentElement.mozRequestFullScreen;
-                document.exitFullscreen = document.mozCancelFullScreen;
-            }
-            else if (document.documentElement.webkitRequestFullscreen){
-                document.documentElement.requestFullscreen = function (){
-                    document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT)
-                };
-                document.exitFullscreen = document.webkitExitFullscreen;
-            }
-        }
-
-        function toggleFullScreen(){
-            if (document.documentElement.requestFullscreen){
-                if (!(document.fullscreenElement
-                    || document.mozFullScreenElement
-                    || document.webkitFullscreenElement
-                    || document.msFullscreenElement)){  // current working methods
-                    document.documentElement.requestFullscreen();
-                }
-                else{
-                    document.exitFullscreen();
-                }
-            }
-        }
         var dims = ["height", "width", "x", "y"];
         var types = ["", "client", "offset", "scroll", "inner", "outer", "avail"];
         var track = ["document.documentElement", "screen", "window", "block"];
@@ -81,10 +51,21 @@
             });
         }, 100);
     </script>
+    <style>
+        html, body {
+            padding: 0;
+            margin: 0;
+        }
+        * {
+            box-sizing:border-box;
+        }
+    </style>
 </head>
 <body>
-    <div id="block" style="box-sizing:border-box;position:absolute;left:0;top:0;width:100%;height:100%;border:solid 4px green;"></div>
-    <input type="text" value="text" /><input type="button" onclick="toggleFullScreen()" value="FULL" />
-    <div id="output" style="font-size:6pt;"></div>
+    <div id="block" style="box-sizing:border-box;position:absolute;left:0;top:0;width:100%;height:100%;"></div>
+    <div style="position:absolute;">
+        <input type="text" value="text" /><input type="button" onclick="toggleFullScreen()" value="FULL" />
+        <div id="output" style="font-size:6pt;"></div>
+    </div>
 </body>
 </html>

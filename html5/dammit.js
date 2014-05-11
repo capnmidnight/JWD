@@ -185,8 +185,9 @@ function resize(){
     if(window.fullScreen){
         hide("fullscreen-note");
     }
+    var windowHeight = Math.min(window.innerHeight, screen.availHeight);
     // the extra 2 pixels is to avoid a small scroll overlap with the window edge
-    main.style.height = px(window.innerHeight - header.clientHeight - 2);
+    main.style.height = px(windowHeight - header.clientHeight - 2);
     main.style.top = px(header.clientHeight);
     writer.style.height = "100%";
     writer.style.height = px(writer.clientHeight - chapterName.clientHeight - infobar.clientHeight);
