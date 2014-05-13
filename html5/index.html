@@ -179,10 +179,16 @@
         </div>
         <div id="notifications"></div>
     </form>
-    <script src="require.js#v2"></script>
     <script>
         var curAppVersion = 2;
-        require("style.css", "psychologist.js", "selecticator.js", "markdownsyndrome.js", "interrobang.js", "stuffing.js", "local.js", "dorpbox.js", "gdrive.js", "desktop.js", "fileops.js", "poindexter.js", "editroomfloor.js", "publican.js", "dammit.js", "ga.min.js", "fullscreen.js", "jszip.min.js", "https://www.googleadservices.com/pagead/conversion_async.js");
+        var s = document.createElement("script");
+        s.async = 1;
+        s.addEventListener("load", function () {
+            require("psychologist.js", "selecticator.js", "markdownsyndrome.js", "interrobang.js", "stuffing.js", "local.js", "dorpbox.js", "gdrive.js", "desktop.js", "fileops.js", "poindexter.js", "editroomfloor.js", "publican.js", "dammit.js", "ga.min.js", "fullscreen.js", "jszip.min.js", "https://www.googleadservices.com/pagead/conversion_async.js");
+            setTimeout(include.bind(window, "style.css"), 250);
+        }, false);
+        s.src = "require.js#v" + curAppVersion;
+        document.body.appendChild(s);
     </script>
 </body>
 </html>
