@@ -1,27 +1,22 @@
-﻿function include(src, success, fail) {
-    if (!include.cache) {
-        include.cache = {};
+﻿function include(curAppVersion, src, success, fail) {
+    if(!/http(s):\/\//.test(src)){
+        src = src + "#v" + curAppVersion;
     }
-    if (!include.cache[src]) {
-        var t = src.indexOf(".css") > -1;
-        var s = document.createElement(t ? "link" : "script");
-        s.type = t ? "text/css" : "text/javascript";
-        s.async = true;
-        s.addEventListener("error", fail);
-        s.addEventListener("abort", fail);
-        s.addEventListener("load", function () {
-            include.cache[src] = true;
-            success();
-        });
-        document.head.appendChild(s);
-        if (t) {
-            s.rel = "stylesheet";
-        }
-        s[t ? "href" : "src"] = src;
-    }
-    else {
+    var t = src.indexOf(".css") > -1;
+    var s = document.createElement(t ? "link" : "script");
+    s.type = t ? "text/css" : "text/javascript";
+    s.async = true;
+    s.addEventListener("error", fail);
+    s.addEventListener("abort", fail);
+    s.addEventListener("load", function () {
+        include.cache[src] = true;
         success();
+    });
+    document.head.appendChild(s);
+    if (t) {
+        s.rel = "stylesheet";
     }
+    s[t ? "href" : "src"] = src;
 }
 
 var require = (function () {
@@ -71,25 +66,26 @@ var require = (function () {
         }
     }
 
-    function loadLibs(libs) {
+    function loadLibs(curAppVersion, libs) {
         if (libs.length > 0) {
             var m = libs.shift();
             var thunk = function () {
                 set(1, m);
-                loadLibs(libs);
+                loadLibs(curAppVersion, libs);
             };
 
-            include(m, thunk, thunk);
+            include(curAppVersion, m, thunk, thunk);
         }
     }
 
-    function require() {
+    function require(curAppVersion) {
         tryAppend();
         var libs = Array.prototype.slice.call(arguments);
+        libs.shift(); // remove the curAppVersion value
         libs.forEach(set.bind(this, 0));
         set(0, "init");
         set(0, "loadData");
-        loadLibs(libs);
+        loadLibs(curAppVersion, libs);
     }
 
     return require;
