@@ -79,13 +79,15 @@ function exportEPUB(){
 
 function ePub(){
     var styleFileName = "style";
-    var navFileName = "nav";
+    var navFileName = "epub3toc";
+    var ncxFileName = "epub2toc";
     var fileName = data.title.replace(/ /g, "-");
     var zip = new JSZip();
     zip.file("mimetype", "application/epub+zip");
     zip.file(styleFileName + ".css", "body{}");
-    zip.file(fileName + ".opf", ePubPackageDoc("pubid", guid(), "en", navFileName, styleFileName));
-    zip.file(navFileName + ".xhtml", ePubNavigationDoc(styleFileName));
+    zip.file(fileName + ".opf", ePubPackageDoc("pubid", guid(), "en", navFileName, ncxFileName, styleFileName));
+    zip.file(navFileName + ".xhtml", ePubNavigationDoc(styleFileName, navFileName));
+    zip.file(ncxFileName + ".ncx", ePub2NCX(guid(), navFileName));
     data.chapters.forEach(function(chapter, i){
         var name = chapter.name.replace(/ /g, "-");
         zip.file(fmt("chapter$1.xhtml", i + 1), ePubContentDoc(styleFileName, chapter));
@@ -97,6 +99,49 @@ function ePub(){
     saveFileToDesktop(fileName + ".epub", "application/epub+zip", zip.generate());
 }
 
+function ePubNavigationDoc(styleFileName, navFileName){
+    var chaptersChunk = data.chapters.map(function(chapter, i){
+        return fmt("<li id=\"chapter$1\"><a href=\"chapter$1.xhtml\">$2</a></li>", i + 1, chapter.name);
+    }).join("\n\t\t\t\t");
+
+    return fmt("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
++"<!DOCTYPE html>\n"
++"<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:epub=\"http://www.idpf.org/2007/ops\" xml:lang=\"en\" lang=\"en\">\n"
++"\t<head>\n"
++"\t\t<meta charset=\"utf-8\" />\n"
++"\t\t<title>$1</title>\n"
++"\t\t<link rel=\"stylesheet\" href=\"$2.css\" type=\"text/css\"/>\n"
++"\t</head>\n"
++"\t<body>\n"
++"\t\t<h1>$1</h1>\n"
++"\t\t<nav id=\"toc\" epub:type=\"toc\">\n"
++"\t\t\t<h2>Table of Contents</h2>\n"
++"\t\t\t<ol>\n"
++"\t\t\t\t<li id=\"toc\"><a href=\"$3.xhtml\">Table of Contents</a></li>\n"
++"\t\t\t\t$4\n"
++"\t\t\t</ol>\n"
++"\t\t</nav>\n"
++"\t</body>\n"
++"</html>", data.title, styleFileName, navFileName, chaptersChunk);
+}
+
+function ePub2NCX(ncxUID, navFileName){
+    var chaptersChunk = data.chapters.map(function(chapter, i){
+        return fmt("<navPoint class=\"h1\" id=\"ncx-$1\"><navLabel><text>$2</text></navLabel><content src=\"chapter$1.xhtml\"/></navPoint>", i + 1, chapter.name);
+    }).join("\n\t\t");
+
+    return fmt("<ncx xmlns=\"http://www.daisy.org/z3986/2005/ncx/\" version=\"2005-1\" xml:lang=\"en\">\n"
++"\t<head><meta name=\"dtb:uid\" content=\"urn:uuid:$1\"/></head>\n"
++"\t<docTitle><text>$2</text></docTitle>\n"
++"\t<docAuthor><text>$3 $4</text></docAuthor>\n"
++"\t<navMap>\n"
++"\t\t<navPoint class=\"h1\" id=\"ncx-toc\"><navLabel><text>Table of Contents</text></navLabel><content src=\"$5.xhtml\"/></navPoint>\n"
++"\t\t$6\n"
++"\t</navMap>\n"
++"</ncx>",
+        ncxUID, data.title, data.authorFirstName, data.authorLastName, navFileName, chaptersChunk);
+}
+
 function ePubContentDoc(styleFileName, chapter){
     var chapterBody = chapter.doc
         .replace(/\r\n/g, "\n")
@@ -104,20 +149,27 @@ function ePubContentDoc(styleFileName, chapter){
         .split(/\n/g).map(function (para){
             return p(para).outerHTML;
         })
-        .join("\n");
+        .join("\n\t\t\t");
 
-    return fmt("<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE html>\n<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:epub=\"http://www.idpf.org/2007/ops\" xml:lang=\"en\" lang=\"en\"><head><meta charset=\"utf-8\" /><title>$1: $2</title><link rel=\"stylesheet\" href=\"$3.css\" type=\"text/css\"/></head>\n<body><section epub:type=\"chapter\"><h1 epub:type=\"title\">$2</h1>$4</section></body></html>", data.title, chapter.name, styleFileName, chapterBody);
+    return fmt("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
++"<!DOCTYPE html>\n"
++"<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:epub=\"http://www.idpf.org/2007/ops\" xml:lang=\"en\" lang=\"en\">\n"
++"\t<head>\n"
++"\t\t<meta charset=\"utf-8\" />\n"
++"\t\t<title>$1: $2</title>\n"
++"\t\t<link rel=\"stylesheet\" href=\"$3.css\" type=\"text/css\"/>\n"
++"\t</head>\n"
++"\t<body>\n"
++"\t\t<section epub:type=\"chapter\">\n"
++"\t\t\t<h1 epub:type=\"title\">$2</h1>\n"
++"\t\t\t$4\n"
++"\t\t</section>\n"
++"\t</body>\n"
++"</html>", 
+        data.title, chapter.name, styleFileName, chapterBody);
 }
 
-function ePubNavigationDoc(styleFileName){
-    var chaptersChunk = data.chapters.map(function(chapter, i){
-        return fmt("<li id=\"chapter$1\"><a href=\"chapter$1.xhtml\">$2</a></li>", i + 1, chapter.name);
-    }).join("\n");
-
-    return fmt("<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE html>\n<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:epub=\"http://www.idpf.org/2007/ops\" xml:lang=\"en\" lang=\"en\">\n<head><meta charset=\"utf-8\" /><title>$1</title><link rel=\"stylesheet\" href=\"$2.css\" type=\"text/css\"/></head>\n<body><h1>$1</h1><nav id=\"toc\" epub:type=\"toc\"><h2>Table of Contents</h2><ol>$3</ol></nav>\n</body></html>", data.title, styleFileName, chaptersChunk);
-}
-
-function ePubPackageDoc(pubID, uuid, lang, navFileName, styleFileName){
+function ePubPackageDoc(pubID, uuid, lang, navFileName, ncxFileName, styleFileName){
     var now = new Date();
 
     var chapters = data.chapters.map(function(chapter, i){
@@ -129,14 +181,38 @@ function ePubPackageDoc(pubID, uuid, lang, navFileName, styleFileName){
 
     var manifestChapters = chapters.map(function(c){
         return c.item;
-    }).join("\n");
+    }).join("\n\t\t");
 
     var spineChapters = chapters.map(function(c){
         return c.itemref;
-    }).join("\n");
+    }).join("\n\t\t");
 
-    return fmt("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<package version=\"3.0\" unique-identifier=\"$1\" xml:lang=\"en\" xmlns=\"http://www.idpf.org/2007/opf\" ><metadata xmlns:dc=\"http://purl.org/dc/elements/1.1/\"><dc:identifier id=\"$1\">urn:uuid:$2</dc:identifier><dc:title>$3</dc:title><dc:language>$4</dc:language><meta property=\"dcterms:modified\">$5</meta><dc:creator id=\"creator01\">$6 $7</dc:creator><meta refines=\"#creator01\" property=\"file-as\">$7, $6</meta><meta refines=\"#creator01\" property=\"display-seq\">1</meta><meta refines=\"#creator01\" property=\"role\" scheme=\"marc:relators\">aut</meta><dc:date>$5</dc:date><dc:rights>Copyright © $8 $6 $7</dc:rights></metadata><manifest><item id=\"nav-id-1\" properties=\"nav\" href=\"$9.xhtml\" media-type=\"application/xhtml+xml\"/><item id=\"main-style-sheet\" href=\"$10.css\" media-type=\"text/css\"/>$11</manifest><spine toc=\"nav-id-1\">$12</spine></package>", pubID, uuid, data.title, lang, now.toISOString(), data.authorFirstName, data.authorLastName, now.getFullYear(), navFileName,
-            styleFileName, manifestChapters, spineChapters);
+    return fmt("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
++"<package version=\"3.0\" unique-identifier=\"$1\" xml:lang=\"en\" xmlns=\"http://www.idpf.org/2007/opf\" >\n"
++"\t<metadata xmlns:dc=\"http://purl.org/dc/elements/1.1/\">\n"
++"\t\t<dc:identifier id=\"$1\">urn:uuid:$2</dc:identifier>\n"
++"\t\t<dc:title>$3</dc:title>\n"
++"\t\t<dc:language>$4</dc:language>\n"
++"\t\t<meta property=\"dcterms:modified\">$5</meta>\n"
++"\t\t<dc:creator id=\"creator01\">$6 $7</dc:creator>\n"
++"\t\t<meta refines=\"#creator01\" property=\"file-as\">$7, $6</meta>\n"
++"\t\t<meta refines=\"#creator01\" property=\"display-seq\">1</meta>\n"
++"\t\t<meta refines=\"#creator01\" property=\"role\" scheme=\"marc:relators\">aut</meta>\n"
++"\t\t<dc:date>$5</dc:date>\n"
++"\t\t<dc:rights>Copyright © $8 $6 $7</dc:rights>\n"
++"\t</metadata>\n"
++"\t<manifest>\n"
++"\t\t<item id=\"epub3nav\" properties=\"nav\" href=\"$9.xhtml\" media-type=\"application/xhtml+xml\"/>\n"
++"\t\t<item id=\"epub2nav\" href=\"$10.ncx\" media-type=\"application/x-dtbncx+xml\"/>\n"
++"\t\t<item id=\"main-style-sheet\" href=\"$11.css\" media-type=\"text/css\"/>\n"
++"\t\t$12\n"
++"\t</manifest>\n"
++"\t<spine toc=\"epub2nav\">\n"
++"\t\t<itemref idref=\"epub3nav\" />\n"
++"\t\t$13\n"
++"\t</spine>\n"
++"</package>", 
+        pubID, uuid, data.title, lang, now.toISOString(), data.authorFirstName, data.authorLastName, now.getFullYear(), navFileName, ncxFileName, styleFileName, manifestChapters, spineChapters);
 }
 
 function guid(){
@@ -147,5 +223,11 @@ function guid(){
 }
 
 function ePubContainer(pubName){
-    return fmt("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<container version=\"1.0\" xmlns=\"urn:oasis:names:tc:opendocument:xmlns:container\">\n<rootfiles>\n<rootfile full-path=\"$1.opf\" media-type=\"application/oebps-package+xml\" />\n</rootfiles>\n</container>", pubName);
+    return fmt("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
++"<container version=\"1.0\" xmlns=\"urn:oasis:names:tc:opendocument:xmlns:container\">\n"
++"\t<rootfiles>\n"
++"\t\t<rootfile full-path=\"$1.opf\" media-type=\"application/oebps-package+xml\" />\n"
++"\t</rootfiles>\n"
++"</container>\n", 
+        pubName);
 }

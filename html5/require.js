@@ -54,34 +54,34 @@ var require = (function () {
         }
     }
 
-    function tryAppend() {
+    function tryAppend(success) {
         if (!document.body) {
             setTimeout(tryAppend, 10);
         }
         else if (G.parentElement != document.body) {
             document.body.appendChild(G);
+            success();
         }
     }
 
     function loadLibs(libs) {
+        var thunk = function (m, l) {
+            set(1, m);
+            loadLibs(l);
+        };
         if (libs.length > 0) {
             var m = libs.shift();
-            var thunk = function () {
-                set(1, m);
-                loadLibs(libs);
-            };
-
-            include(m, thunk, thunk);
+            var t = thunk.bind(this, m, libs);
+            include(m, t, t);
         }
     }
 
     function require() {
-        tryAppend();
         var libs = Array.prototype.slice.call(arguments);
         libs.forEach(set.bind(this, 0));
         set(0, "init");
         set(0, "loadData");
-        loadLibs(libs);
+        tryAppend(loadLibs.bind(this, libs));
     }
 
     return require;
