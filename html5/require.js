@@ -1,4 +1,4 @@
-﻿function include(curAppVersion, src, success, fail) {
+﻿function include(src, success, fail) {
     if(!/http(s):\/\//.test(src)){
         src = src + "#v" + curAppVersion;
     }
@@ -8,10 +8,7 @@
     s.async = true;
     s.addEventListener("error", fail);
     s.addEventListener("abort", fail);
-    s.addEventListener("load", function () {
-        include.cache[src] = true;
-        success();
-    });
+    s.addEventListener("load", success);
     document.head.appendChild(s);
     if (t) {
         s.rel = "stylesheet";
@@ -66,26 +63,25 @@ var require = (function () {
         }
     }
 
-    function loadLibs(curAppVersion, libs) {
+    function loadLibs(libs) {
         if (libs.length > 0) {
             var m = libs.shift();
             var thunk = function () {
                 set(1, m);
-                loadLibs(curAppVersion, libs);
+                loadLibs(libs);
             };
 
-            include(curAppVersion, m, thunk, thunk);
+            include(m, thunk, thunk);
         }
     }
 
-    function require(curAppVersion) {
+    function require() {
         tryAppend();
         var libs = Array.prototype.slice.call(arguments);
-        libs.shift(); // remove the curAppVersion value
         libs.forEach(set.bind(this, 0));
         set(0, "init");
         set(0, "loadData");
-        loadLibs(curAppVersion, libs);
+        loadLibs(libs);
     }
 
     return require;
