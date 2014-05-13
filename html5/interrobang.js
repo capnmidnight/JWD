@@ -54,8 +54,8 @@ var interrobang = (function(){
     // compatability. Also, I don't really give a shit.
     var patterns = [
         [/"([\s\S]+?)"/g, characters.OpenSmartQuote + "$1" + characters.CloseSmartQuote, 0],
-        [/(\w)--(\w)/g, "$1" + characters.EmDash + "$2"],
-        [/(\w)-(\w)/g, "$1" + characters.EnDash + "$2"],
+        [/(\w)(---|\u2013-|-\u2013)(\w)/g, "$1" + characters.EmDash + "$3"],
+        [/(\w)--(\w)/g, "$1" + characters.EnDash + "$2"],
         [/\.{3}/g, characters.Ellipsis],
         [/(\?\!|\!\?)/g, characters.Interrobang],
         [/''/g, characters.DoublePrime],
