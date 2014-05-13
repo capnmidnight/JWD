@@ -28,7 +28,6 @@
     <Content Include="package.json" />
     <Compile Include="html5\editroomfloor.js" />
     <Compile Include="html5\fullscreen.js" />
-    <Compile Include="html5\ga.min.js" />
     <Compile Include="html5\jszip.min.js" />
     <Compile Include="html5\markdownsyndrome.js" />
     <Compile Include="html5\promise-0.1.1.min.js" />

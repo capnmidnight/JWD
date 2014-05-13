@@ -46,7 +46,7 @@ function exportHTML(){
                 "p{text-align:justify}"].join("\n"))),
         body(exportBody()));
     saveFileToDesktop("book.html", "text/html", utf8_to_b64(doc.outerHTML));
-    rptIt("publish");
+    ga('send', 'event', 'report', "publish");
 }
 
 function exportEPUB(){
@@ -56,7 +56,7 @@ function exportEPUB(){
     saveFile();
     if(data.title && data.authorFirstName && data.authorLastName){
         ePub();
-        rptIt("publish");
+        ga('send', 'event', 'report', "publish");
     }
     else{
         var message = "Before generating a publishable document, please enter a value the following fields:<ul>";

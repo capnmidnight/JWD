@@ -44,7 +44,7 @@ var fileSavers = {
 
 function onSuccessfulSave(type){
     hide(unsavedFileIndicator);
-    savIt(type);
+    ga('send', 'event', 'data-save', type);
 }
 
 function saveFile(types){
@@ -114,7 +114,7 @@ function onSuccessfulLoad(type, loadDataDone){
     note("data-loaded-message", "Data loaded!");
     data.theme = data.theme || 0;
     setTheme(data.theme);
-    lodIt(type);
+    ga('send', 'event', 'data-load', type);
     if(loadDataDone){
         loadDataDone();
     }

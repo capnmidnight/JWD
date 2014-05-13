@@ -118,14 +118,14 @@ function toggleMenu(){
 
 function setTheme(i){
     themeStyle.href = fmt("color$1.css", i * 1 + 1);
-    usrIt("theme", themeStyle.href);
+    ga('send', 'event', 'user', "theme:" + themeStyle.href);
 }
 
 function onStorageTypeChanged(){
     setSetting("lastStorageType", getSetting("storageType"));
     var type = storageType.getValue();
     setSetting("storageType", type);
-    datIt("storage type", type);
+    ga("send", "event", "storage type", type);
     showTab(["storage-details", "storage-" + type]);
     if (type == "dropbox"){
         dorpbox();
@@ -152,7 +152,7 @@ function showTab(parts, saveState){
     var id = parts[1];
     var boxes = getDOMAll(fmt("#$1>*", parentID));
     if(parentID == "main"){
-        navIt(url);
+        ga("send", "pageview", url);
     }
     boxes.forEach(function (box, i){
         setDisplay(id == box.id, box);
@@ -225,7 +225,7 @@ function firstNavigation(){
     }
     else if(!getSetting("storageType")){
         showTab(["main", "about"]);
-        usrIt("firstTime");
+        ga('send', 'event', 'user', "firstTime");
     }
     else if(isMobile){
         showTab(["main", "write"]);

@@ -97,5 +97,5 @@ function analyzeScreenShow(){
     word2Frequency.setValue(counts2);
     word3Frequency.setValue(counts3);
     word4Frequency.setValue(counts4);
-    rptIt("analysisFreq");
+    ga('send', 'event', 'report', "analysisFreq");
 }

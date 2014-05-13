@@ -44,7 +44,7 @@ function gdriveAuthed(thunk, fail, success, doc, wasImmediate, authResult){
         gapi.client.load("drive", "v2", function (){
             thunk(fail, success, doc);
         });
-        datIt("link", "gdrive");
+        ga("send", "event", "link", "gdrive");
     }
     else if(wasImmediate){
         gdriveAuth(thunk, fail, success, doc, false);

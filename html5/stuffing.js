@@ -36,7 +36,7 @@ function XXX_RESET_XXX(){
         dorpboxSignout();
         gdriveSignout();
         document.location = document.location.href;
-        usrIt("reset");
+        ga('send', 'event', 'user', "reset");
     }
 }
 

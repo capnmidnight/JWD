@@ -55,7 +55,7 @@ function dorpboxAuth(thunk, fail, success, doc, immediate){
 function dorpboxAuthed(thunk, fail, success, doc, wasImmediate, error){
     if (!error){
         thunk(fail, success, doc);
-        datIt("link", "dorpbox");
+        ga("send", "event", "link", "dorpbox");
     }
     else if (wasImmediate){
         dorpboxAuth(thunk, fail, success, doc, false);

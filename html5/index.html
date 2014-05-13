@@ -34,7 +34,7 @@
                         This is "Just Write, Dammit!" As in, that's all you can do when you use it. As in, put Twitter/Facebook/G+/Farmville/etc. down and just write, dammit. It is a distraction-free writing program that syncs your writing across devices. On desktop computers and smartphones, the minimalist, fullscreen layout helps focus the writer on long writing sessions. <a href="about.html">Read more about the motivations leading to "Just Write, Dammit"</a>.
                     </p>
                     <p>
-                        <a href="https://www.gittip.com/capnmidnight/" target="_blank" onclick="navIt('gittip');">With your support</a>, we can make JWD even more. Be able to management multiple book-writing projects at the same time. Apply basic formatting and export to the ePub for direct publishing. Text analysis algorithms for honing the writing. And creativity-stimulating minigames that serve to stimulate the writer out of writer's-block or teach us better writing habits. You can <a href="https://www.github.com/capnmidnight/JWD/issues" target="_blank" onclick="navIt('github');">check out JWD's issues list on GitHub</a> to see more of where JWD is going.
+                        <a href="https://www.gittip.com/capnmidnight/" target="_blank" onclick="ga('send', 'pageview', 'gittip');">With your support</a>, we can make JWD even more. Be able to management multiple book-writing projects at the same time. Apply basic formatting and export to the ePub for direct publishing. Text analysis algorithms for honing the writing. And creativity-stimulating minigames that serve to stimulate the writer out of writer's-block or teach us better writing habits. You can <a href="https://www.github.com/capnmidnight/JWD/issues" target="_blank" onclick="ga('send', 'pageview', 'github');">check out JWD's issues list on GitHub</a> to see more of where JWD is going.
                     </p>
                     <p>
                         So what the hell are you doing? Get to work!
@@ -53,15 +53,15 @@
                 <p>
                     Just Write, Dammit!<br>
                     Writing first, editing second.<br>
-                    <a href="https://github.com/capnmidnight/jwd" target="_blank" onclick="navIt('github');">Free, open-source software</a>.<br>
-                    © <a href="mailto:sean.mcbeth+jwd@gmail.com" onclick="navIt('email address');">Sean T. McBeth, 2014</a><br>
-                    <a href="https://groups.google.com/d/forum/just-write-dammit" target="_blank" onclick="navIt('mailing list');">Join the email list for notifications.</a><br>
-                    <a href="https://www.gittip.com/capnmidnight/" target="_blank" onclick="navIt('gittip');">Help me help writers.</a><br>
+                    <a href="https://github.com/capnmidnight/jwd" target="_blank" onclick="ga('send', 'pageview', 'github');">Free, open-source software</a>.<br>
+                    © <a href="mailto:sean.mcbeth+jwd@gmail.com" onclick="ga('send', 'pageview', 'email address');">Sean T. McBeth, 2014</a><br>
+                    <a href="https://groups.google.com/d/forum/just-write-dammit" target="_blank" onclick="ga('send', 'pageview', 'mailing list');">Join the email list for notifications.</a><br>
+                    <a href="https://www.gittip.com/capnmidnight/" target="_blank" onclick="ga('send', 'pageview', 'gittip');">Help me help writers.</a><br>
                     <small>
                         <em>
-                            <a href="tos.pdf" onclick="navIt('TOS');">terms of service</a>
-                            | <a href="privacy_policy.pdf" onclick="navIt('privacy policy');">privacy policy</a>
-                            | <a href="dmca.pdf" onclick="navIt('DMCA');">dmca notice</a>
+                            <a href="tos.pdf" onclick="ga('send', 'pageview', 'TOS');">terms of service</a>
+                            | <a href="privacy_policy.pdf" onclick="ga('send', 'pageview', 'privacy policy');">privacy policy</a>
+                            | <a href="dmca.pdf" onclick="ga('send', 'pageview', 'DMCA');">dmca notice</a>
                         </em>
                     </small>
                 </p>
@@ -180,11 +180,20 @@
         <div id="notifications"></div>
     </form>
     <script>
-        var curAppVersion = 2;
+        (function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date(); a = s.createElement(o),
+    m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+        ga('create', 'UA-49938410-1', 'justwritedammit.com');
+        ga('require', 'linkid', 'linkid.js');
+        ga('require', 'displayfeatures');
+        var curAppVersion = 3;
         var s = document.createElement("script");
         s.async = 1;
         s.addEventListener("load", function () {
-            require("psychologist.js", "selecticator.js", "markdownsyndrome.js", "interrobang.js", "stuffing.js", "local.js", "dorpbox.js", "gdrive.js", "desktop.js", "fileops.js", "poindexter.js", "editroomfloor.js", "publican.js", "dammit.js", "ga.min.js", "fullscreen.js", "jszip.min.js", "https://www.googleadservices.com/pagead/conversion_async.js");
+            require("psychologist.js", "selecticator.js", "markdownsyndrome.js", "interrobang.js", "stuffing.js", "local.js", "dorpbox.js", "gdrive.js", "desktop.js", "fileops.js", "poindexter.js", "editroomfloor.js", "publican.js", "dammit.js", "fullscreen.js", "jszip.min.js", "https://www.googleadservices.com/pagead/conversion_async.js");
             setTimeout(include.bind(window, "style.css"), 250);
         }, false);
         s.src = "require.js#v" + curAppVersion;
