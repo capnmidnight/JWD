@@ -5,12 +5,10 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 ga('create', 'UA-49938410-1', 'justwritedammit.com');
 ga('require', 'linkid', 'linkid.js');
 ga('require', 'displayfeatures');
-
-var navIt = ga.bind(window, "send", "pageview");
-var evtIt = ga.bind(window, "send", "event");
-
-var usrIt = evtIt.bind(window, "user");
-var rptIt = evtIt.bind(window, "report");
-var datIt = evtIt.bind(window, "data");
-    var savIt = datIt.bind(window, "save");
-    var lodIt = datIt.bind(window, "load");
+var navIt=ga.bind(window, "send", "pageview"),
+evtIt=ga.bind(window, "send", "event"),
+usrIt=evtIt.bind(window, "user"),
+rptIt=evtIt.bind(window, "report"),
+datIt=evtIt.bind(window, "data"),
+savIt=datIt.bind(window, "save"),
+lodIt=datIt.bind(window, "load");
