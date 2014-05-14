@@ -1,10 +1,3 @@
-if (document.location.hostname != "localhost" 
-    && document.location.hostname != "127.0.0.1" 
-    && !document.location.hostname.match(/192\.168\.0\.\d+/) 
-    && document.location.protocol == "http:"){
-    document.location = document.location.replace("http://", "https://");
-}
-
 function getSetting(name, defValue){
     return (window.localStorage && window.localStorage.getItem(name)) || defValue;
 }
