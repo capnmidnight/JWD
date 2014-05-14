@@ -27,29 +27,13 @@
         <header style="display:none;"><a class="button" onclick="showTab(['main', 'menu'], true);">#</a><a class="button" onclick="saveFile()">∞</a><span id="file-controls"><a class="button" onclick="prevFile()">&lt;</a><a class="button" onclick="nextFile()">&gt;</a><a class="button" onclick="addNewFile()">+</a></span><a class="button" onclick="toggleFullScreen()">❖</a><a id="toggle-menu-button" class="button" onclick="toggleMenu()">«</a></header>
         <div id="main">
 
-            <section id="about">
-                <article class="textContent">
-                    <h3>Just Write, Dammit!</h3>
-                    <img src="jwd64x64.png" style="float:left;margin:0.5em">
-                    <p>
-                        This is "Just Write, Dammit!" As in, that's all you can do when you use it. As in, put Twitter/Facebook/G+/Farmville/etc. down and just write, dammit. It is a distraction-free writing program that syncs your writing across devices. On desktop computers and smartphones, the minimalist, fullscreen layout helps focus the writer on long writing sessions. <a href="about.html">Read more about the motivations leading to "Just Write, Dammit"</a>.
-                    </p>
-                    <p>
-                        <a href="https://www.gittip.com/capnmidnight/" target="_blank" onclick="ga('send', 'pageview', 'gittip');">With your support</a>, we can make JWD even more. Be able to management multiple book-writing projects at the same time. Apply basic formatting and export to the ePub for direct publishing. Text analysis algorithms for honing the writing. And creativity-stimulating minigames that serve to stimulate the writer out of writer's-block or teach us better writing habits. You can <a href="https://www.github.com/capnmidnight/JWD/issues" target="_blank" onclick="ga('send', 'pageview', 'github');">check out JWD's issues list on GitHub</a> to see more of where JWD is going.
-                    </p>
-                    <p>
-                        So what the hell are you doing? Get to work!
-                    </p>
-                </article>
-            </section>
-
             <section id="menu" data-hide-menu="true">
+                <a class="button">about</a>
                 <a class="button">write</a>
                 <a class="button">analyze</a>
                 <a class="button">publish</a>
                 <a class="button">read</a>
                 <a class="button">configure</a>
-                <a class="button">about</a>
                 <p>
                     Just Write, Dammit!<br>
                     Writing first, editing second.<br>
@@ -65,6 +49,22 @@
                         </em>
                     </small>
                 </p>
+            </section>
+
+            <section id="about">
+                <article class="textContent">
+                    <h3>About Just Write, Dammit!</h3>
+                    <img src="jwd64x64.png" style="float:left;margin:0.5em">
+                    <p>
+                        This is "Just Write, Dammit!" As in, that's all you can do when you use it. As in, put Twitter/Facebook/G+/Farmville/etc. down and just write, dammit. It is a distraction-free writing program that syncs your writing across devices. On desktop computers and smartphones, the minimalist, fullscreen layout helps focus the writer on long writing sessions. <a href="about.html">Read more about the motivations leading to "Just Write, Dammit"</a>.
+                    </p>
+                    <p>
+                        <a href="https://www.gittip.com/capnmidnight/" target="_blank" onclick="ga('send', 'pageview', 'gittip');">With your support</a>, we can make JWD even more. Be able to management multiple book-writing projects at the same time. Apply basic formatting and export to the ePub for direct publishing. Text analysis algorithms for honing the writing. And creativity-stimulating minigames that serve to stimulate the writer out of writer's-block or teach us better writing habits. You can <a href="https://www.github.com/capnmidnight/JWD/issues" target="_blank" onclick="ga('send', 'pageview', 'github');">check out JWD's issues list on GitHub</a> to see more of where JWD is going.
+                    </p>
+                    <p>
+                        So what the hell are you doing? Get to work!
+                    </p>
+                </article>
             </section>
                         
             <section id="write" data-show-file-controls="true">
