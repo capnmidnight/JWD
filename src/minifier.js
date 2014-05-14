@@ -2,35 +2,35 @@
     path = require("path");
 var strings = null, regexes = null;
 var patterns = [
-    [/\\"/g, "&QUOT;"],
-    [/\\\//g, "&SLASH;"],
-    [/"[^"]*"/g, function(match){
+    [/"((\\"|[^"\n])*)"/g, function(match){
         var name = "&STRING" + strings.length + ";";
         strings.push(match);
         return name;
     }],
-    [/\/\/[^\n]+/g, " "],
-    [/\/[^\/]+\//g, function(match){
+    [/http:\/\//g, "$HTTP;"],
+    [/https:\/\//g, "$HTTPS;"],
+    [/\/\/[^\n]+/g, " "], // strip comments
+    [/\/((\\\/|[^\/\n])+)\//g, function(match){
         var name = "&REGEX" + regexes.length + ";";
         regexes.push(match);
         return name;
     }],
-    [/\s{2,}/g, "\n"],
+    [/(\n|\s)(\n|\s)+/g, "\n"],
     [/\s*([,{|<>()=\-+!%^&*:;?/])\s*/g, "$1"],
     [/\s+([}])/g, "$1"],
     [/&REGEX(\d+);/g, function(match, cap1){
         var index = parseInt(cap1, 10);
         return regexes[index];
     }],
+    [/$HTTPS;/g, "https://"],
+    [/$HTTP;/g, "http://"],
     [/&STRING(\d+);/g, function(match, cap1){
         var index = parseInt(cap1, 10);
         return strings[index];
     }],
-    [/&SLASH;/g, "\\/"],
-    [/&QUOT;/g, "\\\""]
 ];
 
-function minify(inputDir, outputDir, tempDir, verbose){
+function minify(inputDir, outputDir, tempDir, verbose, shrink){
     var output = verbose ? console.log.bind(console) : function(){};
 
     output("reading from: ", inputDir);
@@ -50,6 +50,7 @@ function minify(inputDir, outputDir, tempDir, verbose){
         }
         else{
             var total = 0;
+            var shrunk = "";
             files.forEach(function(file){
                 var ext = path.extname(file).substring(1);
                 var inputFile = path.join(inputDir, file);
@@ -57,10 +58,10 @@ function minify(inputDir, outputDir, tempDir, verbose){
                 var tempFile = path.join(tempDir, file);
                 var opts = {};
                 var minify = ext == "js" && !/\.min/.test(file);
-                if(minify){
+                if(minify || file == "index.html"){
                     opts.encoding = "utf8";
                 }
-            
+
                 var data = fs.readFileSync(inputFile, opts);
                 var data2 = fs.existsSync(outputFile) && fs.readFileSync(outputFile, opts);
                 if(minify){
@@ -76,6 +77,26 @@ function minify(inputDir, outputDir, tempDir, verbose){
                     total += saved;
                     output(file + " saved " + saved + " characters");
                 }
+                else if(file == "index.html" && shrink){
+                    var test = /<script id="setup">((.|\r\n|\n)+)<\/script>/;
+                    var body = data.match(test);
+                    if(body && body.length > 0){
+                        body = body[0];
+                        console.log(body);
+                        var test2 = /var curAppVersion\s?=\s?(\d+);/;
+                        body = body.match(test2);
+                        if(body && body.length > 1){
+                            var version = parseInt(body[1], 10);
+                            shrunk += "\nvar curAppVersion=" + version + ";";
+                            data = data.replace(test, "<script async src=\"jwd.min.js#v" + version + "\"></script>");
+                        }
+                    }
+                }
+                
+                if(ext == "js" && shrink){
+                    shrunk += data + "\n";
+                }
+
                 var changed = !(data2 && Array.prototype.map.call(data, function(v, i){
                     return i < data2.length && v == data2[i];
                 }).reduce(function(a, b){
@@ -88,9 +109,16 @@ function minify(inputDir, outputDir, tempDir, verbose){
                             console.error(err);
                         }
                     });
+                }
+                if(changed && (ext != "js" || !shrink)){
                     fs.writeFileSync(tempFile, data, opts);
                 }
             });
+            if(shrink){
+                shrunk += "\npageLoad();";
+                fs.writeFileSync(path.join(outputDir, "jwd.min.js"), shrunk, {encoding:"utf8"});
+                fs.writeFileSync(path.join(tempDir, "jwd.min.js"), shrunk, {encoding:"utf8"});
+            }
             output("Total saved: ", total);
             output("Deploying files: ", fs.readdirSync(tempDir));
         }

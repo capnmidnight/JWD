@@ -243,9 +243,13 @@ function firstNavigation(){
 
 function pageLoad(initDone, loadDataDone){
     var doneDone = function(){
-        loadDataDone();
+        if(loadDataDone){
+            loadDataDone();
+        }
         firstNavigation();
-        initDone();
+        if(initDone){
+            initDone();
+        }
     };
     try{
         getControls();

@@ -1,19 +1,15 @@
 ﻿function include(src, success, fail) {
-    if(!/http(s):\/\//.test(src)){
+    if(!/http(s):/.test(src)){
         src = src + "#v" + curAppVersion;
     }
-    var t = src.indexOf(".css") > -1;
-    var s = document.createElement(t ? "link" : "script");
-    s.type = t ? "text/css" : "text/javascript";
+    var s = document.createElement("script");
+    s.type = "text/javascript";
     s.async = true;
     s.addEventListener("error", fail);
     s.addEventListener("abort", fail);
     s.addEventListener("load", success);
     document.head.appendChild(s);
-    if (t) {
-        s.rel = "stylesheet";
-    }
-    s[t ? "href" : "src"] = src;
+    s["src"] = src;
 }
 
 var require = (function () {

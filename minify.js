@@ -8,4 +8,5 @@ minify(
     options.i || "html5",
     options.o || "obj",
     options.c || "cur",
-    options.v != "false");
+    options.v != "false",
+    options.s == "true");

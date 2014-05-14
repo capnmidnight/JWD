@@ -14,9 +14,11 @@ var srcDir = "html5";
 
 if(options.m == "true"){
     minify(
-        options.i || path.join(process.cwd(), srcDir),
-        options.o || path.join(process.cwd(), "obj"),
-        options.v != "false");
+        options.i || "html5",
+        options.o || "obj",
+        options.c || "cur",
+        options.v != "false",
+        options.s == "true");
     srcDir = "obj";
 }
 
