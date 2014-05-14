@@ -156,7 +156,7 @@ function showTab(parts, saveState){
     }
     boxes.forEach(function (box, i){
         setDisplay(id == box.id, box);
-        box.className = id == box.id ? "selected" : "";
+        box.style.display = id == box.id ? "" : "none";
         if(parentID == "main" && id == box.id){
             var ds = box.dataset;
             setDisplay(!ds.hideMenu, header);

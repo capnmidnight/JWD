@@ -26,7 +26,7 @@ function countWords(){
         .replace(/<\/?(br|p)>/g, "\n")
         .replace(/<[^>]+>/g, "")
         .replace(/&nbsp;/g, " ")
-        .match(/[\w'’]+/g),
+        .match(/[\w'’]+/g), 
         count = 0;
 
     if(words != null){
