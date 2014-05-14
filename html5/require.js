@@ -56,7 +56,7 @@ var require = (function () {
 
     function tryAppend(success) {
         if (!document.body) {
-            setTimeout(tryAppend, 10);
+            setTimeout(tryAppend.bind(this, success), 10);
         }
         else if (G.parentElement != document.body) {
             document.body.appendChild(G);
