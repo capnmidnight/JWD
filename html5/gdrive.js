@@ -166,7 +166,7 @@ function gdriveListFiles(outputID){
         function(arr){
             arr.map(function(doc){
                 return li(a({
-                    href:fmt("javascript:gdriveImportFile('$1', '$2');", 
+                    href:fmt("javascript:gdriveImportFile(\"$1\", \"$2\");", 
                         doc.title, doc.exportLinks["text/plain"])}, 
                     doc.title));
             }).forEach(function(l){
