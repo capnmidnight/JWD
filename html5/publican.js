@@ -96,7 +96,6 @@ function ePub(){
     var metainf = zip.folder("META-INF");
     metainf.file("container.xml", ePubContainer(fileName));
     if(window.Blob){
-        console.log("saving as blob");
         saveAs(zip.generate({type:"blob"}), fileName + ".epub");
     }
     else{
