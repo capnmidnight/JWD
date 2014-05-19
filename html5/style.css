@@ -37,3 +37,4 @@ section>*{clear:left;}
 #chapter-name{font-size:30pt;}
 section{padding-top:5em;padding-bottom:5em;padding-left:10em;padding-right:10em;}}
 #notifications{position:absolute;left:0;top:0;padding:0;margin:0;}
+.footnotes{font-size:10pt;font-style:italic;opacity:0.75;padding:0;height:auto;margin-bottom:2em;}
