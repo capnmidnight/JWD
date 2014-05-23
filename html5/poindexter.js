@@ -21,24 +21,21 @@ function frequency(min, arr){
     }).join("\n<br>");
 }
 
-function countWords(){
-    var words = writer.getValue()
+function wordCount(text){
+    var words = text
         .replace(/<\/?(br|p)>/g, "\n")
         .replace(/<[^>]+>/g, "")
         .replace(/&nbsp;/g, " ")
-        .match(/[\w'’]+/g), 
-        count = 0;
+        .match(/[\w'’]+/g);
 
-    if(words != null){
-        count = words.length;
-    }
+    return words && words.length || 0;
+}
 
-    if(!data.chapters[data.currentChapter].count){
-        data.chapters[data.currentChapter].count = count;
-    }
-
+function countWords(){
+    var count = wordCount(writer.getValue());
+    data.chapters[data.currentChapter].currentCount = count;
     totalWordCount.setValue(count);
-    var additional = count - data.chapters[data.currentChapter].count;
+    var additional = count - data.chapters[data.currentChapter].lastCount;
     if(additional >= 0){
         additional = fmt("+$1", additional);
     }

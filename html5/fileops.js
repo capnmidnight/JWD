@@ -14,11 +14,12 @@ function autoSave(){
     }
 }
 
-function addNewFile(txt){
-    if (txt == undefined){
-        txt = "";
-    }
-    data.chapters.push({ doc: txt, name: "" });
+function addNewFile(){
+    data.chapters.push({ 
+        doc: "", 
+        name: "",
+        lastCount: 0,
+        currentCount: 0 });
     data.currentChapter = data.chapters.length - 1;
     showFile();
     note("new-file-note", "New file created.");
@@ -88,23 +89,8 @@ function onSuccessfulLoad(type, loadDataDone){
     for (var i = 0; i < data.chapters.length; ++i)
         data.chapters[i].doc = deEff(data.chapters[i].doc);
 
-    data.chapters.forEach(function (chapter){
-        if (chapter.count){
-            delete chapter.count;
-        }
-    });
-
-    if(data.snippets && data.snippets.length > 0){
-        data.chapters.push({
-            name: "snippets",
-            doc: data.snippets
-                .map(function(s){return deEff(s.trim());})
-                .filter(function(s){return s.length > 0;})
-                .join("\n\n")
-        });
-        delete data.snippets;
-    }
-
+    resetWordCounts();
+    downgradeOldSnippets();
     data.currentChapter = data.currentChapter || 0;
     pubTitle.setValue(data.title);
     pubAuthFirstName.setValue(data.authorFirstName);
@@ -214,4 +200,29 @@ function prevFile(){
 function stowFile(){
     data.chapters[data.currentChapter].doc = writer.getValue();
     data.chapters[data.currentChapter].name = chapterName.getValue();
+}
+
+function downgradeOldSnippets(){
+    if(data.snippets){
+        if(data.snippets.length > 0){
+            data.chapters.push({
+                name: "snippets",
+                doc: data.snippets
+                    .map(function(s){return deEff(s.trim());})
+                    .filter(function(s){return s.length > 0;})
+                    .join("\n\n")
+            });
+        }
+        delete data.snippets;
+    }
+}
+
+function resetWordCounts(){
+    data.chapters.forEach(function (chapter){
+        if (chapter.count){
+            delete chapter.count;
+        }
+        
+        chapter.lastCount = chapter.currentCount = wordCount(chapter.doc);
+    });
 }

@@ -41,8 +41,8 @@ var require = (function () {
         Gs.left = v + "%";
         if (c > 2 && c == g + 2) {
             pageLoad(
-                set.bind(window, 1, "init"),
-                set.bind(window, 1, "loadData"));
+                set.bind(window, 1, "loadData"),
+                set.bind(window, 1, "init"));
         }
         if (c == g) {
             document.body.removeChild(G);

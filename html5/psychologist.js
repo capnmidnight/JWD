@@ -208,7 +208,7 @@ function group(arr, getKey, getValue){
         groups[groups.length - 1][1].push(val);
     });
     return groups;
-};
+}
 
 
 String.prototype.sanitize = function(){
@@ -221,7 +221,7 @@ String.prototype.sanitize = function(){
            case "\n": return "<br>";
        }
    });
-}
+};
 
 Element.prototype.fire = function(event){
     if (document.createEventObject){
@@ -235,4 +235,19 @@ Element.prototype.fire = function(event){
         evt.initEvent(event, true, true ); // event type,bubbling,cancelable
         return !this.dispatchEvent(evt);
     }
-}
+};
+
+function add(a, b){ return a + b; }
+
+Array.prototype.agg = function(get, red){
+    if(typeof(get) != "function"){
+        get = (function(key, obj){
+            return obj[key];
+        }).bind(window, get);
+    }
+    return this.map(get).reduce(red);
+};
+
+Array.prototype.sum = function(get){
+    return this.agg(get, add);
+};

@@ -27,7 +27,8 @@ var header = null,
     reader = null,
     pubTitle = null,
     pubAuthFirstName = null,
-    pubAuthLastName = null;
+    pubAuthLastName = null,
+    theChain = null;
 
 function getControls(){
     window.addEventListener("resize", resize, false);
@@ -50,6 +51,7 @@ function getControls(){
     pubTitle = getDOM("#pub-title");
     pubAuthFirstName = getDOM("#pub-author-first-name");
     pubAuthLastName = getDOM("#pub-author-last-name");
+    theChain = getDOM("#the-chain");
 
     header = getDOM("header");
     header.style.left = 0;
@@ -144,6 +146,10 @@ function waitForData(obj){
             obj.thunk.apply(window, obj.params);
         }
     }
+}
+
+function menuScreenShow(){
+    checkProgress();
 }
 
 function showTab(parts, saveState){
@@ -241,7 +247,7 @@ function firstNavigation(){
     }
 }
 
-function pageLoad(initDone, loadDataDone){
+function pageLoad(loadDataDone, initDone){
     var doneDone = function(){
         if(loadDataDone){
             loadDataDone();

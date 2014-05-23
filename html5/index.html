@@ -42,6 +42,7 @@
                 <a class="button">publish</a>
                 <a class="button">read</a>
                 <a class="button">configure</a>
+                <p id="the-chain"></p>
                 <p>
                     Just Write, Dammit!<br>
                     Writing first, editing second.<br>
@@ -234,7 +235,7 @@
         var s = document.createElement("script");
         s.async = 1;
         s.addEventListener("load", function () {
-            require("psychologist.js", "selecticator.js", "markdownsyndrome.js", "interrobang.js", "stuffing.js", "local.js", "dorpbox.js", "gdrive.js", "FileSaver.js", "desktop.js", "fileops.js", "poindexter.js", "editroomfloor.js", "publican.js", "dammit.js", "fullscreen.js", "jszip.min.js");
+            require("psychologist.js", "selecticator.js", "markdownsyndrome.js", "interrobang.js", "stuffing.js", "local.js", "dorpbox.js", "gdrive.js", "FileSaver.js", "desktop.js", "fileops.js", "chains.js", "poindexter.js", "editroomfloor.js", "publican.js", "dammit.js", "fullscreen.js", "jszip.min.js");
         }, false);
         s.src = "require.js#v" + curAppVersion;
         document.body.appendChild(s);
