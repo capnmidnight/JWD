@@ -103,13 +103,19 @@
             <section id="write" data-show-file-controls="true">
                 <div id="chapter-bar">
                     <input type="text" id="chapter-name" spellcheck="false" placeholder="(new chapter)">
+                    <select id="writing-mode" onchange="setWritingMode(this.value, false);">
+                        <option value="min">Minimal</option>
+                        <option value="spell">Speel-chek</option>
+                        <option value="charge">Charge!</option>
+                    </select>
                 </div>
                 <textarea id="writer" class="textContent" cols="50" rows="50" placeholder="(type text here)"></textarea>
                 <div id="infobar">
                     chapter: <span id="file-count"></span>
                     <span id="unsaved-file-indicator">(unsaved)</span> |
                     words: <span id="total-word-count"></span> (<span id="add-word-count"></span>) |
-                    time:<span id="clock"></span>
+                    time: <span id="clock"></span>
+                    <span id="score"></span>
                 </div>
             </section>
 

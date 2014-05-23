@@ -100,6 +100,8 @@ function onSuccessfulLoad(type, loadDataDone){
     note("data-loaded-message", "Data loaded!");
     data.theme = data.theme || 0;
     setTheme(data.theme);
+    data.writingMode = data.writingMode || "min";
+    setWritingMode(data.writingMode, true);
     ga('send', 'event', 'data-load', type);
     if(loadDataDone){
         loadDataDone();

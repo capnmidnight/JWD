@@ -28,7 +28,9 @@ var header = null,
     pubTitle = null,
     pubAuthFirstName = null,
     pubAuthLastName = null,
-    theChain = null;
+    theChain = null,
+    writingMode = null,
+    score = null;
 
 function getControls(){
     window.addEventListener("resize", resize, false);
@@ -52,6 +54,8 @@ function getControls(){
     pubAuthFirstName = getDOM("#pub-author-first-name");
     pubAuthLastName = getDOM("#pub-author-last-name");
     theChain = getDOM("#the-chain");
+    writingMode = getDOM("#writing-mode");
+    score = getDOM("#score");
 
     header = getDOM("header");
     header.style.left = 0;
@@ -68,9 +72,11 @@ function getControls(){
     });
 
     writer = getDOM("#writer");
+    writer.addEventListener("keydown", interceptor, false);
     writer.addEventListener("keyup", interrobang, false);
     writer.addEventListener("keyup", countWords, false);
     writer.addEventListener("keyup", autoSave, false);
+    writer.addEventListener("keyup", scoreIt, false);
 
     editor = getDOM("#editor");
     editor.addEventListener("mousedrag", moveWriting, false);
@@ -199,6 +205,8 @@ function resize(){
     main.style.top = px(header.clientHeight);
     writer.style.height = "100%";
     writer.style.height = px(writer.clientHeight - chapterName.clientHeight - infobar.clientHeight);
+    chapterName.style.width = "100%";
+    chapterName.style.width = px(chapterName.clientWidth - writingMode.clientWidth - 5);
     window.scrollX = window.scrollY = 0;
 }
 
@@ -265,5 +273,55 @@ function pageLoad(loadDataDone, initDone){
     }
     catch(exp){
         doneDone();
+    }
+}
+
+var multiplier, lastWordCount;
+
+function setWritingMode(mode, dontSave){
+    if(dontSave){
+        writingMode.setValue(mode);
+    }
+    else{
+        data.writingMode = mode;
+        saveFile();
+    }
+    writer.spellcheck = (mode == "spell");
+    if(mode == "charge"){
+        if(data.score){
+            if(!data.scoreList){
+                data.scoreList = [];
+            }
+            data.scoreList.push(data.score);
+        }
+        data.score = 0;
+        multiplier = 1;
+        lastWordCount = 0;
+        score.setValue(fmt("| score: $1 Keep typing and don't hit backspace or delete.", data.score));
+    }
+    else{
+        score.setValue("");
+    }
+}
+
+function interceptor(evt){
+    if(data.writingMode == "charge" 
+        && (evt.keyCode == 8 || evt.keyCode == 46)){
+        evt.preventDefault();
+        multiplier = 1;
+        score.setValue(fmt("| score: $1 DOH! You tried to go backwards. Never give up, never surrender!", data.score));
+    }
+}
+
+function scoreIt(evt){
+    if(data.writingMode == "charge"){
+        var currentCount = data.chapters[data.currentChapter].currentCount;
+        if(currentCount > lastWordCount){
+            var lastScore = data.score;
+            data.score += multiplier;
+            ++multiplier;
+            score.setValue(fmt("| score: $1 + $2 = $3", lastScore, multiplier, data.score));
+        }
+        lastWordCount = currentCount;
     }
 }
