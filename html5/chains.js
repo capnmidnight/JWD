@@ -7,17 +7,16 @@ function checkProgress(){
         newWords = current - previous,
         progressMarked = false;
 
-    if(data.progress && !data.progress[dayIndex - 1]){
+    if(data.progress && !!data.progress[dayIndex - 2] && !data.progress[dayIndex - 1]){
         var max = 0;
         for(var dayIndex in data.progress){
             if(dayIndex > max){
                 max = dayIndex;
             }
         }
-        var lastDate = new Date(max * millisPerDay);
+        var lastDate = new Date(max * millisPerDay + 1000);
         msg("chain-broken", 
-            fmt("Oh no! You haven't logged in since $1/$02/$03 and have broken the progress chain.", 
-                lastDate.getFullYear(), lastDate.getMonth(), lastDate.getDate()), 0, forever);
+            fmt("Oh no! You haven't logged in since $1 and have broken the progress chain.", lastDate.toDateString()), 0, forever);
         delete data.progress;
     }
     
@@ -26,10 +25,14 @@ function checkProgress(){
     }
 
     if(newWords > 150){
+        msg("chain-maintained", 
+            fmt("Congratulations! You've written $1 words today.", 
+                newWords), 0, forever);
         data.progress[dayIndex] = {
             start: previous,
             end: current
         };
+        saveFile();
     }
     
     theChain.innerHTML = "Don't break the chain! Use JWD consecutive days in a row.<br>";
@@ -37,7 +40,7 @@ function checkProgress(){
         progressMarked = true;
         theChain.innerHTML += "O ";
     }
-    if(!progressMarked){
+    if(!data.progress[dayIndex]){
         theChain.innerHTML += "&lt;No progress yet. Write at least 150 words.&gt;";
     }
 }
