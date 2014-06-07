@@ -8,16 +8,15 @@ h2{font-size:150%;}
 h3{font-size:125%;}
 h4{font-size:100%;}
 html,body,input,textarea,select{padding:0;}
-html,body,a.button,input,textarea,select{margin:0;border:0;}
+html,body,a.button,input,textarea,select,#notifications{margin:0;border:0;}
 input[type=text],textarea{outline:none;}
 #menu,a.button{text-align:center;}
-aside{font-size:12pt;font-weight:bold;padding:0.5em;border-width:5px;top:2em;}
+.note{font-size:10pt;font-weight:bold;border-width:5px;top:2em;}
 td{width:3em;cursor:pointer;}
-aside,a.button{display:inline-block;}
+a.button{display:inline-block;}
 #menu>a.button,header{display:block;}
-aside{float:left;clear:left;}
 a.button{padding:0.5em;min-width:2.5em;text-decoration:none;cursor:pointer;}
-aside,aside a.button{margin-left:1em;margin-right:1em;}
+.note a.button{margin-left:1em;margin-right:1em;}
 section,section>*{float:left;}
 section{clear:both;}
 section>*{clear:left;}
@@ -36,5 +35,4 @@ section>*{clear:left;}
 .textContent,select,a.button{font-size:18pt;}
 #chapter-name{font-size:30pt;}
 section{padding-top:5em;padding-bottom:5em;padding-left:10em;padding-right:10em;}}
-#notifications{position:absolute;left:0;top:0;padding:0;margin:0;}
 .footnotes{font-size:10pt;font-style:italic;opacity:0.75;padding:0;height:auto;margin-bottom:2em;}

@@ -198,8 +198,8 @@ function moveHistory(evt){
 function resize(){
     var windowHeight = Math.min(window.innerHeight, screen.availHeight);
     // the extra 2 pixels is to avoid a small scroll overlap with the window edge
-    main.style.height = px(windowHeight - header.clientHeight - 2);
-    main.style.top = px(header.clientHeight);
+    main.style.height = px(windowHeight - notifications.clientHeight - header.clientHeight - 2);
+    main.style.top = px(header.clientHeight + notifications.clientHeight);
     writer.style.height = "100%";
     writer.style.height = px(writer.clientHeight - chapterName.clientHeight - infobar.clientHeight);
     chapterName.style.width = "100%";

@@ -51,20 +51,30 @@ function msg(id, msgTxt, delay, length){
     var s = span();
     s.innerHTML = msgTxt;
 
-    var box = aside(
-        {id:id},
+    var box = div(
+        {
+            id:id,
+            "class":"note"
+        },
         linkButton({
             id: id + "-dismiss-button",
             onclick: function(){
                 hide(box);
+                resize();
             }
         }, "\u00D7"),
         s);
 
-    setTimeout(notifications.appendChild.bind(notifications, box), delay);
+    setTimeout(function(){
+        notifications.appendChild(box);
+        resize();
+    }, delay);
 
     if(length != forever){
-        setTimeout(notifications.removeChild.bind(notifications, box), delay + length);
+        setTimeout(function(){
+            notifications.removeChild(box);
+            resize();
+        }, delay + length);
     }
     return box;
 }

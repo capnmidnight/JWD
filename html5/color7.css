@@ -1,18 +1,18 @@
 html,body,input,textarea,select{font-family:"DejaVu Serif", "DejaVu Sans", Georgia,Tahoma,serif;}
 
 html,body,header,input,textarea,#editor,a.button,a.button:visited{background-color:#500;}
-aside,aside a.button,aside a.button:visited{background-color:#400;}
+.note,.note a.button,.note a.button:visited{background-color:#400;}
 a.button:hover,.sentence{background-color:#600;}
-aside a.button:hover{background-color:#500;}
+.note a.button:hover{background-color:#500;}
 a.button:active,.paragraph,::-webkit-scrollbar-thumb:vertical{background-color:#700;}
-aside a.button:active{background-color:#600;}
+.note a.button:active{background-color:#600;}
 ::-webkit-scrollbar{background-color:#800;}
 
 a:visited{color:#600;}
 html,body,a.button,a.button:visited,input,textarea{color:#b00;}
 a.button:hover{color:#c00;}
 a.button:active{color:#d00;}
-aside a.button:active{color:#c00;}
+.note a.button:active{color:#c00;}
 a{color:#c00;}
-aside a.button:hover{color:#d00;}
-aside,aside a.button,aside a.button:visited{color:#e00;}
+.note a.button:hover{color:#d00;}
+.note,.note a.button,.note a.button:visited{color:#e00;}
