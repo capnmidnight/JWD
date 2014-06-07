@@ -99,7 +99,7 @@ function spinner(txt, lbl, min, max){
     txt.getValue = function(){
         return parseInt(oldGetValue(), 10);
     };
-
+    txt.size = Math.ceil(Math.log(max) / Math.log(10)) + 2;
     setStyle("textAlign", "right", txt);
     container.appendChild(txt);
     container.appendChild(linkButton({

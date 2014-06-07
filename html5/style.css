@@ -11,18 +11,18 @@ html,body,input,textarea,select{padding:0;}
 html,body,a.button,input,textarea,select,#notifications{margin:0;border:0;}
 input[type=text],textarea{outline:none;}
 #menu,a.button{text-align:center;}
-.note{font-size:10pt;font-weight:bold;border-width:5px;top:2em;}
+.note{font-size:10pt;font-weight:bold;top:2em;}
+a.button{border-style:solid;border-width:1px;border-radius:5px;}
 td{width:3em;cursor:pointer;}
 a.button{display:inline-block;}
 #menu>a.button,header{display:block;}
-a.button{padding:0.5em;min-width:2.5em;text-decoration:none;cursor:pointer;}
+#menu>a.button{margin-bottom:3px;}
+a.button{padding:0.25em;min-width:2.5em;text-decoration:none;cursor:pointer;}
 .note a.button{margin-left:1em;margin-right:1em;}
 section,section>*{float:left;}
 section{clear:both;}
 section>*{clear:left;}
 .textContent{overflow-y:scroll;word-wrap:break-word;text-align:justify;padding-right:1em;}
-.sentence{border:solid 1px rgba(0, 255, 0, 0.5);}
-.paragraph{border:solid 1px rgba(0, 0, 255, 0.5);}
 ::-webkit-scrollbar{width:5px;}
 @media(min-width:320px){
 .textContent,select,a.button{font-size:10pt;}

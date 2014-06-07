@@ -49,7 +49,7 @@ function analyzeScreenShow(){
         .replace(/&nbsp;/g, " ")
         .match(/[\w'’]+/g),
         min = parseInt(minFreqCount.getValue(), 10),
-        counts1 = "", counts2 = "", counts3 = "";
+        counts1 = "", counts2 = "", counts3 = "", counts4 = "";
 
     var exclude = excludeWords
         .getValue()
