@@ -63,7 +63,7 @@ function getControls(){
 
     menuItems = getDOMAll("#menu>.button");
     menuItems.forEach(function (mnu){
-        var id = mnu.getValue();
+        var id = mnu.getValue().toLowerCase();
         mnu.addEventListener("click", function(){
             setSetting("lastView", id);
             showTab(["main", id]);

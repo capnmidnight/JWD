@@ -1,4 +1,4 @@
-html,body,input,textarea,select{font-family:"DejaVu Serif", "DejaVu Sans", Georgia,Tahoma,serif;}
+html,body,input,textarea,select{font-family:Helvetica, Arial, sans-serif;}
 
 html,body,header,textarea,#chapter-name,#editor{background-color:#E9D7B3;}
 .note {background-color:#D2B67A;}
@@ -6,8 +6,6 @@ a.button,a.button:active,a.button:visited{background-color:#CB767E;}
 a.button:hover{background-color:#E59DA4;}
 ::-webkit-scrollbar{background-color:#98686D;}
 ::-webkit-scrollbar-thumb:vertical{background-color:#83252E;}
-
-a.button{border-color:#E5B0B5;}
 
 html,body,a,a:visited,input,textarea{color:#4A807E;}
 h1,h2,h3,h4,h5,h6{color:#415F5E;}

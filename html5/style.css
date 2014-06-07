@@ -12,27 +12,30 @@ html,body,a.button,input,textarea,select,#notifications{margin:0;border:0;}
 input[type=text],textarea{outline:none;}
 #menu,a.button{text-align:center;}
 .note{font-size:10pt;font-weight:bold;top:2em;}
-a.button{border-style:solid;border-width:1px;border-radius:5px;}
+a.button{display:inline-block;border-radius:6px;padding-left:20px;padding-right:20px;padding-bottom:10px;padding-top:10px;min-width:3em;text-decoration:none;cursor:pointer;font-weight:bold;}
 td{width:3em;cursor:pointer;}
-a.button{display:inline-block;}
 #menu>a.button,header{display:block;}
-#menu>a.button{margin-bottom:3px;}
-a.button{padding:0.25em;min-width:2.5em;text-decoration:none;cursor:pointer;}
+#menu>a.button{margin-bottom:4px;}
+header a.button{margin-right:4px;}
 .note a.button{margin-left:1em;margin-right:1em;}
 section,section>*{float:left;}
 section{clear:both;}
 section>*{clear:left;}
 .textContent{overflow-y:scroll;word-wrap:break-word;text-align:justify;padding-right:1em;}
 ::-webkit-scrollbar{width:5px;}
+.footnotes{font-size:10pt;font-style:italic;opacity:0.75;padding:0;height:auto;margin-bottom:2em;}
+
 @media(min-width:320px){
-.textContent,select,a.button{font-size:10pt;}
-#infobar{font-size:8pt;}}
+.textContent,select,a.button{font-size:13px;}
+header a.button{padding-left:15px;padding-right:15px;}
+#infobar{font-size:8pt;}
+section{padding-top:1em;padding-bottom:1em;padding-left:2em;padding-right:2em;}}
 @media(min-width:641px){
-.textContent,select,a.button{font-size:14pt;}
+.textContent,select,a.button{font-size:17px;}
 #infobar{font-size:10pt;}
-#chapter-name{font-size:24pt;}}
+#chapter-name{font-size:24pt;}
+section{padding-top:2em;padding-bottom:2em;padding-left:5em;padding-right:5em;}}
 @media(min-width:1080px){
-.textContent,select,a.button{font-size:18pt;}
+.textContent,select,a.button{font-size:17px;}
 #chapter-name{font-size:30pt;}
 section{padding-top:5em;padding-bottom:5em;padding-left:10em;padding-right:10em;}}
-.footnotes{font-size:10pt;font-style:italic;opacity:0.75;padding:0;height:auto;margin-bottom:2em;}
