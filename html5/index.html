@@ -2,14 +2,6 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <script>
-        if (document.location.hostname != "localhost"
-            && document.location.hostname != "127.0.0.1"
-            && !document.location.hostname.match(/192\.168\.0\.\d+/)
-            && document.location.protocol == "http:") {
-            document.location = document.location.replace("http://", "https://");
-        }
-    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=1">
     <title>Just Write, Dammit!</title>
     <meta name="description" content="Writing first, editing second. A streamlined app for writers.">
@@ -32,7 +24,7 @@
 </head>
 <body>
     <form name="form">
-        <header style="display:none;"><a class="button" onclick="showTab(['main', 'menu'], true);">#</a><a class="button" onclick="saveFile()">∞</a><span id="file-controls"><a class="button" onclick="prevFile()">&lt;</a><a class="button" onclick="nextFile()">&gt;</a><a class="button" onclick="addNewFile()">+</a></span><a class="button" onclick="toggleFullScreen()">❖</a><a id="toggle-menu-button" class="button" onclick="toggleMenu()">«</a></header>
+        <header style="display:none;"><a class="button" onclick="showTab(['main', 'menu'], true);">menu</a><a class="button" onclick="saveFile()">save</a><span id="file-controls"><a class="button" onclick="prevFile()" title="previous chapter">&lt;-</a><a class="button" onclick="nextFile()" title="next chapter">-&gt;</a><a class="button" onclick="addNewFile()" title="add chapter">+</a></span><a class="button" onclick="toggleFullScreen()" title="fullscreen">❖</a><a id="toggle-menu-button" class="button" onclick="toggleMenu()" title="hide toolbar">«</a></header>
         <div id="main">
 
             <section id="menu" data-hide-menu="true">
