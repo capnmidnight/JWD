@@ -24,7 +24,7 @@
 </head>
 <body>
     <form name="form">
-        <header style="display:none;"><a class="button" onclick="showTab(['main', 'menu'], true);">menu</a><a class="button" onclick="saveFile()">save</a><span id="file-controls"><a class="button" onclick="prevFile()" title="previous chapter">&lt;-</a><a class="button" onclick="nextFile()" title="next chapter">-&gt;</a><a class="button" onclick="addNewFile()" title="add chapter">+</a></span><a class="button" onclick="toggleFullScreen()" title="fullscreen">❖</a><a id="toggle-menu-button" class="button" onclick="toggleMenu()" title="hide toolbar">«</a></header>
+        <header style="display:none;"><a class="button" onclick="showTab(['main', 'menu']);">menu</a><a class="button" onclick="saveFile()">save</a><span id="file-controls"><a class="button" onclick="prevFile()" title="previous chapter">&lt;-</a><a class="button" onclick="nextFile()" title="next chapter">-&gt;</a><a class="button" onclick="addNewFile()" title="add chapter">+</a></span><a class="button" onclick="toggleFullScreen()" title="fullscreen">❖</a><a id="toggle-menu-button" class="button" onclick="toggleMenu()" title="hide toolbar">«</a></header>
         <div id="main">
 
             <section id="menu" data-hide-menu="true">
@@ -229,7 +229,7 @@
         ga('require', 'displayfeatures');
     </script>
     <script id="setup">
-        var curAppVersion = 13;
+        var curAppVersion = 16;
         var s = document.createElement("script");
         s.async = 1;
         s.addEventListener("load", function () {

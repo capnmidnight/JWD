@@ -198,7 +198,7 @@ function gdriveImportFile(title, link)
         data.currentChapter = data.chapters.length - 1;
         showFile();
         countWords();
-        showTab(["main", "write"], true);
+        showTab(["main", "write"]);
     };
     xhr.onerror = function (){
         fail(fmt("Failed to load file $1 from GDrive", title));

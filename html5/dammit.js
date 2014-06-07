@@ -66,7 +66,7 @@ function getControls(){
         var id = mnu.getValue();
         mnu.addEventListener("click", function(){
             setSetting("lastView", id);
-            showTab(["main", id], true)
+            showTab(["main", id]);
         }, false);
         menuItems[id] = mnu;
     });
@@ -99,7 +99,7 @@ function getControls(){
     storageType = getDOM("#storage-type");
     storageType.addEventListener("change", onStorageTypeChanged, false);
     storageType.setValue(storeType);
-    showTab(["storage-details", "storage-" + storeType]);
+    showTab(["storage-details", "storage-" + storeType], true);
 
     themeStyle = getDOM("#theme-block");
     getDOMAll("td").forEach(function(cell, i){
@@ -134,7 +134,7 @@ function onStorageTypeChanged(){
     var type = storageType.getValue();
     setSetting("storageType", type);
     ga("send", "event", "storage type", type);
-    showTab(["storage-details", "storage-" + type]);
+    showTab(["storage-details", "storage-" + type], true);
     if (type == "dropbox"){
         dorpbox();
     }
@@ -158,7 +158,7 @@ function menuScreenShow(){
     checkProgress();
 }
 
-function showTab(parts, saveState){
+function showTab(parts, skipState){
     var url = parts.join("/");
     var parentID = parts[0];
     var id = parts[1];
@@ -177,7 +177,7 @@ function showTab(parts, saveState){
         }
     });
     resize();
-    if(!!saveState){
+    if(!skipState){
         if(url.length > 0){
             url = "#" + url;
         }
@@ -191,14 +191,11 @@ function showTab(parts, saveState){
 
 function moveHistory(evt){
     if(document.location.hash.length > 0){
-        showTab(document.location.hash.substring(1).split("/"));
+        showTab(document.location.hash.substring(1).split("/"), true);
     }
 }
 
 function resize(){
-    if(window.fullScreen){
-        hide("fullscreen-note");
-    }
     var windowHeight = Math.min(window.innerHeight, screen.availHeight);
     // the extra 2 pixels is to avoid a small scroll overlap with the window edge
     main.style.height = px(windowHeight - header.clientHeight - 2);
@@ -241,17 +238,8 @@ function firstNavigation(){
         showTab(["main", "about"]);
         ga('send', 'event', 'user', "firstTime");
     }
-    else if(isMobile){
-        showTab(["main", "write"]);
-        toggleMenu();
-    }
     else{
         showTab(["main", "menu"]);
-    }
-
-    if (!window.fullScreen && document.documentElement.requestFullscreen){
-        msg("fullscreen-note", "Consider running in full-screen by hitting F11 on your keyboard."
-            + "<a class=\"button\" onclick=\"toggleFullScreen()\">go fullscreen</a>", 1000);
     }
 }
 

@@ -36,13 +36,17 @@ function minify(inputDir, outputDir, tempDir, verbose, shrink){
     output("reading from: ", inputDir);
     output("writing to: ", outputDir);
     output("deploying from: ", tempDir);
+    output((shrink ? "" : "not ") + "shrinking");
 
+    output("cleaning up temp directory:");
     var files = fs.readdirSync(tempDir);
     if(files){
         files.forEach(function(file){
+            output("deleting", file);
             fs.unlink(path.join(tempDir, file));
         });
     }
+    output("done");
 
     fs.readdir(inputDir, function(err, files){
         if(err){
@@ -57,7 +61,7 @@ function minify(inputDir, outputDir, tempDir, verbose, shrink){
                 var outputFile = path.join(outputDir, file);
                 var tempFile = path.join(tempDir, file);
                 var opts = {};
-                var minify = ext == "js" && !/\.min/.test(file);
+                var minify = shrink && ext == "js" && !/\.min\.\w+$/.test(file);
                 if(minify || file == "index.html"){
                     opts.encoding = "utf8";
                 }
@@ -65,6 +69,7 @@ function minify(inputDir, outputDir, tempDir, verbose, shrink){
                 var data = fs.readFileSync(inputFile, opts);
                 var data2 = fs.existsSync(outputFile) && fs.readFileSync(outputFile, opts);
                 if(minify){
+                    output("minifying file: ", file);
                     var start = data.length;
                     strings = [];
                     regexes = [];
@@ -82,6 +87,7 @@ function minify(inputDir, outputDir, tempDir, verbose, shrink){
                     output(file + " saved " + saved + " characters");
                 }
                 else if(file == "index.html" && shrink){
+                    output("combining scripts");
                     var test = /<script id="setup">((.|\r\n|\n)+)<\/script>/;
                     var body = data.match(test);
                     if(body && body.length > 0){
@@ -98,6 +104,7 @@ function minify(inputDir, outputDir, tempDir, verbose, shrink){
                 }
                 
                 if(ext == "js" && shrink){
+                    output("combo script: ", file);
                     shrunk += data + "\n";
                 }
 
