@@ -56,7 +56,7 @@ function gdriveAuthed(thunk, fail, success, doc, wasImmediate, authResult){
 
 function gdriveLoad(fail, success){
     gdriveFindFile("justwritedammit.jwd", fail, function (file){
-        if (!file.downloadUrl){
+        if (!file || !file.downloadUrl){
             fail("GDrive error loc #2:" + JSON.stringify(file));
         }
         else{

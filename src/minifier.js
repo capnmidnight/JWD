@@ -70,7 +70,11 @@ function minify(inputDir, outputDir, tempDir, verbose, shrink){
                     regexes = [];
                     patterns.forEach(function(pattern){
                         while(pattern[0].test(data)){
+                            var old = data;
                             data = data.replace(pattern[0], pattern[1]);
+                            if(old.length == data.length){
+                                break;
+                            }
                         }
                     });
                     var saved = (start - data.length);
