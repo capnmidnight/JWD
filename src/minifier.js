@@ -94,7 +94,7 @@ function minify(inputDir, outputDir, tempDir, verbose, shrink){
                         body = body[0];
                         console.log(body);
                         var test2 = /var curAppVersion\s?=\s?(\d+);/;
-                        body = body.match(test2);
+                        body = data.match(test2);
                         if(body && body.length > 1){
                             var version = parseInt(body[1], 10);
                             shrunk += "\nvar curAppVersion=" + version + ";";

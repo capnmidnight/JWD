@@ -19,8 +19,19 @@
     <meta name="twitter:data2" content="no signup required">
     <link type="image/png" rel="icon" href="jwd64x64.png">
     <link type="image/png" rel="apple-touch-icon" href="jwd64x64.png">
-    <link type="text/css" rel="stylesheet" href="style.css">
-    <link type="text/css" rel="stylesheet" id="theme-block" href="color1.css">
+    <link type="text/css" rel="stylesheet" id="theme-block" href="color1.css" />
+    <script>
+        var curAppVersion = 20;
+        var s = document.createElement("link");
+        s.rel = "stylesheet";
+        s.type = "text/css";
+        s.href = "style.css#v" + curAppVersion;
+        document.head.appendChild(s);
+
+        s = document.getElementById("theme-block");
+        s.href = "color1.css#v" + curAppVersion;
+        document.head.appendChild(s);
+    </script>
 </head>
 <body>
     <form name="form">
@@ -226,14 +237,13 @@
         ga('require', 'displayfeatures');
     </script>
     <script id="setup">
-        var curAppVersion = 17;
         var s = document.createElement("script");
         s.async = 1;
         s.addEventListener("load", function () {
             require("psychologist.js", "selecticator.js", "markdownsyndrome.js", "interrobang.js", "stuffing.js", "local.js", "dorpbox.js", "gdrive.js", "FileSaver.js", "desktop.js", "fileops.js", "chains.js", "poindexter.js", "editroomfloor.js", "publican.js", "dammit.js", "fullscreen.js", "jszip.min.js");
         }, false);
         s.src = "require.js#v" + curAppVersion;
-        document.body.appendChild(s);
+        document.head.appendChild(s);
     </script>
 </body>
 </html>

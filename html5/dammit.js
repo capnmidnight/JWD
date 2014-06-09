@@ -125,7 +125,7 @@ function toggleMenu(){
 }
 
 function setTheme(i){
-    themeStyle.href = fmt("color$1.css", i * 1 + 1);
+    themeStyle.href = fmt("color$1.css#v$2", i * 1 + 1, curAppVersion);
     ga('send', 'event', 'user', "theme:" + themeStyle.href);
 }
 
