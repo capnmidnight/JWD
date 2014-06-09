@@ -22,7 +22,7 @@ function addNewFile(){
         currentCount: 0 });
     data.currentChapter = data.chapters.length - 1;
     showFile();
-    note("new-file-note", "New file created.");
+    msg("new-file-note", "New chapter created.");
 }
 
 function showFile(){
@@ -64,7 +64,7 @@ function saveFile(types){
         var type = types.shift();
         if (type && fileSavers[type]){
             fileSavers[type](function (err){
-                note(fmt("save-$1-failed", type),
+                msg(fmt("save-$1-failed", type),
                     fmt("Couldn't save file to $1. Reason: $2", type, err));
                 setTimeout(saveFile, 1, types);
             }, onSuccessfulSave.bind(window, type), doc);
@@ -97,7 +97,7 @@ function onSuccessfulLoad(type, loadDataDone){
     pubAuthLastName.setValue(data.authorLastName);
     showFile();
     hide(unsavedFileIndicator);
-    note("data-loaded-message", "Data loaded!");
+    msg("data-loaded-message", "Data loaded!");
     data.theme = data.theme || 0;
     setTheme(data.theme);
     data.writingMode = data.writingMode || "min";

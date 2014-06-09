@@ -1,30 +1,4 @@
 var forever = "forever";
-var useNote = false;
-
-function note(id, msgTxt, delay){
-    if(delay == undefined){
-        delay = 0;
-    }
-
-    if(useNote
-        && "Notification" in window
-        && Notification.permission == "default"
-        && !this.once){
-        Notification.requestPermission();
-        this.once = true;
-    }
-
-    if(!useNote
-        || !("Notification" in window)
-        || Notification.permission != "granted"){
-        return msg(id, msgTxt, delay);
-    }
-    else{
-        setTimeout(function(){
-            new Notification("Just Write, Dammit!", {body: msgTxt, tag: id, icon: "jwd128x128.png"});
-        }, delay);
-    }
-}
 
 function XXX_RESET_XXX(){
     if(confirm("Are you sure you want to reset everything? This can't be undone.")){
@@ -41,12 +15,8 @@ function XXX_RESET_XXX(){
 }
 
 function msg(id, msgTxt, delay, length){
-    if(length == undefined){
-        length = 4000;
-        if(delay == undefined){
-            delay = 0;
-        }
-    }
+    delay = delay || 0;
+    length = length || 5000;
 
     var s = span();
     s.innerHTML = msgTxt;

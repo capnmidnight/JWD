@@ -25,9 +25,9 @@ function checkProgress(){
     }
 
     if(newWords > 150){
-        msg("chain-maintained", 
-            fmt("Congratulations! You've written $1 words today.", 
-                newWords), 0, forever);
+        if(!data.progress[dayIndex]){
+            msg("chain-maintained", fmt("Congratulations! You've met you're writing quota for the day. $1 words today. Keep writing!",  newWords), 0, forever);
+        }
         data.progress[dayIndex] = {
             start: previous,
             end: current
