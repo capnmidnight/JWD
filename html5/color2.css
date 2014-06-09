@@ -1,12 +1,13 @@
 html,body,input,textarea,select{font-family:Helvetica, Arial, sans-serif;}
 
-html,body,header,textarea,#chapter-name,#editor{background-color:#E9D7B3;}
-.note {background-color:#D2B67A;}
-a.button,a.button:active,a.button:visited{background-color:#CB767E;}
-a.button:hover{background-color:#E59DA4;}
-::-webkit-scrollbar{background-color:#98686D;}
-::-webkit-scrollbar-thumb:vertical{background-color:#83252E;}
+html,body,header,textarea,#chapter-name,#editor{background-color:#5D5561;}
+a.button,a.button:active,a.button:visited{color:#5D5561;}
+::-webkit-scrollbar{background-color:#37124C;}
+.note {background-color:#37124C;}
+::-webkit-scrollbar-thumb:vertical{background-color:#8C7A96;}
 
-html,body,a,a:visited,input,textarea{color:#4A807E;}
-h1,h2,h3,h4,h5,h6{color:#415F5E;}
-a.button,a.button:active,a.button:visited{color:#E9D7B3;}
+a.button,a.button:active,a.button:visited{background-color:#B1CEB1;}
+a.button:hover{background-color:#90B490;}
+
+html,body,a,a:visited,input,textarea{color:#EBE0CB;}
+h1,h2,h3,h4,h5,h6{color:#E1D2B4;}

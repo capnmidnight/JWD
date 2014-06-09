@@ -24,5 +24,5 @@ if(options.m == "true"){
 
 var app = http.createServer(webServer(srcDir));
 
-app.listen(80);
-proc("explorer", ["http://localhost"]);
+app.listen(8080);
+proc("explorer", ["http://localhost:8080"]);

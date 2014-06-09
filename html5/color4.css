@@ -1,18 +1,15 @@
-html,body,input,textarea,select{font-family:"DejaVu Serif", "DejaVu Sans", Georgia,Tahoma,serif;}
+html,body,input,textarea,select{font-family:Helvetica, Arial, sans-serif;}
 
-html,body,header,input,textarea,#editor,a.button,a.button:visited{background-color:#fff;}
-.note,.note a.button,.note a.button:visited{background-color:#eee;}
-a.button:hover,.sentence{background-color:#ddd;}
-.note a.button:hover{background-color:#ccc;}
-a.button:active,.paragraph,::-webkit-scrollbar-thumb:vertical{background-color:#bbb;}
-.note a.button:active{background-color:#aaa;}
-::-webkit-scrollbar{background-color:#999;}
+html,body,header,textarea,#chapter-name,#editor{background-color:#F4FFFA;}
+a.button,a.button:active,a.button:visited{color:#F4FFFA;}
 
-a:visited{color:#707;}
-html,body,a.button,a.button:visited,input,textarea{color:#000;}
-a.button:hover{color:#111;}
-a.button:active{color:#222;}
-.note a.button:active{color:#333;}
-a{color:#007;}
-.note a.button:hover{color:#444;}
-.note,.note a.button,.note a.button:visited{color:#555;}
+.note {background-color:#FFF1EB;}
+
+a.button,a.button:active,a.button:visited{background-color:#4EA781;}
+a.button:hover{background-color:#B5C0BB;}
+
+::-webkit-scrollbar{background-color:#B5C0BB;}
+::-webkit-scrollbar-thumb:vertical{background-color:#EBFFF6;}
+
+html,body,a,a:visited,input,textarea{color:#4EA781;}
+h1,h2,h3,h4,h5,h6{color:#A7674E;}
