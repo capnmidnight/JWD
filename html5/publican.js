@@ -81,13 +81,19 @@ function ePub() {
     var styleFileName = "style";
     var navFileName = "epub3toc";
     var ncxFileName = "epub2toc";
+    var coverFileName = "cover";
     var fileName = data.title.replace(/ /g, "-");
     var zip = new JSZip();
     zip.file("mimetype", "application/epub+zip");
     zip.file(styleFileName + ".css", "body{}");
-    zip.file(fileName + ".opf", ePubPackageDoc("pubid", guid(), "en", navFileName, ncxFileName, styleFileName));
+    zip.file(fileName + ".opf", ePubPackageDoc("pubid", guid(), "en", navFileName, ncxFileName, styleFileName, coverFileName));
     zip.file(navFileName + ".xhtml", ePubNavigationDoc(styleFileName, navFileName));
     zip.file(ncxFileName + ".ncx", ePub2NCX(guid(), navFileName));
+    zip.file(coverFileName + ".xhtml", ePubCover(coverFileName));
+    if(data.pubImage){
+        console.log(data.pubImage.name);
+        zip.file(data.pubImage.name, data.pubImage.data.substring(data.pubImage.data.indexOf("base64,")+"base64,".length), {base64:true});
+    }
     data.chapters.forEach(function (chapter, i) {
         var name = chapter.name.replace(/ /g, "-");
         zip.file(fmt("chapter$1.xhtml", i + 1), ePubContentDoc(styleFileName, chapter));
@@ -108,6 +114,21 @@ function ePub() {
     if (!exported) {
         saveFileToDesktop(fileName + ".epub", "application/epub+zip", zip.generate({ type: "base64" }));
     }
+}
+
+function ePubCover(coverFileName){
+    return fmt("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">\n"
+        +"<html xmlns=\"http://www.w3.org/1999/xhtml\">\n"
+        +"\t<head>\n"
+        +"\t\t<title>Cover</title>\n"
+        +"\t\t<style type=\"text/css\"> img { max-width: 100%; } </style>\n"
+        +"\t</head>"
+        +"\t<body>"
+        +"\t\t<div id=\"cover-image\">\n"
+        +"\t\t\t<img src=\"$1\" alt=\"Cover Image\"/>\n"
+        +"\t\t</div>\n"
+        +"\t</body>\n"
+        +"</html>", coverFileName);
 }
 
 function ePubNavigationDoc(styleFileName, navFileName) {
@@ -180,7 +201,7 @@ function ePubContentDoc(styleFileName, chapter) {
         data.title, chapter.name, styleFileName, chapterBody);
 }
 
-function ePubPackageDoc(pubID, uuid, lang, navFileName, ncxFileName, styleFileName) {
+function ePubPackageDoc(pubID, uuid, lang, navFileName, ncxFileName, styleFileName, coverFileName) {
     var now = new Date();
 
     var chapters = data.chapters.map(function (chapter, i) {
@@ -209,6 +230,7 @@ function ePubPackageDoc(pubID, uuid, lang, navFileName, ncxFileName, styleFileNa
         + "\t\t<meta refines=\"#creator01\" property=\"file-as\">$7, $6</meta>\n"
         + "\t\t<meta refines=\"#creator01\" property=\"display-seq\">1</meta>\n"
         + "\t\t<meta refines=\"#creator01\" property=\"role\" scheme=\"marc:relators\">aut</meta>\n"
+        + (data.pubImage ? "\t\t<meta name=\"cover\" content=\"cover-image\" />\n" : "")
         + "\t\t<dc:date>$5</dc:date>\n"
         + "\t\t<dc:rights>Copyright © $8 $6 $7</dc:rights>\n"
         + "\t</metadata>\n"
@@ -216,14 +238,18 @@ function ePubPackageDoc(pubID, uuid, lang, navFileName, ncxFileName, styleFileNa
         + "\t\t<item id=\"epub3nav\" properties=\"nav\" href=\"$9.xhtml\" media-type=\"application/xhtml+xml\"/>\n"
         + "\t\t<item id=\"epub2nav\" href=\"$10.ncx\" media-type=\"application/x-dtbncx+xml\"/>\n"
         + "\t\t<item id=\"main-style-sheet\" href=\"$11.css\" media-type=\"text/css\"/>\n"
+        + (data.pubImage ? "\t\t<item id=\"cover-image\" href=\"$14\" properties=\"cover-image\" media-type=\"$15\"/>\n" : "")
+        + (data.pubImage ? "\t\t<item id=\"cover\" href=\"$16.xhtml\" media-type=\"application/xhtml+xml\"/>\n" : "")
         + "\t\t$12\n"
         + "\t</manifest>\n"
         + "\t<spine toc=\"epub2nav\">\n"
         + "\t\t<itemref idref=\"epub3nav\" />\n"
+        + (data.pubImage ? "\t\t<itemref idref=\"cover-image\" />\n" : "")
+        + (data.pubImage ? "\t\t<itemref idref=\"cover\" />\n" : "")
         + "\t\t$13\n"
         + "\t</spine>\n"
         + "</package>",
-        pubID, uuid, data.title, lang, now.toISOString(), data.authorFirstName, data.authorLastName, now.getFullYear(), navFileName, ncxFileName, styleFileName, manifestChapters, spineChapters);
+        pubID, uuid, data.title, lang, now.toISOString(), data.authorFirstName, data.authorLastName, now.getFullYear(), navFileName, ncxFileName, styleFileName, manifestChapters, spineChapters, data.pubImage && data.pubImage.name, data.pubImage && data.pubImage.type, coverFileName);
 }
 
 function guid() {
@@ -262,5 +288,6 @@ function loadCoverImage(){
     }
     else{
         pubImageThumb.style.display = "none";
+        console.log("Help!");
     }
 }

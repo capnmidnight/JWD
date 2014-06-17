@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package version="3.0" unique-identifier="pubid" xml:lang="en" xmlns="http://www.idpf.org/2007/opf" >
+	<metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
+		<dc:identifier id="pubid">urn:uuid:f90000fa-daa4-499f-939b-c1491126af4b</dc:identifier>
+		<dc:title>The Sphere</dc:title>
+		<dc:language>en</dc:language>
+		<meta property="dcterms:modified">2014-06-17T03:28:46.641Z</meta>
+		<dc:creator id="creator01">Michelle McBeth</dc:creator>
+		<meta refines="#creator01" property="file-as">McBeth, Michelle</meta>
+		<meta refines="#creator01" property="display-seq">1</meta>
+		<meta refines="#creator01" property="role" scheme="marc:relators">aut</meta>
+		<dc:date>2014-06-17T03:28:46.641Z</dc:date>
+		<dc:rights>Copyright © 2014 Michelle McBeth</dc:rights>
+	</metadata>
+	<manifest>
+		<item id="epub3nav" properties="nav" href="epub3toc.xhtml" media-type="application/xhtml+xml"/>
+		<item id="epub2nav" href="epub2toc.ncx" media-type="application/x-dtbncx+xml"/>
+		<item id="main-style-sheet" href="style.css" media-type="text/css"/>
+		<item id="cover-image" href="cover3.jpg" properties="cover-image" media-type="image/jpeg"/>
+		<item id="cover" href="cover.xhtml" media-type="application/xhtml+xml"/>
+		<item id="chapter1" href="chapter1.xhtml" media-type="application/xhtml+xml"/>
+		<item id="chapter2" href="chapter2.xhtml" media-type="application/xhtml+xml"/>
+	</manifest>
+	<spine toc="epub2nav">
+		<itemref idref="epub3nav" />
+		<itemref idref="cover" linear="no" />
+		<itemref idref="cover-image" linear="no" />
+		<itemref idref="chapter1" />
+		<itemref idref="chapter2" />
+	</spine>
+</package>
