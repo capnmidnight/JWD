@@ -23,7 +23,6 @@ section,section>*{float:left;}
 section{clear:both;}
 section>*{clear:left;}
 .textContent{overflow-y:scroll;word-wrap:break-word;text-align:justify;padding-right:1em;}
-::-webkit-scrollbar{width:5px;}
 .footnotes{font-size:10pt;font-style:italic;opacity:0.75;padding:0;height:auto;margin-bottom:2em;}
 
 @media(min-width:320px){

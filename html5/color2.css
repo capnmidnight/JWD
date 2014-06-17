@@ -2,9 +2,7 @@ html,body,input,textarea,select{font-family:Helvetica, Arial, sans-serif;}
 
 html,body,header,textarea,#chapter-name,#editor{background-color:#5D5561;}
 a.button,a.button:active,a.button:visited{color:#5D5561;}
-::-webkit-scrollbar{background-color:#37124C;}
 .note {background-color:#37124C;}
-::-webkit-scrollbar-thumb:vertical{background-color:#8C7A96;}
 
 a.button,a.button:active,a.button:visited{background-color:#B1CEB1;}
 a.button:hover{background-color:#90B490;}

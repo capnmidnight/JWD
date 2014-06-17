@@ -8,8 +8,5 @@ a.button,a.button:active,a.button:visited{color:#F4FFFA;}
 a.button,a.button:active,a.button:visited{background-color:#4EA781;}
 a.button:hover{background-color:#B5C0BB;}
 
-::-webkit-scrollbar{background-color:#B5C0BB;}
-::-webkit-scrollbar-thumb:vertical{background-color:#EBFFF6;}
-
 html,body,a,a:visited,input,textarea{color:#4EA781;}
 h1,h2,h3,h4,h5,h6{color:#A7674E;}
