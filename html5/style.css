@@ -13,6 +13,7 @@ input[type=text],textarea{outline:none;}
 #menu,a.button{text-align:center;}
 .note{font-size:10pt;font-weight:bold;top:2em;}
 a.button{display:inline-block;border-radius:6px;padding-left:20px;padding-right:20px;padding-bottom:10px;padding-top:10px;min-width:3em;text-decoration:none;cursor:pointer;font-weight:bold;}
+#pub-image-thumb{width:33%;vertical-align:top;}
 td{width:3em;cursor:pointer;}
 #menu>a.button,header{display:block;}
 #menu>a.button{margin-bottom:4px;}

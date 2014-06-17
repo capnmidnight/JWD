@@ -37,7 +37,8 @@
     <form name="form">
         <div id="notifications"></div>
         <header style="display:none;">
-        <a class="button" onclick="showTab(['main', 'menu']);">Menu</a><a class="button" onclick="saveFile()">Save</a><span id="file-controls"><a class="button" onclick="prevFile()" title="previous chapter">&lt;-</a><a class="button" onclick="nextFile()" title="next chapter">-&gt;</a><a class="button" onclick="addNewFile()" title="add chapter">+</a></span><a class="button" onclick="toggleFullScreen()" title="fullscreen">❖</a><a id="toggle-menu-button" class="button" onclick="toggleMenu()" title="hide toolbar">«</a></header>
+            <a class="button" onclick="showTab(['main', 'menu']);">Menu</a><a class="button" onclick="saveFile()">Save</a><span id="file-controls"><a class="button" onclick="prevFile()" title="previous chapter">&lt;-</a><a class="button" onclick="nextFile()" title="next chapter">-&gt;</a><a class="button" onclick="addNewFile()" title="add chapter">+</a></span><a class="button" onclick="toggleFullScreen()" title="fullscreen">❖</a><a id="toggle-menu-button" class="button" onclick="toggleMenu()" title="hide toolbar">«</a>
+        </header>
         <div id="main">
 
             <section id="menu" data-hide-menu="true">
@@ -163,8 +164,9 @@
                         <label for="pub-title">Title:</label>
                         <input type="text" id="pub-title" placeholder="(enter book title)"><br />
                         <label for="pub-author-first-name">Author:</label>
-                        <input type="text" id="pub-author-first-name" placeholder="(first name)">
-                        <input type="text" id="pub-author-last-name" placeholder="(last name)">
+                        <input type="text" id="pub-author-first-name" placeholder="(first name)" size="10">
+                        <input type="text" id="pub-author-last-name" placeholder="(last name)" size="15"><br />
+                        <label for="pub-image">Cover:<img id="pub-image-thumb" src="#" alt="cover image thumbnail" title="Cover Image" style="display:none" /></label><input type="file" id="pub-image" />
                     </p>
                     <a class="button" onclick="exportHTML()">Export HTML</a>
                     <a class="button" onclick="exportEPUB()">Export EPUB</a>

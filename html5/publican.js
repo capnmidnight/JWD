@@ -242,3 +242,25 @@ function ePubContainer(pubName) {
         + "</container>\n",
         pubName);
 }
+
+function loadCoverImage(){
+    if(pubImage.files.length == 1){
+        var file = pubImage.files[0];
+        var reader = new FileReader();
+        reader.addEventListener("load", function (evt){
+            pubImageThumb.src = evt.target.result;
+            data.pubImage = {
+                data: evt.target.result,
+                name: file.name,
+                type: file.type
+            };
+            pubImageThumb.style.display = "block";
+            saveFile();
+        });
+        reader.addEventListener("error", console.log);
+        reader.readAsDataURL(file);
+    }
+    else{
+        pubImageThumb.style.display = "none";
+    }
+}

@@ -28,6 +28,8 @@ var header = null,
     pubTitle = null,
     pubAuthFirstName = null,
     pubAuthLastName = null,
+    pubImage = null,
+    pubImageThumb = null,
     theChain = null,
     writingMode = null,
     score = null;
@@ -50,9 +52,7 @@ function getControls(){
     toggleMenuButton = getDOM("#toggle-menu-button");
     reader = getDOM("#reader");
     infoBar= getDOM("#infobar");
-    pubTitle = getDOM("#pub-title");
-    pubAuthFirstName = getDOM("#pub-author-first-name");
-    pubAuthLastName = getDOM("#pub-author-last-name");
+    pubImageThumb = getDOM("#pub-image-thumb");
     theChain = getDOM("#the-chain");
     writingMode = getDOM("#writing-mode");
     score = getDOM("#score");
@@ -91,6 +91,24 @@ function getControls(){
     word2Frequency = getDOM("#word-2-frequency");
     word3Frequency = getDOM("#word-3-frequency");
     word4Frequency = getDOM("#word-4-frequency");
+
+    var keyTimeOut = null;
+    var setDataProperty = function(key){
+        if(keyTimeOut){
+            clearTimeout(keyTimeOut);
+        }
+        data[key] = this.getValue();
+        keyTimeOut = setTimeout(saveFile, 3000);
+    };
+
+    pubTitle = getDOM("#pub-title");
+    pubAuthFirstName = getDOM("#pub-author-first-name");
+    pubAuthLastName = getDOM("#pub-author-last-name");
+    pubTitle.addEventListener("keyup", setDataProperty.bind(pubTitle, "title"));
+    pubAuthFirstName.addEventListener("keyup", setDataProperty.bind(pubAuthFirstName, "authorFirstName"));
+    pubAuthLastName.addEventListener("keyup", setDataProperty.bind(pubAuthLastName, "authorLastName"));
+    pubImage = fileUpload(getDOM("#pub-image"));
+    pubImage.addEventListener("change", loadCoverImage);
 
     browserInfo = getDOM("#browser-info");
     browserInfo.setValue(window.navigator.userAgent);

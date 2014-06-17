@@ -93,8 +93,13 @@ function onSuccessfulLoad(type, loadDataDone){
     downgradeOldSnippets();
     data.currentChapter = data.currentChapter || 0;
     pubTitle.setValue(data.title);
+    console.log(data);
     pubAuthFirstName.setValue(data.authorFirstName);
     pubAuthLastName.setValue(data.authorLastName);
+    if(data.pubImage){
+        pubImageThumb.src = data.pubImage.data;
+        pubImageThumb.style.display = "block";
+    }
     showFile();
     hide(unsavedFileIndicator);
     msg("data-loaded-message", "Data loaded!");
