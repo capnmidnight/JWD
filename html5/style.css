@@ -30,13 +30,15 @@ section>*{clear:left;}
 .textContent,select,a.button{font-size:13px;}
 header a.button{padding-left:15px;padding-right:15px;}
 #infobar{font-size:8pt;}
-section{padding-top:1em;padding-bottom:1em;padding-left:2em;padding-right:2em;}}
+section{padding-top:1em;padding-bottom:0em;padding-left:2em;padding-right:2em;}}
+
 @media(min-width:641px){
 .textContent,select,a.button{font-size:17px;}
 #infobar{font-size:10pt;}
 #chapter-name{font-size:24pt;}
-section{padding-top:2em;padding-bottom:2em;padding-left:5em;padding-right:5em;}}
+section{padding-top:2em;padding-bottom:0em;padding-left:5em;padding-right:5em;}}
+
 @media(min-width:1080px){
 .textContent,select,a.button{font-size:17px;}
 #chapter-name{font-size:30pt;}
-section{padding-top:5em;padding-bottom:5em;padding-left:10em;padding-right:10em;}}
+section{padding-top:5em;padding-bottom:0em;padding-left:10em;padding-right:10em;}}
