@@ -82,7 +82,9 @@ var fileLoaders = {
 
 function deEff(val){
     try { return decodeURIComponent(escape(val)); }
-    catch (exp){ return val; }
+    catch (exp){ 
+        console.error(exp);
+        return val; }
 }
 
 function onSuccessfulLoad(type, loadDataDone){
@@ -93,7 +95,6 @@ function onSuccessfulLoad(type, loadDataDone){
     downgradeOldSnippets();
     data.currentChapter = data.currentChapter || 0;
     pubTitle.setValue(data.title);
-    console.log(data);
     pubAuthFirstName.setValue(data.authorFirstName);
     pubAuthLastName.setValue(data.authorLastName);
     if(data.pubImage){

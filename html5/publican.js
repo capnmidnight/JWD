@@ -91,7 +91,6 @@ function ePub() {
     zip.file(ncxFileName + ".ncx", ePub2NCX(guid(), navFileName));
     zip.file(coverFileName + ".xhtml", ePubCover(coverFileName));
     if(data.pubImage){
-        console.log(data.pubImage.name);
         zip.file(data.pubImage.name, data.pubImage.data.substring(data.pubImage.data.indexOf("base64,")+"base64,".length), {base64:true});
     }
     data.chapters.forEach(function (chapter, i) {
@@ -283,7 +282,7 @@ function loadCoverImage(){
             pubImageThumb.style.display = "block";
             saveFile();
         });
-        reader.addEventListener("error", console.log);
+        reader.addEventListener("error", console.error);
         reader.readAsDataURL(file);
     }
     else{

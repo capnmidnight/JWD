@@ -27,7 +27,6 @@
     <Content Include="html5\tos.pdf" />
     <Content Include="package.json" />
     <Compile Include="html5\chains.js" />
-    <Compile Include="html5\editroomfloor.js" />
     <Compile Include="html5\FileSaver.js" />
     <Compile Include="html5\fullscreen.js" />
     <Compile Include="html5\jszip.min.js" />

@@ -48,6 +48,7 @@ function dorpboxAuth(thunk, fail, success, doc, immediate){
             dorpboxAuthed.bind(window, thunk, fail, success, doc, immediate));
     }
     catch (error){
+        console.error(error);
         dorpboxAuthed(thunk, fail, success, doc, immediate, error);
     }
 }

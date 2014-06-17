@@ -24,7 +24,6 @@ var header = null,
     themeStyle = null,
     notifications = null,
     toggleMenuButton = null,
-    reader = null,
     pubTitle = null,
     pubAuthFirstName = null,
     pubAuthLastName = null,
@@ -50,7 +49,6 @@ function getControls(){
     notifications = getDOM("#notifications");
     storageFile = fileUpload(getDOM("#browse-storage-file"));
     toggleMenuButton = getDOM("#toggle-menu-button");
-    reader = getDOM("#reader");
     infoBar= getDOM("#infobar");
     pubImageThumb = getDOM("#pub-image-thumb");
     theChain = getDOM("#the-chain");
@@ -79,7 +77,6 @@ function getControls(){
     writer.addEventListener("keyup", scoreIt, false);
 
     editor = getDOM("#editor");
-    editor.addEventListener("mousedrag", moveWriting, false);
 
     minFreqCount = spinner(getDOM("#min-frequency"), "Minimum frequency:", 1, 1000);
     minFreqCount.addEventListener("change", analyzeScreenShow, false);
@@ -278,6 +275,7 @@ function pageLoad(loadDataDone, initDone){
         loadData(doneDone);
     }
     catch(exp){
+        console.error(exp);
         doneDone();
     }
 }

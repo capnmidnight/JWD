@@ -46,7 +46,6 @@
                 <a class="button">Write</a>
                 <a class="button">Analyze</a>
                 <a class="button">Publish</a>
-                <a class="button">Read</a>
                 <a class="button">Configure</a>
                 <p id="the-chain">Don't break the chain! Use JWD consecutive days in a row.<br>&lt;checking...&gt;</p>
                 <p>
@@ -123,10 +122,6 @@
                     time: <span id="clock"></span>
                     <span id="score"></span>
                 </div>
-            </section>
-
-            <section id="read">
-                <article id="reader" class="textContent"></article>
             </section>
 
             <section id="edit" data-show-file-controls="true">
@@ -242,7 +237,7 @@
         var s = document.createElement("script");
         s.async = 1;
         s.addEventListener("load", function () {
-            require("psychologist.js", "selecticator.js", "markdownsyndrome.js", "interrobang.js", "stuffing.js", "local.js", "dorpbox.js", "gdrive.js", "FileSaver.js", "desktop.js", "fileops.js", "chains.js", "poindexter.js", "editroomfloor.js", "publican.js", "dammit.js", "fullscreen.js", "jszip.min.js");
+            require("psychologist.js", "selecticator.js", "markdownsyndrome.js", "interrobang.js", "stuffing.js", "local.js", "dorpbox.js", "gdrive.js", "FileSaver.js", "desktop.js", "fileops.js", "chains.js", "poindexter.js", "publican.js", "dammit.js", "fullscreen.js", "jszip.min.js");
         }, false);
         s.src = "require.js#v" + curAppVersion;
         document.head.appendChild(s);

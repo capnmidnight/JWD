@@ -95,8 +95,6 @@ var newDOM = function(){
     return tag;
 }
 
-var print = console.log.bind(console);
-
 function sigfig(x, y){
     var p = Math.pow(10, y);
     var v = (Math.round(x * p) / p).toString();

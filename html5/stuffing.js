@@ -2,15 +2,9 @@ var forever = "forever";
 
 function XXX_RESET_XXX(){
     if(confirm("Are you sure you want to reset everything? This can't be undone.")){
-        deleteSetting("storageType");
-        deleteSetting("lastStorageType");
-        deleteSetting("lastView");
-        window.localStorage.removeItem("chapters");
-        window.localStorage.removeItem("data");
-        dorpboxSignout();
-        gdriveSignout();
-        document.location = document.location.href;
         ga('send', 'event', 'user', "reset");
+        localStorage.clear();
+        loadData();
     }
 }
 
