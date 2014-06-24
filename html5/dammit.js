@@ -1,12 +1,10 @@
-var header = null,
-    menu = null,
+var menu = null,
     menuItems = null,
     fileControls = null,
     fileCount = null,
     main = null,
     unsavedFileIndicator = null,
     chapterName = null,
-    writer = null,
     editor = null,
     totalWordCount = null,
     addWordCount = null,
@@ -23,14 +21,12 @@ var header = null,
     storageFile = null,
     themeStyle = null,
     notifications = null,
-    toggleMenuButton = null,
     pubTitle = null,
     pubAuthFirstName = null,
     pubAuthLastName = null,
     pubImage = null,
     pubImageThumb = null,
     theChain = null,
-    writingMode = null,
     score = null;
 
 function getControls(){
@@ -48,16 +44,9 @@ function getControls(){
     clock = getDOM("#clock");
     notifications = getDOM("#notifications");
     storageFile = fileUpload(getDOM("#browse-storage-file"));
-    toggleMenuButton = getDOM("#toggle-menu-button");
     infoBar= getDOM("#infobar");
     pubImageThumb = getDOM("#pub-image-thumb");
     theChain = getDOM("#the-chain");
-    writingMode = getDOM("#writing-mode");
-    score = getDOM("#score");
-
-    header = getDOM("header");
-    header.style.left = 0;
-    header.style.opacity = 1;
 
     menuItems = getDOMAll("#menu>.button");
     menuItems.forEach(function (mnu){
@@ -67,14 +56,11 @@ function getControls(){
             showTab(["main", id]);
         }, false);
         menuItems[id] = mnu;
+        var initName = id + "ScreenInit";
+        if(window[initName]){
+            window[initName]();
+        }
     });
-
-    writer = getDOM("#writer");
-    writer.addEventListener("keydown", interceptor, false);
-    writer.addEventListener("keyup", interrobang, false);
-    writer.addEventListener("keyup", countWords, false);
-    writer.addEventListener("keyup", autoSave, false);
-    writer.addEventListener("keyup", scoreIt, false);
 
     editor = getDOM("#editor");
 
@@ -124,19 +110,6 @@ function getControls(){
             saveFile();
         });
     });
-}
-
-function toggleMenu(){
-    if(toggleMenuButton.innerHTML == "\u00BB"){
-        toggleMenuButton.innerHTML = "\u00AB";
-        header.style.left = 0;
-        header.style.opacity = 1;
-    }
-    else{
-        toggleMenuButton.innerHTML = "\u00BB";
-        header.style.left = px(-(header.clientWidth - toggleMenuButton.clientWidth));
-        header.style.opacity = 0.5;
-    }
 }
 
 function setTheme(i){
@@ -277,55 +250,5 @@ function pageLoad(loadDataDone, initDone){
     catch(exp){
         console.error(exp);
         doneDone();
-    }
-}
-
-var multiplier, lastWordCount;
-
-function setWritingMode(mode, dontSave){
-    if(dontSave){
-        writingMode.setValue(mode);
-    }
-    else{
-        data.writingMode = mode;
-        saveFile();
-    }
-    writer.spellcheck = (mode == "spell");
-    if(mode == "charge"){
-        if(data.score){
-            if(!data.scoreList){
-                data.scoreList = [];
-            }
-            data.scoreList.push(data.score);
-        }
-        data.score = 0;
-        multiplier = 1;
-        lastWordCount = 0;
-        score.setValue(fmt("| score: $1 Keep typing and don't hit backspace or delete.", data.score));
-    }
-    else{
-        score.setValue("");
-    }
-}
-
-function interceptor(evt){
-    if(data.writingMode == "charge" 
-        && (evt.keyCode == 8 || evt.keyCode == 46)){
-        evt.preventDefault();
-        multiplier = 1;
-        score.setValue(fmt("| score: $1 DOH! You tried to go backwards. Never give up, never surrender!", data.score));
-    }
-}
-
-function scoreIt(evt){
-    if(data.writingMode == "charge"){
-        var currentCount = data.chapters[data.currentChapter].currentCount;
-        if(currentCount > lastWordCount){
-            var lastScore = data.score;
-            data.score += multiplier;
-            ++multiplier;
-            score.setValue(fmt("| score: $1 + $2 = $3", lastScore, multiplier, data.score));
-        }
-        lastWordCount = currentCount;
     }
 }

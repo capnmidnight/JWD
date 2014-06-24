@@ -34,6 +34,7 @@
     <Compile Include="html5\promise-0.1.1.min.js" />
     <Compile Include="html5\publican.js" />
     <Compile Include="html5\require.js" />
+    <Compile Include="html5\writer.js" />
     <Compile Include="minify.js" />
     <Compile Include="server.js" />
     <Content Include="html5\about.html" />

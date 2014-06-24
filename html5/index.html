@@ -161,7 +161,7 @@
                         <label for="pub-author-first-name">Author:</label>
                         <input type="text" id="pub-author-first-name" placeholder="(first name)" size="10">
                         <input type="text" id="pub-author-last-name" placeholder="(last name)" size="15"><br />
-                        <label for="pub-image">Cover:<img id="pub-image-thumb" src="#" alt="cover image thumbnail" title="Cover Image" style="display:none" /></label><input type="file" id="pub-image" />
+                        <label for="pub-image">Cover:<img id="pub-image-thumb" alt="cover image thumbnail" title="Cover Image" style="display:none" /></label><input type="file" id="pub-image" />
                     </p>
                     <a class="button" onclick="exportHTML()">Export HTML</a>
                     <a class="button" onclick="exportEPUB()">Export EPUB</a>
@@ -237,7 +237,7 @@
         var s = document.createElement("script");
         s.async = 1;
         s.addEventListener("load", function () {
-            require("psychologist.js", "selecticator.js", "markdownsyndrome.js", "interrobang.js", "stuffing.js", "local.js", "dorpbox.js", "gdrive.js", "FileSaver.js", "desktop.js", "fileops.js", "chains.js", "poindexter.js", "publican.js", "dammit.js", "fullscreen.js", "jszip.min.js");
+            require("psychologist.js", "selecticator.js", "markdownsyndrome.js", "interrobang.js", "stuffing.js", "local.js", "dorpbox.js", "gdrive.js", "FileSaver.js", "desktop.js", "fileops.js", "chains.js", "poindexter.js", "publican.js", "writer.js", "dammit.js", "fullscreen.js", "jszip.min.js");
         }, false);
         s.src = "require.js#v" + curAppVersion;
         document.head.appendChild(s);
