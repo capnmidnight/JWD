@@ -7,17 +7,20 @@ function checkProgress(){
         newWords = current - previous,
         progressMarked = false;
 
-    if(data.progress && !!data.progress[dayIndex - 2] && !data.progress[dayIndex - 1]){
-        var max = 0;
-        for(var dayIndex in data.progress){
-            if(dayIndex > max){
-                max = dayIndex;
+    if(data.progress){
+        var days = [];
+        for(var day in data.progress){
+            if(day * 1 == day){
+                days.push(day);
             }
         }
-        var lastDate = new Date(max * millisPerDay + 1000);
-        msg("chain-broken", 
-            fmt("Oh no! You haven't logged in since $1 and have broken the progress chain.", lastDate.toDateString()), 0, forever);
-        delete data.progress;
+        days = days.sort();
+        var lastDay = days[days.length - 1];
+        if(dayIndex - lastDay > 1){
+            var lastDate = new Date(lastDay * millisPerDay + 1000);
+            msg("chain-broken", fmt("Oh no! You haven't logged in since $1 and have broken the progress chain.", lastDate.toDateString()), 0, forever);
+            delete data.progress;
+        }
     }
     
     if(!data.progress){
