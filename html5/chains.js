@@ -6,7 +6,6 @@ function checkProgress(){
         current = data.chapters.sum("currentCount"),
         newWords = current - previous,
         progressMarked = false;
-
     if(data.progress){
         var days = [];
         for(var day in data.progress){
@@ -20,6 +19,7 @@ function checkProgress(){
             var lastDate = new Date(lastDay * millisPerDay + 1000);
             msg("chain-broken", fmt("Oh no! You haven't logged in since $1 and have broken the progress chain.", lastDate.toDateString()), 0, forever);
             delete data.progress;
+            saveFile();
         }
     }
     
