@@ -1,9 +1,16 @@
 ﻿var header = null,
+    unsavedFileIndicator = null,
+    chapterName = null,
+    editor = null,
+    totalWordCount = null,
+    addWordCount = null,
+    clock = null,
     writer = null,
     writingMode = null
     multiplier = null,
     toggleMenuButton = null,
-    lastWordCount = null;
+    lastWordCount = null,
+    lastText = null;
 
 function writeScreenInit(){
     header = getDOM("header");
@@ -11,7 +18,6 @@ function writeScreenInit(){
     header.style.opacity = 1;
 
     writer = getDOM("#writer");
-    writer.addEventListener("keydown", interceptor, false);
     writer.addEventListener("keyup", interrobang, false);
     writer.addEventListener("keyup", countWords, false);
     writer.addEventListener("keyup", autoSave, false);
@@ -20,7 +26,12 @@ function writeScreenInit(){
     writer.addEventListener("blur", menuDisplay, false);
     writer.parentElement.addEventListener("mousemove", menuDisplay, false);
     window.addEventListener("touchdown", menuDisplay, false);
-        
+
+    unsavedFileIndicator = getDOM("#unsaved-file-indicator");
+    chapterName = getDOM("#chapter-name");
+    totalWordCount = getDOM("#total-word-count");
+    addWordCount = getDOM("#add-word-count");
+    clock = getDOM("#clock");        
     writingMode = getDOM("#writing-mode");
     score = getDOM("#score");
     toggleMenuButton = getDOM("#toggle-menu-button");
@@ -102,24 +113,29 @@ function setWritingMode(mode, dontSave){
     }
 }
 
-function interceptor(evt){
-    if(data.writingMode == "charge" 
-        && (evt.keyCode == 8 || evt.keyCode == 46)){
-        evt.preventDefault();
-        multiplier = 1;
-        score.setValue(fmt("| score: $1 DOH! You tried to go backwards. Never give up, never surrender!", data.score));
-    }
-}
-
 function scoreIt(evt){
     if(data.writingMode == "charge"){
-        var currentCount = data.chapters[data.currentChapter].currentCount;
-        if(currentCount > lastWordCount){
-            var lastScore = data.score;
-            data.score += multiplier;
-            ++multiplier;
-            score.setValue(fmt("| score: $1 + $2 = $3", lastScore, multiplier, data.score));
-        }
-        lastWordCount = currentCount;
+        writer.edit(function(currentText){    
+            if(!lastText){
+                lastText = data.chapters[data.currentChapter].doc;
+            }
+            var currentCount = data.chapters[data.currentChapter].currentCount;
+            if(currentText.length < lastText.length){
+                multiplier = 1;
+                data.score -= 100;
+                score.setValue(fmt("| score: $1 DOH! You tried to go backwards. Never give up, never surrender!", data.score));
+                    return lastText;
+                currentText = lastText;
+            }
+            else if(currentCount > lastWordCount){
+                var lastScore = data.score;
+                data.score += multiplier;
+                ++multiplier;
+                score.setValue(fmt("| score: $1 + $2 = $3", lastScore, multiplier, data.score));
+            }
+            lastWordCount = currentCount;
+            lastText = currentText;
+            return currentText;
+        });
     }
 }
