@@ -18,8 +18,9 @@ function writeScreenInit(){
     writer.addEventListener("keyup", scoreIt, false);
 
     writer.addEventListener("blur", menuDisplay, false);
-    window.addEventListener("mousemove", menuDisplay, false);
-    
+    writer.parentElement.addEventListener("mousemove", menuDisplay, false);
+    window.addEventListener("touchdown", menuDisplay, false);
+        
     writingMode = getDOM("#writing-mode");
     score = getDOM("#score");
     toggleMenuButton = getDOM("#toggle-menu-button");
@@ -43,10 +44,10 @@ function hideMenu(){
 
 function toggleMenu(){
     if(toggleMenuButton.innerHTML == "\u00BB"){
-        showMenu();
+        menuDisplay(false);
     }
     else{
-        hideMenu();
+        menuDisplay(true);
     }
 }
 
