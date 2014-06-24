@@ -89,7 +89,7 @@ function ePub() {
     zip.file(fileName + ".opf", ePubPackageDoc("pubid", guid(), "en", navFileName, ncxFileName, styleFileName, coverFileName));
     zip.file(navFileName + ".xhtml", ePubNavigationDoc(styleFileName, navFileName));
     zip.file(ncxFileName + ".ncx", ePub2NCX(guid(), navFileName));
-    zip.file(coverFileName + ".xhtml", ePubCover(coverFileName));
+    zip.file(coverFileName + ".xhtml", ePubCover());
     if(data.pubImage){
         zip.file(data.pubImage.name, data.pubImage.data.substring(data.pubImage.data.indexOf("base64,")+"base64,".length), {base64:true});
     }
@@ -115,7 +115,7 @@ function ePub() {
     }
 }
 
-function ePubCover(coverFileName){
+function ePubCover(){
     return fmt("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">\n"
         +"<html xmlns=\"http://www.w3.org/1999/xhtml\">\n"
         +"\t<head>\n"
@@ -127,7 +127,7 @@ function ePubCover(coverFileName){
         +"\t\t\t<img src=\"$1\" alt=\"Cover Image\"/>\n"
         +"\t\t</div>\n"
         +"\t</body>\n"
-        +"</html>", coverFileName);
+        +"</html>", data.pubImage.name);
 }
 
 function ePubNavigationDoc(styleFileName, navFileName) {
@@ -238,13 +238,12 @@ function ePubPackageDoc(pubID, uuid, lang, navFileName, ncxFileName, styleFileNa
         + "\t\t<item id=\"epub2nav\" href=\"$10.ncx\" media-type=\"application/x-dtbncx+xml\"/>\n"
         + "\t\t<item id=\"main-style-sheet\" href=\"$11.css\" media-type=\"text/css\"/>\n"
         + (data.pubImage ? "\t\t<item id=\"cover-image\" href=\"$14\" properties=\"cover-image\" media-type=\"$15\"/>\n" : "")
-        + (data.pubImage ? "\t\t<item id=\"cover\" href=\"$16.xhtml\" media-type=\"application/xhtml+xml\"/>\n" : "")
+        + (data.pubImage ? "\t\t<item id=\"cover-page\" href=\"$16.xhtml\" media-type=\"application/xhtml+xml\"/>\n" : "")
         + "\t\t$12\n"
         + "\t</manifest>\n"
         + "\t<spine toc=\"epub2nav\">\n"
         + "\t\t<itemref idref=\"epub3nav\" />\n"
-        + (data.pubImage ? "\t\t<itemref idref=\"cover-image\" />\n" : "")
-        + (data.pubImage ? "\t\t<itemref idref=\"cover\" />\n" : "")
+        + (data.pubImage ? "\t\t<itemref idref=\"cover-page\" />\n" : "")
         + "\t\t$13\n"
         + "\t</spine>\n"
         + "</package>",
