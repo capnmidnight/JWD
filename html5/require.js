@@ -1,6 +1,6 @@
 ﻿function include(src, success, fail) {
     if(!/http(s):/.test(src)){
-        src = src + "#v" + curAppVersion;
+        src = src + "?v" + curAppVersion;
     }
     var s = document.createElement("script");
     s.type = "text/javascript";

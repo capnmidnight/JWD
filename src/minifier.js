@@ -98,7 +98,7 @@ function minify(inputDir, outputDir, tempDir, verbose, shrink){
                         if(body && body.length > 1){
                             var version = parseInt(body[1], 10);
                             shrunk += "\nvar curAppVersion=" + version + ";";
-                            data = data.replace(test, "<script async src=\"jwd.min.js#v" + version + "\"></script>");
+                            data = data.replace(test, "<script async src=\"jwd.min.js?v" + version + "\"></script>");
                         }
                     }
                 }

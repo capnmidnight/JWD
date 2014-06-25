@@ -21,15 +21,15 @@
     <link type="image/png" rel="apple-touch-icon" href="jwd64x64.png">
     <link type="text/css" rel="stylesheet" id="theme-block" href="color1.css" />
     <script>
-        var curAppVersion = 30;
+        var curAppVersion = 31;
         var s = document.createElement("link");
         s.rel = "stylesheet";
         s.type = "text/css";
-        s.href = "style.css#v" + curAppVersion;
+        s.href = "style.css?v" + curAppVersion;
         document.head.appendChild(s);
 
         s = document.getElementById("theme-block");
-        s.href = "color1.css#v" + curAppVersion;
+        s.href = "color1.css?v" + curAppVersion;
         document.head.appendChild(s);
     </script>
 </head>
@@ -176,7 +176,7 @@
                     <p>Select the color set you would like to use while writing.</p>
                     <table>
                         <tr>
-                            <td style="background-color:#E9D7B3; ">&nbsp;</td>
+                            <td style="background-color:#E9D7B3">&nbsp;</td>
                             <td style="background-color:#5D5561">&nbsp;</td>
                         </tr>
                         <tr>
@@ -239,7 +239,7 @@
         s.addEventListener("load", function () {
             require("psychologist.js", "selecticator.js", "markdownsyndrome.js", "interrobang.js", "stuffing.js", "local.js", "dorpbox.js", "gdrive.js", "FileSaver.js", "desktop.js", "fileops.js", "chains.js", "poindexter.js", "publican.js", "writer.js", "dammit.js", "fullscreen.js", "jszip.min.js");
         }, false);
-        s.src = "require.js#v" + curAppVersion;
+        s.src = "require.js?v" + curAppVersion;
         document.head.appendChild(s);
     </script>
 </body>
