@@ -38,7 +38,7 @@ function writeScreenInit(){
 }
 
 function writeScreenShow(){
-    menuDisplay(true);
+    menuDisplay();
 }
 
 function showMenu(){
@@ -62,28 +62,25 @@ function toggleMenu(){
     }
 }
 
-function menuDisplay(hide){
-    if(typeof(hide) == "object"){
-        hide = false;
-    }
-    if(!this.timeout && hide){
-        var self = this;
-        this.timeout = window.setTimeout(function(){
+function menuDisplay(evt){
+    if(evt === undefined){
+        if(menuDisplay.timeout){
+            window.clearTimeout(menuDisplay.timeout);
+        }
+        menuDisplay.timeout = window.setTimeout(function(){
             hideMenu();
-            delete self.timeout;
+            delete menuDisplay.timeout;
         }, 3000);
     }
-    else if(!hide){
-        if(this.timeout){
-            window.clearTimeout(this.timeout);
-            delete this.timeout;
+    else{
+        if(menuDisplay.timeout){
+            window.clearTimeout(menuDisplay.timeout);
+            delete menuDisplay.timeout;
         }
         else{
             showMenu();
         }
-    }
-    if(!hide){
-        menuDisplay(true);
+        menuDisplay();
     }
 }
 
