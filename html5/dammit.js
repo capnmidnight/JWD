@@ -202,7 +202,8 @@ function clockTick(){
 function firstNavigation(){
     var parts;
     if(document.location.hash.length > 0){
-        parts = document.location.hash.substring(1).split("/");
+        parts = window.decodeURIComponent(document.location.hash.substring(1)).split("/");
+        console.log(parts);
         if(parts.length == 1){
             parts.unshift("main");
         }
