@@ -6,3 +6,4 @@ cur/
 *.bat
 *.sh
 commands.txt
+/nbproject/private/

@@ -238,7 +238,7 @@ Element.prototype.fire = function(event){
 function add(a, b){ return a + b; }
 
 Array.prototype.agg = function(get, red){
-    if(typeof(get) != "function"){
+    if(typeof(get) !== "function"){
         get = (function(key, obj){
             return obj[key];
         }).bind(window, get);
