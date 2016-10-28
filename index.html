@@ -77,8 +77,6 @@
                         <ul>
                             <li>Distraction-free writing: run in full-screen mode to block out the noise of the modern, connected life.</li>
                             <li>EPUB package generator<sup>1</sup>: prepare your writing for eReader devices in a single click.</li>
-                            <li>Google Drive integration<sup>2</sup>: auto-save your writing to your Google Drive, or import writing you already have in Google Drive as a chapter in your manuscript.</li>
-                            <li>Dropbox auto-save<sup>3</sup>: auto-save your writing to your Dropbox.</li>
                             <li>Auto-updating word count and writing timer: know when you've hit your writing quota for the day.</li>
                             <li>Word- and phrase-frequency analysis: find out where you habitually overuse idioms and expressions.</li>
                             <li>Chapter-based organization structure: keep organized and focused on one subject at a time.</li>
@@ -88,8 +86,6 @@
                         <section class="footnotes">
                             <ol>
                                 <li>Amazon Kindle requires a conversion process to be able to display ePub documents. The process is handled automatically by Amazon.</li>
-                                <li>Google Drive integration requires Google login. Use of this feature requires granting the JWD application access to your Google Drive documents. JWD runs completely in your browser and does not relay information about writing to any other party. Currently, no user-specific information is stored at any site accessible to the owner of JWD.</li>
-                                <li>Dropbox integration requires Dropbox login. Use of this features requires granting the JWD application access to a segregated portion of your Dropbox storage. As such, it does not enable access to any files other than those that JWD writes for itself.</li>
                                 <li>
                                     Runs on any operating system that provides an HTML5-compliant Web browser, which includes all recent versions of Windows, OSX, Linux, iOS, Android, and *BSD. Currently supporting Google Chrome, Internet Explorer 10+, Mozilla Firefox, Safari, and Opera. Google Chrome is recommended for the best experience on all operating systems.
                                 </li>
@@ -190,27 +186,12 @@
                     <label for="storage-type">Storage type:</label>
                     <select id="storage-type">
                         <option value="local">Web browser's local storage</option>
-                        <option value="dropbox">Dropbox</option>
-                        <option value="gdrive">Google Drive</option>
                         <option value="desktop">Computer file system</option>
                     </select><a class="button" onclick="loadData()">Load data</a>
                     <div id="storage-details">
                         <p id="storage-local">
                             Store the data in your current browser (<span id="browser-info"></span>). You will not be able to share data between browsers or computers. Data will always be immediately available for use.
                         </p>
-                        <p id="storage-dropbox">
-                            Store the data in your <a href="https://www.dropbox.com" target="_blank" rel="nofollow">Dropbox</a> account. You will be able to share data between browsers and computers. Data may not be available without a network connection.
-                        </p>
-                        <div id="storage-gdrive">
-                            <p>
-                                Store the data in your <a href="https://drive.google.com" target="_blank" rel="nofollow">Google Drive</a> account. You will be able to share data between browsers and computers. Data may not be available without a network connection.
-                            </p>
-                            <p>
-                                <a class="button" onclick="gdriveListFiles('gdrive-file-list')">Import Document as Chapter</a><br />
-                                <h3>Files:</h3>
-                                <ul id="gdrive-file-list">(N/A: click button)</ul>
-                            </p>
-                        </div>
                         <p id="storage-desktop">
                             Store the data on your local file system. You will not be able to share data between browsers or computers. You will not be able to auto-save. Data will be available without a network connection.
                             <span style="display:none"><input type="file" id="browse-storage-file" /><a class="button" onclick="desktopSave()">Export</a></span>
@@ -238,7 +219,7 @@
         var s = document.createElement("script");
         s.async = 1;
         s.addEventListener("load", function () {
-            require("psychologist.js", "selecticator.js", "interrobang.js", "stuffing.js", "local.js", "dorpbox.js", "gdrive.js", "FileSaver.js", "desktop.js", "fileops.js", "chains.js", "poindexter.js", "publican.js", "writer.js", "dammit.js", "fullscreen.js", "jszip.min.js");
+            require("psychologist.js", "selecticator.js", "interrobang.js", "stuffing.js", "local.js", "FileSaver.js", "desktop.js", "fileops.js", "chains.js", "poindexter.js", "publican.js", "writer.js", "dammit.js", "fullscreen.js", "jszip.min.js");
         }, false);
         s.src = "require.js?v" + curAppVersion;
         document.head.appendChild(s);

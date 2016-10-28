@@ -15,8 +15,8 @@ function autoSave(){
 }
 
 function addNewFile(){
-    data.chapters.push({ 
-        doc: "", 
+    data.chapters.push({
+        doc: "",
         name: "",
         lastCount: 0,
         currentCount: 0 });
@@ -38,8 +38,6 @@ function utf8_to_b64(str){
 
 var fileSavers = {
     local: localSave,
-    dropbox: dorpboxSave,
-    gdrive: gdriveSave,
     desktop: desktopSave,
 };
 
@@ -74,15 +72,13 @@ function saveFile(types){
 
 var fileLoaders = {
     local: localLoad,
-    dropbox: dorpboxLoad,
-    gdrive: gdriveLoad,
     desktop: desktopLoad,
     "default": defaultLoad
 };
 
 function deEff(val){
     try { return decodeURIComponent(escape(val)); }
-    catch (exp){ 
+    catch (exp){
         console.error(exp);
         return val; }
 }
@@ -230,7 +226,7 @@ function resetWordCounts(){
         if (chapter.count){
             delete chapter.count;
         }
-        
+
         chapter.lastCount = chapter.currentCount = wordCount(chapter.doc);
     });
 }
